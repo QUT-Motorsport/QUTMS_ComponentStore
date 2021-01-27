@@ -1,0 +1,20 @@
+{
+  "name": "with-tailwindcss",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.11.3",
+    "autoprefixer": "^10.0.4",
+    "marked": "^1.2.8",
+    "next": "^10.0.5",
+    "postcss": "^8.2.4",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "tailwindcss": "^2.0.2"
+  }
+}
