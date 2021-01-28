@@ -1,12 +1,19 @@
 {
-  "name": "custom-server-express",
+  "name": "nextjs-with-ggsheet",
   "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node server.js",
     "build": "next build",
     "start": "cross-env NODE_ENV=production node server.js"
   },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
+    "@material-ui/core": "^4.11.3",
+    "autoprefixer": "^9.8.6",
     "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "chart.js": "^2.9.4",
@@ -14,16 +21,14 @@
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "googleapis": "^67.0.0",
+    "marked": "^1.2.8",
     "mongoose": "^5.11.13",
     "next": "^10.0.5",
+    "postcss": "^7.0.35",
     "react": "^16.14.0",
     "react-chartjs-2": "^2.11.1",
-    "react-dom": "^16.14.0"
-  },
-  "license": "MIT",
-  "description": "Most of the times the default Next server will be enough but sometimes you want to run your own server to customize routes or other kind of the app behavior. Next provides a [Custom server and routing](https://github.com/vercel/next.js#custom-server-and-routing) so you can customize as much as you want.",
-  "main": "server.js",
-  "devDependencies": {},
-  "keywords": [],
-  "author": ""
+    "react-dom": "^16.14.0",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2"
+  }
 }
