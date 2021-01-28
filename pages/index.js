@@ -1,25 +1,36 @@
 import { getStudentID } from "../lib/api";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField, Button, Grid } from '@material-ui/core';
+import Cookies from 'universal-cookie';
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 export default function IndexPage({ students }) {
 
   const [currentID, setCurrentID] = useState("");
-  const [valid, setValid] = useState(false);
+  // Cookies
+  const cookies = new Cookies();
+  const router = useRouter();
 
   function handleSubmit(student_ID) {
-    var check = false;
     students.map((student) => {
       if (student.studentID === student_ID) {
-        check = true;
-        setValid(true);
+        cookies.set('currentID', student_ID, { maxAge: 100 });
+        router.push('/options');
       }
     })
-
-    if (!check) {
-      setValid(false);
-    }
   }
+
+
+  useEffect(() => {
+    if (cookies.get('currentID')) {
+      setCurrentID(cookies.get('currentID'));
+      router.push('/options');
+    } else {
+      console.log('Failed');
+    }
+  }, [])
+
 
   return (
     <div>
@@ -36,34 +47,11 @@ export default function IndexPage({ students }) {
             color="primary">
             Click me
           </Button>
+
+          {/* <h2 className="text-center text-accent-1 mb-16"
+            style={valid ? { display: 'block' } : { display: 'none' }}>Validated + {cookies.get('currentID')}</h2> */}
         </Grid>
 
-        <h2
-          className="text-center text-accent-1 mb-16"
-        >You entered: {currentID}</h2>
-
-        <h2 id="isValid" style={valid ? { display: 'block' } : { display: 'none' }}>Validated</h2>
-
-        {/* <div>
-          {students.slice(1)
-            .map(({ studentID, studentName }) => (
-              <a
-                key={studentID + '1'}
-              >
-                <h3 className="font-bold mb-2">{studentID}:{studentName}</h3>
-
-              </a>
-            ))}
-        </div> */}
-
-        {/* <div className="text-center mt-8">
-          {students.slice(students.length - 1).map(({ studentID, studentName }) => (
-            <div className="markdown inline-p">
-              <strong>{studentID}</strong>{" "}
-              <span dangerouslySetInnerHTML={{ __html: studentName }} />
-            </div>
-          ))}
-        </div> */}
       </div>
     </div>
   );
