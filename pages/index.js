@@ -10,7 +10,7 @@ export default function Home() {
       </li>
       <li>
         <Link href="/a" as="/b">
-          <a>b</a>
+          <a>Scanner</a>
         </Link>
       </li>
     </ul>
