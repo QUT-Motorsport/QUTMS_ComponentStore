@@ -2,8 +2,8 @@ import { getStudentID } from "../lib/api";
 import React, { useState, useEffect } from 'react';
 import { TextField, Button, Grid } from '@material-ui/core';
 import Cookies from 'universal-cookie';
-import Link from 'next/link'
 import { useRouter } from 'next/router'
+
 
 export default function IndexPage({ students }) {
 
@@ -15,7 +15,7 @@ export default function IndexPage({ students }) {
   function handleSubmit(student_ID) {
     students.map((student) => {
       if (student.studentID === student_ID) {
-        cookies.set('currentID', student_ID, { maxAge: 100 });
+        cookies.set('currentID', student_ID, { maxAge: 1000 });
         router.push('/options');
       }
     })
@@ -45,7 +45,7 @@ export default function IndexPage({ students }) {
             onClick={() => handleSubmit(currentID)}
             variant="contained"
             color="primary">
-            Click me
+            Login
           </Button>
 
           {/* <h2 className="text-center text-accent-1 mb-16"
@@ -59,7 +59,6 @@ export default function IndexPage({ students }) {
 
 export async function getStaticProps(context) {
   const students = await getStudentID();
-  console.log("Front end");
   console.log(students);
   return {
     props: {
