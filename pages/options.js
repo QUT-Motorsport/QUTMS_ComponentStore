@@ -4,6 +4,7 @@ import Cookies from 'universal-cookie';
 import { useRouter } from 'next/router'
 import CropFreeIcon from '@material-ui/icons/CropFree';
 import SearchIcon from '@material-ui/icons/Search';
+import ByPass from './component/bypass'
 
 export default function Options() {
 
@@ -17,7 +18,7 @@ export default function Options() {
                 router.push('/')
             }, 2000)
         }
-    })
+    }, [])
 
     function handleSignOut() {
         cookies.remove('currentID');
@@ -25,7 +26,7 @@ export default function Options() {
     }
 
     function handleSearchText() {
-        console.log('Text search');
+        router.push('/search_text')
     }
 
     function handleScanner() {
@@ -67,9 +68,7 @@ export default function Options() {
         );
     } else {
         return (
-            <div className="text-center">
-                <h2 className="text-center text-accent-1 mb-16">Nice Try.</h2>
-            </div>
+            <ByPass message="Nice Try." />
         );
     }
 

@@ -24,7 +24,7 @@
     "express": "^4.17.1",
     "googleapis": "^67.0.0",
     "marked": "^1.2.8",
-    "mongoose": "^5.11.13",
+    "mongoose": "^5.11.14",
     "next": "^10.0.5",
     "postcss": "^7.0.35",
     "react": "^16.14.0",
