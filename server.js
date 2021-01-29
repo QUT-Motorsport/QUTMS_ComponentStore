@@ -79,7 +79,6 @@ app.prepare().then(() => {
         time.getMinutes() + ":" +
         time.getSeconds();
       const test = req.body.order_details;
-      // const orderArray = req.body.details.split(", ");
       const transaction = new Transaction
       ({
         receipt_id: unique_id,
