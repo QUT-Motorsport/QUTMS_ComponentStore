@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import CropFreeIcon from '@material-ui/icons/CropFree';
 import SearchIcon from '@material-ui/icons/Search';
 import ByPass from './component/bypass'
+import SignOut from './component/sign_out'
 
 export default function Options() {
 
@@ -20,29 +21,20 @@ export default function Options() {
         }
     }, [])
 
-    function handleSignOut() {
-        cookies.remove('currentID');
-        router.push('/');
-    }
 
     function handleSearchText() {
         router.push('/search_text')
     }
 
     function handleScanner() {
-        console.log('Scanner');
+        router.push('/scanner')
     }
     if (cookies.get('currentID')) {
         return (
             <div>
 
                 <Container className="border-2 border-indigo-600 min-h-full" maxWidth="sm" >
-                    <Grid container direction="row-reverse" >
-                        <Button variant="outlined"
-                            onClick={handleSignOut}
-                            color="secondary">Sign Out
-                    </Button>
-                    </Grid>
+                    <SignOut />
 
                     <Grid container direction="row" alignItems="center" justify="center">
                         <Grid item xs={6}>
