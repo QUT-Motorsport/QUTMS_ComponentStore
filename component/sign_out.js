@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Grid } from '@material-ui/core';
 import Cookies from 'universal-cookie';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 
 export function SignOut() {
     const cookies = new Cookies();
