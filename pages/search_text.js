@@ -3,7 +3,7 @@ import { Button, Grid, Container, Card, Typography } from '@material-ui/core';
 import Cookies from 'universal-cookie';
 import { useRouter } from 'next/router'
 import { TextField, FormControl, InputLabel } from '@material-ui/core'
-import ByPass from './component/bypass';
+import ByPass from '../component/bypass';
 import { getRequest } from '../lib/script'
 
 export default function Search() {

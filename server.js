@@ -35,7 +35,7 @@ app.prepare().then(() => {
   });
 
   // GET routes
-  server.get('/search', async (req, res) => {
+  server.get('/get', async (req, res) => {
     // Retrieve query keys
     const componentName = req.query.q;
     const componentID = req.query.comp_id;

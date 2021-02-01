@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Grid, Container, Card, Typography } from '@material-ui/core';
 import Cookies from 'universal-cookie';
 import { useRouter } from 'next/router'
-import CropFreeIcon from '@material-ui/icons/CropFree';
-import SearchIcon from '@material-ui/icons/Search';
-import ByPass from './component/bypass'
+import Layout from '../component/Layout';
+import dynamic from 'next/dynamic';
+import SignOut from '../component/sign_out';
+
+const ByPass = dynamic(() => import('../component/bypass'), { ssr: false })
+const Grid = dynamic(() => import('@material-ui/core/Grid'), { ssr: false });
+const Card = dynamic(() => import('@material-ui/core/Card'), { ssr: false });
+const Typography = dynamic(() => import('@material-ui/core/Typography'), { ssr: false });
+const Container = dynamic(() => import('@material-ui/core/Container'), { ssr: false });
+const CropFreeIcon = dynamic(() => import('@material-ui/icons/CropFree'), { ssr: false });
+const SearchIcon = dynamic(() => import('@material-ui/icons/Search'), { ssr: false });
+
 
 export default function Options() {
 
@@ -30,19 +38,13 @@ export default function Options() {
     }
 
     function handleScanner() {
-        console.log('Scanner');
+        router.push('/scanner')
     }
     if (cookies.get('currentID')) {
         return (
-            <div>
-
+            // <Layout pageTitle="Component Store" children="options" >
                 <Container className="border-2 border-indigo-600 min-h-full" maxWidth="sm" >
-                    <Grid container direction="row-reverse" >
-                        <Button variant="outlined"
-                            onClick={handleSignOut}
-                            color="secondary">Sign Out
-                    </Button>
-                    </Grid>
+                    <SignOut/>
 
                     <Grid container direction="row" alignItems="center" justify="center">
                         <Grid item xs={6}>
@@ -64,7 +66,7 @@ export default function Options() {
                         </Grid>
                     </Grid>
                 </Container>
-            </div>
+                // </Layout>
         );
     } else {
         return (
