@@ -35,7 +35,7 @@ app.prepare().then(() => {
   });
 
   // GET routes
-  server.get('/search', async (req, res) => {
+  server.get('/get', async (req, res) => {
     // Retrieve query keys
     const componentName = req.query.q;
     const componentID = req.query.comp_id;
@@ -80,13 +80,13 @@ app.prepare().then(() => {
         time.getSeconds();
       const test = req.body.order_details;
       const transaction = new Transaction
-      ({
-        receipt_id: unique_id,
-        student_id: req.body.stu_id,
-        student_name: req.body.stu_name,
-        time: formattedTime,
-        order_details: req.body.order_details
-      });
+        ({
+          receipt_id: unique_id,
+          student_id: req.body.stu_id,
+          student_name: req.body.stu_name,
+          time: formattedTime,
+          order_details: req.body.order_details
+        });
       // console.log(transaction);
       // // Save to Transaction collection
       transaction.save(function (err) {

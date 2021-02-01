@@ -1,29 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Grid, Container, Card, Typography } from '@material-ui/core';
-import Cookies from 'universal-cookie';
 import { useRouter } from 'next/router'
-import CropFreeIcon from '@material-ui/icons/CropFree';
-import SearchIcon from '@material-ui/icons/Search';
-import ByPass from './component/bypass'
-import SignOut from './component/sign_out'
+import Cookies from 'universal-cookie'
+import dynamic from 'next/dynamic'
+
+const SignOut = dynamic(() => import('../component/sign_out'), { ssr: false })
+const ByPass = dynamic(() => import('../component/bypass'), { ssr: false })
+const LayOut = dynamic(() => import('../component/layout'), { ssr: false })
+
+const Grid = dynamic(() => import('@material-ui/core/Grid'), { ssr: false });
+const Card = dynamic(() => import('@material-ui/core/Card'), { ssr: false });
+const Typography = dynamic(() => import('@material-ui/core/Typography'), { ssr: false });
+const Container = dynamic(() => import('@material-ui/core/Container'), { ssr: false });
+const CropFreeIcon = dynamic(() => import('@material-ui/icons/CropFree'), { ssr: false });
+const SearchIcon = dynamic(() => import('@material-ui/icons/Search'), { ssr: false });
+
 
 export default function Options() {
 
     const cookies = new Cookies();
     const router = useRouter();
 
+
     useEffect(() => {
-        if (!cookies.get('currentID')) {
-            setTimeout(() => {
-                console.log("Bye");
-                router.push('/')
-            }, 2000)
+        if (typeof window !== undefined) {
+            if (!cookies.get('currentID')) {
+                setTimeout(() => {
+                    console.log("Bye");
+                    router.push('/')
+                }, 2000)
+            }
         }
+
     }, [])
 
 
     function handleSearchText() {
-        router.push('/search_text')
+        router.push('/search')
     }
 
     function handleScanner() {
@@ -31,32 +43,27 @@ export default function Options() {
     }
     if (cookies.get('currentID')) {
         return (
-            <div>
+            <Container maxWidth="sm" fixed>
 
                 <Container className="border-2 border-indigo-600 min-h-full" maxWidth="sm" >
                     <SignOut />
-
                     <Grid container direction="row" alignItems="center" justify="center">
                         <Grid item xs={6}>
                             <Card onClick={handleSearchText}>
-                                <Typography align="center">
-                                    <SearchIcon />
-                                    <h3>Search By Text</h3>
-                                </Typography>
+                                <Typography align="center" variant="h5">
+                                    <SearchIcon />Search By Text</Typography>
                             </Card>
                         </Grid>
 
                         <Grid item xs={6}>
                             <Card onClick={handleScanner}>
-                                <Typography align="center">
-                                    <CropFreeIcon />
-                                    <h3>QR Scan</h3>
-                                </Typography>
+                                <Typography align="center" variant="h5">
+                                    <CropFreeIcon />QR Scan</Typography>
                             </Card>
                         </Grid>
                     </Grid>
                 </Container>
-            </div>
+            </Container>
         );
     } else {
         return (
