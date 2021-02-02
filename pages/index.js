@@ -4,6 +4,8 @@ import { TextField, Button, Grid } from '@material-ui/core';
 import Cookies from 'universal-cookie';
 import { useRouter } from 'next/router'
 import Layout from '../component/layout'
+import PopupOptions from '../component/popup_options'
+import Swal from 'sweetalert2'
 
 export default function IndexPage({ students }) {
 
@@ -13,19 +15,30 @@ export default function IndexPage({ students }) {
   const router = useRouter();
 
   function handleSubmit(student_ID) {
+    var check = false;
     students.map((student) => {
       if (student.studentID === student_ID) {
         cookies.set('currentID', student_ID, { maxAge: 1000 });
-        router.push('/options');
+        check = true;
+        PopupOptions(student_ID);
       }
     })
+    if (!check) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Student ID not found',
+        text: 'Please try again.',
+        showCloseButton: true
+      })
+    }
   }
 
 
+  // Check in the cookies if currentID existed or not
   useEffect(() => {
     if (cookies.get('currentID')) {
       setCurrentID(cookies.get('currentID'));
-      router.push('/options');
+      PopupOptions(cookies.get('currentID'));
     } else {
       console.log('Failed');
     }
@@ -48,8 +61,6 @@ export default function IndexPage({ students }) {
             Login
           </Button>
 
-          {/* <h2 className="text-center text-accent-1 mb-16"
-            style={valid ? { display: 'block' } : { display: 'none' }}>Validated + {cookies.get('currentID')}</h2> */}
         </Grid>
 
       </div>

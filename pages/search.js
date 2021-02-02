@@ -17,10 +17,11 @@ const FormControl = dynamic(() => import('@material-ui/core/FormControl'), { ssr
 export default function Search() {
     const cookies = new Cookies();
     const router = useRouter();
-    const [result, setResult] = useState([]);
 
+    const [result, setResult] = useState([]);
     const [name, setName] = useState('');
 
+    const [text, setText] = useState('');
 
     useEffect(() => {
         if (!cookies.get('currentID')) {
@@ -31,16 +32,20 @@ export default function Search() {
         }
     }, [])
 
+    // Function to handle when a user hit enter on search bar
     function handleKeyDown(e, value) {
         if (e.keyCode == 13) {
             getRequest(value, 'name', (result, status) => {
                 if (status === "success" && result) {
-                    console.log("Result variable: ");
                     setResult(result);
+                    setText(value);
                 }
             });
         }
     }
+
+
+
 
     if (cookies.get('currentID')) {
         return (
@@ -73,8 +78,7 @@ export default function Search() {
                     </Grid>
 
                 </Container>
-                <Item data={result} />
-
+                <Item data={result} mobile={true} search={text} />
             </div>
 
         )

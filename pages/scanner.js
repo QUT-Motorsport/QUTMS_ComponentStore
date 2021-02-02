@@ -1,6 +1,6 @@
-import React, { useState}  from 'react';
+import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
-import {getRequest} from '../lib/script';
+import { getRequest } from '../lib/script';
 
 export default function Scanner() {
     const [result, setResult] = useState(null);
@@ -19,12 +19,12 @@ export default function Scanner() {
     return (
         <div>
             <QrReader
-            delay={100}
-            onError={handleError}
-            onScan={handleScan}
-            style={{width:'50%'}}
+                delay={10000}
+                onError={handleError}
+                onScan={handleScan}
+                style={{ width: '50%' }}
             />
-            <p>{result}</p>    
+            <p>{result}</p>
         </div>
     );
 }
