@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { getRequest } from '../lib/script';
-import Layout from '../component/Layout';
 import Popup from '../component/component_popup';
 import Alert from '../component/alert';
 
@@ -31,7 +30,6 @@ export default function Scanner() {
     }
 
     return (
-        <Layout pageTitle="Component Store" children="scanner" >
         <div>
             <QrReader
                 delay={1250}
@@ -40,6 +38,5 @@ export default function Scanner() {
                 style={{ width: '25%' }} 
             />
         </div>
-        </Layout>
     );
 }

@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { TextField, Button, Grid } from '@material-ui/core';
 import Cookies from 'universal-cookie';
 import { useRouter } from 'next/router'
-import Layout from '../component/layout'
 import PopupOptions from '../component/popup_options'
 import Swal from 'sweetalert2'
 
@@ -46,7 +45,6 @@ export default function IndexPage({ students }) {
 
 
   return (
-    <Layout pageTitle="Component Store" children="index">
       <div className="container mx-auto py-20 px-8">
         <Grid container direction="column" alignItems="center" justify="center">
           <TextField
@@ -64,7 +62,6 @@ export default function IndexPage({ students }) {
         </Grid>
 
       </div>
-    </Layout>
   );
 }
 
