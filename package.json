@@ -28,7 +28,6 @@
     "next": "^10.0.5",
     "postcss": "^7.0.35",
     "react": "^16.14.0",
-    "react-bootstrap-sweetalert": "^5.2.0",
     "react-chartjs-2": "^2.11.1",
     "react-cookie": "^4.0.3",
     "react-dom": "^16.14.0",
@@ -36,7 +35,6 @@
     "react-router-dom": "^5.2.0",
     "sweetalert2": "^10.14.0",
     "sweetalert2-react-content": "^3.2.2",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
     "universal-cookie": "^4.0.4"
   }
 }

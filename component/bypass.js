@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Button, Grid, Container, Card, Typography } from '@material-ui/core';
-import Cookies from 'universal-cookie';
-import { useRouter } from 'next/router'
 
 export function ByPass(props) {
 
