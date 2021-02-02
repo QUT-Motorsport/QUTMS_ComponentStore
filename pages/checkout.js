@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Cookies from 'universal-cookie';
 import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
-import CartItem from '../component/cartitem'
 import Review from '../component/review'
 
 const SignOut = dynamic(() => import('../component/sign_out'), { ssr: false });
