@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button, DataGrid } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -14,7 +13,6 @@ import { useRouter } from 'next/router'
 import { makeStyles } from '@material-ui/core/styles'
 
 import Popup from './popup'
-import Swal from 'sweetalert2';
 
 const useStyles = makeStyles({
     table: {
