@@ -2,24 +2,25 @@ import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { getRequest } from '../lib/script';
 import Layout from '../component/Layout';
-import Popup from '../component/popup'
-import Swal from 'sweetalert2';
+import Popup from '../component/component_popup';
+import Alert from '../component/alert';
 
 const QrReader = dynamic(() => import('react-qr-reader'), {
     ssr: false
 })
+
 
 export default function Scanner() {
     const handleScan = (data) => {
         if (data) {
             getRequest(data, "id", (result, status) => {
                 if (status === "success" && result) {
-                    console.log(result);
                     // Set result to popups 
                     Popup(result);
-                } else {
+                } else if (status === "fail") {
                     // Send fail alert
-                    setResult(result);
+                    Alert();
+                    console.log("Component not found!");
                 }
             })
         }
@@ -33,7 +34,7 @@ export default function Scanner() {
         <Layout pageTitle="Component Store" children="scanner" >
         <div>
             <QrReader
-                delay={1500}
+                delay={1250}
                 onError={handleError}
                 onScan={handleScan}
                 style={{ width: '25%' }} 

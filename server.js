@@ -2,10 +2,10 @@ const express = require('express')
 const next = require('next')
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv').config();
-const mogoose = require('mongoose');
+const mongoose = require('mongoose');
 const cors = require('cors');
 const { v1: uuidv1 } = require('uuid');
-// require helmet & knex
+// require helmet
 
 const Component = require('./models/Component');
 const Transaction = require('./models/Transaction');
@@ -67,35 +67,59 @@ app.prepare().then(() => {
   server.post('/update', async (req, res) => {
     console.log("POST route reached!");
     try {
-      // Generate uuid with timestamp
-      const unique_id = uuidv1();
-      // Retrieve current time for transaction
-      const time = new Date();
-      const formattedTime =
-        time.getDate() + "-" +
-        time.getMonth() + 1 + "-" +
-        time.getFullYear() + " " +
-        time.getHours() + ":" +
-        time.getMinutes() + ":" +
-        time.getSeconds();
-      const test = req.body.order_details;
-      const transaction = new Transaction
-      ({
-        receipt_id: unique_id,
-        student_id: req.body.stu_id,
-        student_name: req.body.stu_name,
-        time: formattedTime,
-        order_details: req.body.order_details
+      // Update quantity in component collection
+      req.body.order_details.forEach(async function (item) {
+        console.log(item.component_id);
+        // Getthe current quantity of item
+        await Component.find({ "component_id": item.component_id }, async function (err, result) {
+          console.log('pass find component query');
+          if (err) throw err;
+          const remain_quantity = result[0].quantity - item.quantity;
+          console.log('Checked quantity! Quantity is ' + remain_quantity);
+          if (remain_quantity < 0) {
+            console.log('Insufficient quantity!');
+            res.status(400).json({ error: 'Insufficient quantity for order!' });
+          } else {
+            await Component.updateOne(
+              { component_id: item.component_id },
+              {
+                $set:
+                  { quantity: remain_quantity }
+              },
+              function (err, response) {
+                if (err) throw err;
+                console.log('Collection Component updated sucessfully!');
+                // Generate uuid with timestamp
+                const unique_id = uuidv1();
+                // Retrieve current time for transaction
+                const time = new Date();
+                const formattedTime =
+                  time.getDate() + "-" +
+                  time.getMonth() + 1 + "-" +
+                  time.getFullYear() + " " +
+                  time.getHours() + ":" +
+                  time.getMinutes() + ":" +
+                  time.getSeconds();
+                const transaction = new Transaction
+                  ({
+                    receipt_id: unique_id,
+                    student_id: req.body.stu_id,
+                    student_name: req.body.stu_name,
+                    time: formattedTime,
+                    order_details: req.body.order_details
+                  });
+                // Save to Transaction collection
+                transaction.save(function (err) {
+                  console.log("Transaction has been successfully made!");
+                  return res.sendStatus(200);
+                })
+              }
+            );
+          }
+        })
       });
-      // console.log(transaction);
-      // // Save to Transaction collection
-      transaction.save(function (err) {
-        console.log("Transaction has been successfully made!");
-        return res.sendStatus(200);
-      })
-      // return res.sendStatus(200);
     } catch (err) {
-      res.status(404).send({ error: err });
+      res.status(404).send({ error: 'Unsucessful POST request!' });
     }
   })
 
