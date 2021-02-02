@@ -39,6 +39,9 @@ export default function Search() {
                 if (status === "success" && result) {
                     setResult(result);
                     setText(value);
+                } else {
+                    setResult([]);
+                    setText(value);
                 }
             });
         }
