@@ -5,7 +5,7 @@ export default function Alert(props) {
         Swal.fire({
             icon: 'error',
             title: 'Not Found',
-            text: 'Comopnent does not exist!',
+            text: 'Component does not exist!',
             footer: 'Please try again!',
             timer: '2000',
             timerProgressBar: true
