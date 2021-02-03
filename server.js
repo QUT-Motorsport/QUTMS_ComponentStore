@@ -63,63 +63,89 @@ app.prepare().then(() => {
     }
   })
 
+  // HELPER FUNCTION FOR POST ROUTES
+  async function checkQuantity(input, cb) {
+    var validated_orders = [];
+    // Update quantity in component collection
+    input.forEach(async function (item, index, arr) {
+      // console.log(item.component_id);
+      // Check order if all quanity is valid
+      await Component.find({ "component_id": item.component_id }, async function (err, result) {
+        if (err) throw err;
+        validated_orders.push(
+          {
+            component_id: item.component_id,
+            quantity: result[0].quantity - item.quantity
+          }
+        );
+      })
+      if (index === arr.length - 1) {
+        // callbacks the value
+        cb(validated_orders, "validated_orders");
+      }
+    });
+  }
+
   // POST routes
   server.post('/update', async (req, res) => {
+    var validated_orders = [];
     console.log("POST route reached!");
     try {
-      // Update quantity in component collection
-      req.body.order_details.forEach(async function (item) {
-        console.log(item.component_id);
-        // Getthe current quantity of item
-        await Component.find({ "component_id": item.component_id }, async function (err, result) {
-          console.log('pass find component query');
-          if (err) throw err;
-          const remain_quantity = result[0].quantity - item.quantity;
-          console.log('Checked quantity! Quantity is ' + remain_quantity);
-          if (remain_quantity < 0) {
-            console.log('Insufficient quantity!');
-            res.status(400).json({ error: 'Insufficient quantity for order!' });
-          } else {
-            await Component.updateOne(
-              { component_id: item.component_id },
-              {
-                $set:
-                  { quantity: remain_quantity }
-              },
-              function (err, response) {
-                if (err) throw err;
-                console.log('Collection Component updated sucessfully!');
-                // Generate uuid with timestamp
-                const unique_id = uuidv1();
-                // Retrieve current time for transaction
-                const time = new Date();
-                const formattedTime =
-                  time.getDate() + "-" +
-                  time.getMonth() + 1 + "-" +
-                  time.getFullYear() + " " +
-                  time.getHours() + ":" +
-                  time.getMinutes() + ":" +
-                  time.getSeconds();
-                const transaction = new Transaction
-                  ({
-                    receipt_id: unique_id,
-                    student_id: req.body.stu_id,
-                    student_name: req.body.stu_name,
-                    time: formattedTime,
-                    order_details: req.body.order_details
-                  });
-                // Save to Transaction collection
-                transaction.save(function (err) {
-                  console.log("Transaction has been successfully made!");
-                  return res.sendStatus(200);
-                })
-              }
-            );
+      await new Promise((resolve, reject) => {
+        checkQuantity(req.body.order_details, (value, status) => {
+          if (status === 'validated_orders') {
+            validated_orders = value;
+            console.log(validated_orders);
           }
-        })
+          resolve();
+        });
       });
+      // Exit or execute queries to database
+      if (validated_orders.map(item => item.quantity).some(e => e < 0)) {
+        // Send back 400
+        console.log("cancel");
+        res.status(400).json({ error: 'Insufficient quantity for order!' });
+      } else {
+        validated_orders.forEach(async function (item) {
+          await Component.updateOne(
+            { component_id: item.component_id },
+            {
+              $set:
+                { quantity: item.quantity}
+            },
+            function (err, response) {
+              if (err) throw err;
+              console.log('Collection Component updated sucessfully!');
+            }
+          );
+        })
+        // Generate uuid with timestamp
+        const unique_id = uuidv1();
+        // Retrieve current time for transaction
+        const time = new Date();
+        const formattedTime =
+          time.getDate() + "-" +
+          time.getMonth() + 1 + "-" +
+          time.getFullYear() + " " +
+          time.getHours() + ":" +
+          time.getMinutes() + ":" +
+          time.getSeconds();
+        const transaction = new Transaction
+          ({
+            receipt_id: unique_id,
+            student_id: req.body.stu_id,
+            student_name: req.body.stu_name,
+            time: formattedTime,
+            order_details: req.body.order_details
+          });
+        // Save to Transaction collection
+        transaction.save(function (err) {
+          console.log("Transaction has been successfully made!");
+          return res.sendStatus(200);
+        })
+      }
     } catch (err) {
-      res.status(404).send({ error: 'Unsucessful POST request!' });
+      if (err) res.status(404).send({ error: 'Unsucessful POST request!' });
     }
   })
 

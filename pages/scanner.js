@@ -8,7 +8,6 @@ const QrReader = dynamic(() => import('react-qr-reader'), {
     ssr: false
 })
 
-
 export default function Scanner() {
     const handleScan = (data) => {
         if (data) {

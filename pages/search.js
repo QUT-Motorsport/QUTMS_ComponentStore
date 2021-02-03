@@ -61,9 +61,8 @@ export default function Search() {
                         justify="center" alignContent="center">
 
                         <SignOut />
-
                         <div id="big_img">
-                            <img alt="Google" height="92" id="hplogo" src="https://static.wixstatic.com/media/f40ca5_b80059f52d6e4192a4f7fcd8d6614e92~mv2.png/v1/fill/w_255,h_86,al_c,q_85,usm_0.66_1.00_0.01/QUTMS_Logo_White.webp"
+                            <img alt="QUT Motorsport" height="92" id="hplogo" src="https://static.wixstatic.com/media/f40ca5_b80059f52d6e4192a4f7fcd8d6614e92~mv2.png/v1/fill/w_255,h_86,al_c,q_85,usm_0.66_1.00_0.01/QUTMS_Logo_White.webp"
                                 style={{ paddingTop: '109px' }}
                                 width="272" />
                         </div>

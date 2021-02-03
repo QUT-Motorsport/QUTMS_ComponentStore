@@ -45,23 +45,26 @@ export default function IndexPage({ students }) {
 
 
   return (
-      <div className="container mx-auto py-20 px-8">
-        <Grid container direction="column" alignItems="center" justify="center">
-          <TextField
-            value={currentID}
-            onChange={(e) => setCurrentID(e.target.value)}
-            id="standard-basic" label="Student ID" />
+    <div className="container mx-auto py-20 px-8">
+      <div id="big_img">
+        <img alt="QUT Motorsport" id="hplogo" src="https://static.wixstatic.com/media/f40ca5_b80059f52d6e4192a4f7fcd8d6614e92~mv2.png/v1/fill/w_255,h_86,al_c,q_85,usm_0.66_1.00_0.01/QUTMS_Logo_White.webp" />
+      </div>
+      <Grid container direction="column" alignItems="center" justify="center">
+        <TextField
+          value={currentID}
+          onChange={(e) => setCurrentID(e.target.value)}
+          id="standard-basic" label="Student ID" />
 
-          <Button
-            onClick={() => handleSubmit(currentID)}
-            variant="contained"
-            color="primary">
-            Login
+        <Button
+          onClick={() => handleSubmit(currentID)}
+          variant="contained"
+          color="primary">
+          Login
           </Button>
 
-        </Grid>
+      </Grid>
 
-      </div>
+    </div>
   );
 }
 

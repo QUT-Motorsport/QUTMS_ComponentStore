@@ -1,4 +1,3 @@
-import React from 'react';
 import Swal from 'sweetalert2';
 
 export default function Popup(props) {
@@ -39,7 +38,7 @@ export default function Popup(props) {
                     'success'
                 )    
             } else if (result.isDenied) {
-                window.location = "/";
+                window.location = "/checkout";
             } 
         })
     );
