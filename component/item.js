@@ -12,7 +12,7 @@ import Cookies from 'universal-cookie';
 import { useRouter } from 'next/router'
 import { makeStyles } from '@material-ui/core/styles'
 
-import Popup from './popup'
+import Popup from './component_popup'
 
 const useStyles = makeStyles({
     table: {

@@ -2,8 +2,6 @@ import { getStudentID } from "../lib/api";
 import React, { useState, useEffect } from 'react';
 import { TextField, Button, Grid } from '@material-ui/core';
 import Cookies from 'universal-cookie';
-import { useRouter } from 'next/router'
-import Layout from '../component/layout'
 import PopupOptions from '../component/popup_options'
 import Swal from 'sweetalert2'
 
@@ -12,7 +10,6 @@ export default function IndexPage({ students }) {
   const [currentID, setCurrentID] = useState("");
   // Cookies
   const cookies = new Cookies();
-  const router = useRouter();
 
   function handleSubmit(student_ID) {
     var check = false;
@@ -46,25 +43,23 @@ export default function IndexPage({ students }) {
 
 
   return (
-    <Layout pageTitle="Component Store" children="index">
-      <div className="container mx-auto py-20 px-8">
-        <Grid container direction="column" alignItems="center" justify="center">
-          <TextField
-            value={currentID}
-            onChange={(e) => setCurrentID(e.target.value)}
-            id="standard-basic" label="Student ID" />
+    <div className="container mx-auto py-20 px-8">
+      <Grid container direction="column" alignItems="center" justify="center">
+        <TextField
+          value={currentID}
+          onChange={(e) => setCurrentID(e.target.value)}
+          id="standard-basic" label="Student ID" />
 
-          <Button
-            onClick={() => handleSubmit(currentID)}
-            variant="contained"
-            color="primary">
-            Login
+        <Button
+          onClick={() => handleSubmit(currentID)}
+          variant="contained"
+          color="primary">
+          Login
           </Button>
 
-        </Grid>
+      </Grid>
 
-      </div>
-    </Layout>
+    </div>
   );
 }
 

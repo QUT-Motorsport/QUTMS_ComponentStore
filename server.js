@@ -79,6 +79,7 @@ app.prepare().then(() => {
           if (remain_quantity < 0) {
             console.log('Insufficient quantity!');
             res.status(400).json({ error: 'Insufficient quantity for order!' });
+            throw BreakException;
           } else {
             await Component.updateOne(
               { component_id: item.component_id },
@@ -119,7 +120,7 @@ app.prepare().then(() => {
         })
       });
     } catch (err) {
-      res.status(404).send({ error: 'Unsucessful POST request!' });
+      if (err !== BreakException) res.status(404).send({ error: 'Unsucessful POST request!' });
     }
   })
 
