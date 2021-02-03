@@ -67,9 +67,11 @@ export default function CheckOut() {
                         </Typography>
                     </Grid>
 
-                    <Container>
+                    <Grid item xs={12}>
                         <Review />
-                    </Container>
+
+                    </Grid>
+
 
                     <Grid container direction="row-reverse" >
                         <Button variant="outlined"
