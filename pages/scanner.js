@@ -3,6 +3,10 @@ import dynamic from 'next/dynamic';
 import { getRequest } from '../lib/script';
 import Popup from '../component/component_popup';
 import Alert from '../component/alert';
+import SignOut from '../component/sign_out'
+import { Container } from '@material-ui/core';
+
+const Grid = dynamic(() => import('@material-ui/core/Grid'), { ssr: false });
 
 const QrReader = dynamic(() => import('react-qr-reader'), {
     ssr: false
@@ -29,13 +33,26 @@ export default function Scanner() {
     }
 
     return (
-        <div>
-            <QrReader
-                delay={1250}
-                onError={handleError}
-                onScan={handleScan}
-                style={{ width: '25%' }} 
-            />
-        </div>
+        <main>
+            <Container className="container" maxWidth="sm">
+                <Grid container
+                    spacing={0}
+                    direction="column"
+                    alignItems="center"
+                    justify="center" alignContent="center">
+                    <SignOut />
+
+                </Grid>
+                <div className="scanner-container">
+                    <QrReader
+                        delay={1250}
+                        onError={handleError}
+                        onScan={handleScan}
+                        style={{ width: '100%' }}
+                    />
+                    <p>SCAN ME</p>
+                </div>
+            </Container>
+        </main>
     );
 }

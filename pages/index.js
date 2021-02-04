@@ -2,9 +2,11 @@ import { getStudentID } from "../lib/api";
 import React, { useState, useEffect } from 'react';
 import { TextField, Button, Grid } from '@material-ui/core';
 import Cookies from 'universal-cookie';
-import { useRouter } from 'next/router'
-import PopupOptions from '../component/popup_options'
-import Swal from 'sweetalert2'
+import { useRouter } from 'next/router';
+import PopupOptions from '../component/popup_options';
+import Swal from 'sweetalert2';
+import Image from 'next/image';
+
 
 export default function IndexPage({ students }) {
 
@@ -45,32 +47,43 @@ export default function IndexPage({ students }) {
 
 
   return (
-    <div className="container mx-auto py-20 px-8">
-      <div id="big_img">
-        <img alt="QUT Motorsport" id="hplogo" src="https://static.wixstatic.com/media/f40ca5_b80059f52d6e4192a4f7fcd8d6614e92~mv2.png/v1/fill/w_255,h_86,al_c,q_85,usm_0.66_1.00_0.01/QUTMS_Logo_White.webp" />
+    <main>
+      <div className="login-container">
+        <input className="c-checkbox" type="checkbox" id="start" />
+        <input className="c-checkbox" type="checkbox" id="finish" />
+        <div className="c-formContainer">
+          <form className="c-form" action="" value={currentID}
+            onChange={(e) => setCurrentID(e.target.value)}>
+            <div className="c-form__group">
+              <label className="c-form__label" htmlFor="username">
+                <input
+                  type="text"
+                  id="username"
+                  className="c-form__input"
+                  placeholder=" "
+                  pattern="^n.*"
+                  required />
+
+                <label className="c-form__next" htmlFor="finish" role="button" onClick={() => handleSubmit(currentID)}>
+                  <span className="c-form__nextIcon"></span>
+                </label>
+
+                <span className="c-form__groupLabel">Enter your student ID.</span>
+                <b className="c-form__border"></b>
+              </label>
+            </div>
+
+            <label className="c-form__toggle" htmlFor="start">Login<span className="c-form__toggleIcon"></span></label>
+          </form>
+        </div>
+        <img className="login-img" src="" alt="qutmotorsport_lando" width="300" height="100" />
       </div>
-      <Grid container direction="column" alignItems="center" justify="center">
-        <TextField
-          value={currentID}
-          onChange={(e) => setCurrentID(e.target.value)}
-          id="standard-basic" label="Student ID" />
-
-        <Button
-          onClick={() => handleSubmit(currentID)}
-          variant="contained"
-          color="primary">
-          Login
-          </Button>
-
-      </Grid>
-
-    </div>
+    </main>
   );
 }
 
 export async function getStaticProps(context) {
   const students = await getStudentID();
-  console.log(students);
   return {
     props: {
       students,
