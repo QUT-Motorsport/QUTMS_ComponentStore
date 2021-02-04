@@ -17,7 +17,10 @@ export default function IndexPage({ students }) {
       if (student.studentID === student_ID) {
         cookies.set('currentID', student_ID, { maxAge: 1000 });
         check = true;
-        PopupOptions(student_ID);
+        var titleDescription = "Signed In As " + student_ID;
+        var textDescription = "What do you want to do next?";
+        PopupOptions(titleDescription, textDescription);
+
       }
     })
     if (!check) {
@@ -34,8 +37,10 @@ export default function IndexPage({ students }) {
   // Check in the cookies if currentID existed or not
   useEffect(() => {
     if (cookies.get('currentID')) {
+      var titleDescription = "Signed In As " + cookies.get('currentID');
+      var textDescription = "What do you want to do next?";
       setCurrentID(cookies.get('currentID'));
-      PopupOptions(cookies.get('currentID'));
+      PopupOptions(titleDescription, textDescription);
     } else {
       console.log('Failed');
     }

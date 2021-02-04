@@ -40,7 +40,7 @@ export default function Cart() {
         setNumber((typeof cookies.get('order_details') === 'undefined') ? 0 : cookies.get('order_details').length);
     }, 100);
     return (
-        <Grid item onClick={handleClick}>
+        <Grid item onClick={handleClick} style={{ float: "left" }}>
             <ShoppingCartIcon fontSize="large" style={{ color: "orange" }} />
             <span className='badge badge-warning' id='lblCartCount'>{number}</span>
         </Grid >

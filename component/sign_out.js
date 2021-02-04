@@ -1,14 +1,12 @@
 import React from 'react';
-import { Button, Grid } from '@material-ui/core';
+import { Button, Grid, Container } from '@material-ui/core';
 import Cookies from 'universal-cookie';
-import { useRouter } from 'next/router'
 import Swal from 'sweetalert2'
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import Cart from './cart'
+import Back from './back'
 
 export function SignOut() {
     const cookies = new Cookies();
-    const router = useRouter();
 
     function handleSignOut() {
         cookies.remove('currentID');
@@ -22,21 +20,28 @@ export function SignOut() {
         })
     }
     return (
-        <Grid container direction="row-reverse" >
 
+        <Grid container direction="row-reverse" justify="space-between" >
             <Grid item={true}>
-                <Button variant="outlined"
-                    onClick={handleSignOut}
-                    color="secondary">Sign Out
+                <div>
+                    <Cart />
+                    <Button variant="outlined"
+                        onClick={handleSignOut}
+                        color="secondary">Sign Out
                     </Button>
+
+                </div>
             </Grid>
 
+            <Grid item>
+                <Back />
 
-            <Cart />
-
-
+            </Grid>
 
         </Grid >
+
+
+
     )
 
 }
