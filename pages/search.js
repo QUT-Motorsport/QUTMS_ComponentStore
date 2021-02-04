@@ -3,6 +3,7 @@ import Cookies from 'universal-cookie';
 import { useRouter } from 'next/router'
 import { getRequest } from '../lib/script'
 import dynamic from 'next/dynamic'
+import Cart from '../component/cart'
 
 const SignOut = dynamic(() => import('../component/sign_out'), { ssr: false });
 const Item = dynamic(() => import('../component/item'), { ssr: false });
@@ -59,6 +60,7 @@ export default function Search() {
                         direction="column"
                         alignItems="center"
                         justify="center" alignContent="center">
+
 
                         <SignOut />
 

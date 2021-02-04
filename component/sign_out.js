@@ -3,6 +3,8 @@ import { Button, Grid } from '@material-ui/core';
 import Cookies from 'universal-cookie';
 import { useRouter } from 'next/router'
 import Swal from 'sweetalert2'
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import Cart from './cart'
 
 export function SignOut() {
     const cookies = new Cookies();
@@ -21,11 +23,20 @@ export function SignOut() {
     }
     return (
         <Grid container direction="row-reverse" >
-            <Button variant="outlined"
-                onClick={handleSignOut}
-                color="secondary">Sign Out
+
+            <Grid item={true}>
+                <Button variant="outlined"
+                    onClick={handleSignOut}
+                    color="secondary">Sign Out
                     </Button>
-        </Grid>
+            </Grid>
+
+
+            <Cart />
+
+
+
+        </Grid >
     )
 
 }
