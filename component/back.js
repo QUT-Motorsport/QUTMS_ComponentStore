@@ -7,22 +7,21 @@ import PopupOptions from '../component/popup_options'
 
 export default function Cart() {
     const cookies = new Cookies();
-    const router = useRouter();
-
-    const cart = cookies.get('order_details')
-
-    const [number, setNumber] = useState((typeof cart === 'undefined') ? 0 : cart.length);
+    const currID = cookies.get('currentID');
 
     // Function to handle onClick
     function handleClick() {
-        var titleDescription = "What do you want to do?";
-        var textDescription = "";
-        PopupOptions(titleDescription, textDescription);
+        if (currID) {
+            var titleDescription = "What do you want to do?";
+            var textDescription = "";
+            PopupOptions(titleDescription, textDescription);
+        }
+
     }
 
     return (
         <Grid item onClick={handleClick}>
-            <ArrowBackIcon fontSize="large" />
+            <ArrowBackIcon fontSize="large" style={{ cursor: "pointer" }} />
         </Grid >
 
 

@@ -3,7 +3,10 @@ import Cookies from 'universal-cookie';
 import { useRouter } from 'next/router'
 import { getRequest } from '../lib/script'
 import dynamic from 'next/dynamic'
-import Cart from '../component/cart'
+import InputBase from '@material-ui/core/InputBase'
+import IconButton from '@material-ui/core/IconButton'
+import SearchIcon from '@material-ui/icons/Search'
+import Table from '../component/table'
 
 const SignOut = dynamic(() => import('../component/sign_out'), { ssr: false });
 const Item = dynamic(() => import('../component/item'), { ssr: false });
@@ -13,7 +16,7 @@ const Grid = dynamic(() => import('@material-ui/core/Grid'), { ssr: false });
 const TextField = dynamic(() => import('@material-ui/core/TextField'), { ssr: false });
 const Container = dynamic(() => import('@material-ui/core/Container'), { ssr: false });
 const FormControl = dynamic(() => import('@material-ui/core/FormControl'), { ssr: false });
-
+const Divider = dynamic(() => import('@material-ui/core/Divider'), { ssr: false })
 
 export default function Search() {
     const cookies = new Cookies();
@@ -48,7 +51,18 @@ export default function Search() {
         }
     }
 
-
+    //
+    function handleOnClick(value) {
+        getRequest(value, 'name', (result, status) => {
+            if (status === "success" && result) {
+                setResult(result);
+                setText(value);
+            } else {
+                setResult([]);
+                setText(value);
+            }
+        });
+    }
 
 
     if (cookies.get('currentID')) {
@@ -70,20 +84,29 @@ export default function Search() {
                                 width="272" />
                         </div>
 
-                        <FormControl fullWidth variant="outlined">
-                            <TextField
+                        <Grid container alignItems="center"
+                            justify="center" alignContent="center">
+                            {/* <TextField
                                 id="outlined-basic"
                                 variant="outlined"
                                 autoComplete="off"
                                 onChange={(e) => setName(e.target.value)}
                                 onKeyDown={(e) => handleKeyDown(e, name)}
                                 style={{ width: 'auto', borderRadius: '4px' }}
-                            />
-                        </FormControl>
+                            /> */}
+                            <InputBase placeholder="Search component" autoComplete="off"
+                                onChange={(e) => setName(e.target.value)}
+                                onKeyDown={(e) => handleKeyDown(e, name)} />
+                            <IconButton onClick={() => handleOnClick(name)} arial-label="search">
+                                <SearchIcon />
+                            </IconButton>
+                        </Grid>
                     </Grid>
 
                 </Container>
+                <Divider variant="middle" />
                 <Item data={result} mobile={true} search={text} />
+                <Table data={result} mobile={true} search={text} />
             </div>
 
         )

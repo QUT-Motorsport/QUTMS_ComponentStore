@@ -55,6 +55,7 @@ export default function Popup(props) {
 
                             // If the order_details isn't in cookies, push newComponent into order
                             if (!cookies.get('order_details')) {
+                                cookies.set('prevID', cookies.get('currentID'));
                                 order.push(newComponent);
                             } else {
                                 console.log(result);

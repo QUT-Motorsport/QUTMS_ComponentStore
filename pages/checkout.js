@@ -29,6 +29,7 @@ export default function CheckOut() {
         ]
     };
 
+    // Function when a user click Commit button
     function handleCommit() {
         console.log("Hello there");
         update(result, (response, status) => {
@@ -36,12 +37,14 @@ export default function CheckOut() {
                 console.log("Something is wrong")
             } else if (status === "success") {
                 console.log("transaction successfully made")
+                cookies.remove('order_details');
+                cookies.remove('prevID');
             }
         })
     }
 
     useEffect(() => {
-        if (!cookies.get('currentID')) {
+        if (!cookies.get('currentID') && !cookies.get('prevID')) {
             setTimeout(() => {
                 console.log("Bye");
                 router.push('/')
@@ -50,8 +53,8 @@ export default function CheckOut() {
     }, [])
 
 
-    if (cookies.get('currentID')) {
-        studentID = cookies.get('currentID');
+    if (cookies.get('currentID') || cookies.get('prevID')) {
+        studentID = cookies.get('prevID') ? cookies.get('prevID') : cookies.get('currentID');
         return (
             <div>
                 <Container maxWidth="sm">

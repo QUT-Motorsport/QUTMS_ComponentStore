@@ -7,25 +7,30 @@ import Back from './back'
 
 export function SignOut() {
     const cookies = new Cookies();
-
+    const prevID = cookies.get('prevID');
+    const currID = cookies.get('currentID');
     function handleSignOut() {
-        cookies.remove('currentID');
-        Swal.fire({
-            icon: 'info',
-            title: 'Signed Out',
-            showConfirmButton: false,
-            timer: 2000
-        }).then(() => {
-            window.location = '/';
-        })
+        if (currID) {
+            cookies.remove('currentID');
+            Swal.fire({
+                icon: 'info',
+                title: 'Signed Out',
+                showConfirmButton: false,
+                timer: 2000
+            }).then(() => {
+                window.location = '/';
+            })
+        }
+
     }
     return (
 
-        <Grid container direction="row-reverse" justify="space-between" >
+        <Grid container direction="row-reverse" justify="space-between">
             <Grid item={true}>
                 <div>
                     <Cart />
                     <Button variant="outlined"
+                        disabled={currID ? false : true}
                         onClick={handleSignOut}
                         color="secondary">Sign Out
                     </Button>
@@ -35,7 +40,6 @@ export function SignOut() {
 
             <Grid item>
                 <Back />
-
             </Grid>
 
         </Grid >
