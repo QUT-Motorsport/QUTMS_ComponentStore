@@ -1,7 +1,7 @@
 import Swal from 'sweetalert2';
 import Cookies from 'universal-cookie';
 
-export default function PopupOptions(studentID) {
+export default function PopupOptions(titleDescription, textDescription) {
     const cookies = new Cookies();
 
     // Function to Sign out
@@ -24,8 +24,8 @@ export default function PopupOptions(studentID) {
     return (
         Swal.fire({
             icon: 'success',
-            title: 'Signed In As ' + studentID,
-            text: 'What do you want to do next?',
+            title: titleDescription,
+            text: textDescription,
             showCloseButton: true,
             showDenyButton: true,
             showCancelButton: true,
@@ -50,9 +50,11 @@ export default function PopupOptions(studentID) {
                     showConfirmButton: false,
                     timer: 1500
                 })
-            } else {
-                handleSignOut();
-                Swal.fire('Signed Out', '', 'info');
+            } else if (result.isDismissed) {
+                if (result.dismiss === "cancel") {
+                    handleSignOut();
+                    Swal.fire('Signed Out', '', 'info');
+                }
             }
         })
     );

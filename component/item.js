@@ -10,20 +10,39 @@ import Typography from '@material-ui/core/Typography';
 
 import Cookies from 'universal-cookie';
 import { useRouter } from 'next/router'
-import { makeStyles } from '@material-ui/core/styles'
+import { withStyles, makeStyles } from '@material-ui/core/styles'
 
 import Popup from './component_popup'
 
+
+const StyledTableCell = withStyles((theme) => ({
+    head: {
+        backgroundColor: "#424242",
+        color: theme.palette.common.white,
+    },
+    body: {
+        fontSize: 14,
+    },
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+
+    hover: {
+        "&:hover": {
+            backgroundColor: "#fafafa !important",
+        }
+    }
+
+}))(TableRow);
+
 const useStyles = makeStyles({
     table: {
-        minWidth: 650,
+        minWidth: 700,
     },
 });
 
 export function Item(props) {
-    // Cookies for checking studentID and router to change pages
-    const cookies = new Cookies();
-    const router = useRouter();
+
 
     // Array to store the response's array
     const search_result = props.data;
@@ -39,23 +58,23 @@ export function Item(props) {
             <TableContainer component={Paper}>
                 <Table className={classes.table} aria-label="simple table">
                     <TableHead>
-                        <TableRow>
-                            <TableCell align="center">Photo</TableCell>
-                            <TableCell align="right">Name&nbsp;</TableCell>
-                            <TableCell align="right">Quantity</TableCell>
-                            <TableCell align="right">Location&nbsp;</TableCell>
-                        </TableRow>
+                        <StyledTableRow hover={true}>
+                            <StyledTableCell align="center">Photo</StyledTableCell>
+                            <StyledTableCell align="right">Name&nbsp;</StyledTableCell>
+                            <StyledTableCell align="right">Quantity</StyledTableCell>
+                            <StyledTableCell align="right">Location&nbsp;</StyledTableCell>
+                        </StyledTableRow>
                     </TableHead>
                     <TableBody>
                         {search_result.map((item) => (
-                            <TableRow key={item.component_name} onClick={() => { handleClickItem(item) }}>
-                                <TableCell component="th" scope="row" align="center">
+                            <StyledTableRow hover={true} key={item.component_name} onClick={() => { handleClickItem(item) }}>
+                                <StyledTableCell component="th" scope="row" align="center">
                                     <img alt="Google" height="92" id="hplogo" src="https://static.wixstatic.com/media/f40ca5_b80059f52d6e4192a4f7fcd8d6614e92~mv2.png/v1/fill/w_255,h_86,al_c,q_85,usm_0.66_1.00_0.01/QUTMS_Logo_White.webp" />
-                                </TableCell>
-                                <TableCell align="right">{item.component_name}</TableCell>
-                                <TableCell align="right">{item.quantity}</TableCell>
-                                <TableCell align="right">{item.location}</TableCell>
-                            </TableRow>
+                                </StyledTableCell>
+                                <StyledTableCell align="right">{item.component_name}</StyledTableCell>
+                                <StyledTableCell align="right">{item.quantity}</StyledTableCell>
+                                <StyledTableCell align="right">{item.location}</StyledTableCell>
+                            </StyledTableRow>
                         ))}
                     </TableBody>
                 </Table>
