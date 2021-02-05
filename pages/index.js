@@ -33,7 +33,6 @@ export default function IndexPage({ students }) {
     }
   }
 
-
   // Check in the cookies if currentID existed or not
   useEffect(() => {
     const prevID = cookies.get('prevID');
@@ -71,9 +70,6 @@ export default function IndexPage({ students }) {
       }
     }
   }, [])
-
-
-
 
   return (
     <div className="container mx-auto py-20 px-8">

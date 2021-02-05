@@ -1,4 +1,8 @@
 .header{background:rgb(0, 178, 255);color:#fff;}
+body {
+  font-family: 'Roboto Mono',monospace;
+
+}
 #lblCartCount {
     font-size: 12px;
     background: #ff0000;
@@ -53,16 +57,20 @@ h2 {
     font-size: 14px;
     text-transform: uppercase;
     letter-spacing: 0.03em;
+    text-align: center;
+    font-weight: bold;
   }
   .table-row {
     background-color: #ffffff;
     box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.1);
+    text-align: center;
   }
   .col-1 {
     flex-basis: 25%;
   }
   .col-2 {
     flex-basis: 30%;
+    margin-left: 1.5em;
   }
   .col-3 {
     flex-basis: 15%;
@@ -76,25 +84,25 @@ h2 {
       display: none;
     }
     .table-row{
-      
+      margin-left: -2.5em;
     }
     li {
       display: block;
     }
+  
     .col {
-      
       flex-basis: 100%;
-      
     }
     .col {
       display: flex;
       padding: 10px 0;
+      margin-right: 4em;
       &:before {
         color: #6C7A89;
         padding-right: 10px;
         content: attr(data-label);
         flex-basis: 50%;
-        text-align: right;
+        text-align: left;
       }
     }
   }

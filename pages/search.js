@@ -13,20 +13,20 @@ const Item = dynamic(() => import('../component/item'), { ssr: false });
 const ByPass = dynamic(() => import('../component/bypass'), { ssr: false });
 
 const Grid = dynamic(() => import('@material-ui/core/Grid'), { ssr: false });
-const TextField = dynamic(() => import('@material-ui/core/TextField'), { ssr: false });
 const Container = dynamic(() => import('@material-ui/core/Container'), { ssr: false });
-const FormControl = dynamic(() => import('@material-ui/core/FormControl'), { ssr: false });
 const Divider = dynamic(() => import('@material-ui/core/Divider'), { ssr: false })
 
 export default function Search() {
+    // Cookies and router
     const cookies = new Cookies();
     const router = useRouter();
 
+    // Hooks for result of the query, text of search bar, the name used for query
     const [result, setResult] = useState([]);
     const [name, setName] = useState('');
-
     const [text, setText] = useState('');
 
+    // useEffect to check for currentID, if there is none push them back to home page
     useEffect(() => {
         if (!cookies.get('currentID')) {
             setTimeout(() => {
@@ -38,6 +38,7 @@ export default function Search() {
 
     // Function to handle when a user hit enter on search bar
     function handleKeyDown(e, value) {
+        // If the key is "Enter"
         if (e.keyCode == 13) {
             getRequest(value, 'name', (result, status) => {
                 if (status === "success" && result) {
@@ -51,7 +52,7 @@ export default function Search() {
         }
     }
 
-    //
+    // Function to handle when a user click on Search icon
     function handleOnClick(value) {
         getRequest(value, 'name', (result, status) => {
             if (status === "success" && result) {
@@ -64,7 +65,7 @@ export default function Search() {
         });
     }
 
-
+    // Render a page with a user is logged in
     if (cookies.get('currentID')) {
         return (
             <div>
@@ -85,18 +86,13 @@ export default function Search() {
                         </div>
 
                         <Grid container alignItems="center"
-                            justify="center" alignContent="center">
-                            {/* <TextField
-                                id="outlined-basic"
-                                variant="outlined"
-                                autoComplete="off"
-                                onChange={(e) => setName(e.target.value)}
-                                onKeyDown={(e) => handleKeyDown(e, name)}
-                                style={{ width: 'auto', borderRadius: '4px' }}
-                            /> */}
+                            justify="center" alignContent="center" >
+
                             <InputBase placeholder="Search component" autoComplete="off"
                                 onChange={(e) => setName(e.target.value)}
-                                onKeyDown={(e) => handleKeyDown(e, name)} />
+                                onKeyDown={(e) => handleKeyDown(e, name)}
+                                style={{ border: "2px groove gainsboro", borderRadius: "4px" }}
+                            />
                             <IconButton onClick={() => handleOnClick(name)} arial-label="search">
                                 <SearchIcon />
                             </IconButton>
@@ -105,7 +101,7 @@ export default function Search() {
 
                 </Container>
                 <Divider variant="middle" />
-                <Item data={result} mobile={true} search={text} />
+                {/* <Item data={result} mobile={true} search={text} /> */}
                 <Table data={result} mobile={true} search={text} />
             </div>
 

@@ -31,10 +31,11 @@ export default function Review() {
     const cookies = new Cookies();
 
     carts = cookies.get('order_details');
-    return (
-        <React.Fragment>
+    if (carts) {
+        return (
+            <React.Fragment>
 
-            <List disablePadding>
+                {/* <List disablePadding>
                 <ListItem>
                     <ListItemText inset={true}>Photo</ListItemText>
                     <ListItemText inset={true} >Name</ListItemText>
@@ -54,8 +55,41 @@ export default function Review() {
 
                     </ListItem>
                 ))}
-            </List>
+            </List> */}
+                <div className="container">
+                    <ul className="responsive-table">
+                        <li className="table-header">
+                            <div className="col col-2">Photo</div>
+                            <div className="col col-1">Name&nbsp;</div>
+                            <div className="col col-4">Location&nbsp;</div>
+                            <div className="col col-4">Quantity&nbsp;</div>
+                            <div className="col col-5">Return</div>
+                        </li>
+                        {carts.map((cart) => (
+                            <li className="table-row" key={cart.component_name}>
+                                <div className="col col-2">
+                                    <img alt="Google" height="35" id="hplogo" src="https://static.wixstatic.com/media/f40ca5_b80059f52d6e4192a4f7fcd8d6614e92~mv2.png/v1/fill/w_255,h_86,al_c,q_85,usm_0.66_1.00_0.01/QUTMS_Logo_White.webp" />
+                                </div>
+                                <div className="col col-1">{cart.component_name}</div>
+                                <div className="col col-3">{cart.location}</div>
+                                <div className="col col-3">{cart.quantity}</div>
+                                <div className="col col-5"><input type="checkbox" checked={cart.returnItem} /></div>
 
-        </React.Fragment>
-    );
+                            </li>
+                        ))}
+
+                    </ul>
+                </div>
+
+            </React.Fragment>
+        );
+    } else {
+        return (
+            <div>
+                <Typography align="center" style={{ marginTop: "15px" }}> Your cart is empty. </Typography>
+
+            </div>
+        )
+    }
+
 }

@@ -7,7 +7,6 @@ import Back from './back'
 
 export function SignOut() {
     const cookies = new Cookies();
-    const prevID = cookies.get('prevID');
     const currID = cookies.get('currentID');
     function handleSignOut() {
         if (currID) {
