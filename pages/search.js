@@ -69,6 +69,7 @@ export default function Search() {
     if (cookies.get('currentID')) {
         return (
             <div>
+                <SignOut />
                 <Container maxWidth="sm">
                     <Grid container
                         spacing={0}
@@ -76,30 +77,29 @@ export default function Search() {
                         alignItems="center"
                         justify="center" alignContent="center">
 
-
-                        <SignOut />
                         <div id="big_img">
-                            <img alt="QUT Motorsport" height="92" id="hplogo" src="https://static.wixstatic.com/media/f40ca5_b80059f52d6e4192a4f7fcd8d6614e92~mv2.png/v1/fill/w_255,h_86,al_c,q_85,usm_0.66_1.00_0.01/QUTMS_Logo_White.webp"
+                            <img alt="QUT Motorsport" height="92" id="hplogo" src="/img/logo_orange.png"
                                 style={{ paddingTop: '109px' }}
                                 width="272" />
                         </div>
 
                         <Grid container alignItems="center"
-                            justify="center" alignContent="center" >
+                            justify="center" alignContent="center" style={{ marginLeft: "2em" }} >
 
                             <InputBase placeholder="Search component" autoComplete="off"
                                 onChange={(e) => setName(e.target.value)}
                                 onKeyDown={(e) => handleKeyDown(e, name)}
-                                style={{ border: "2px groove gainsboro", borderRadius: "4px" }}
+                                style={{ border: "3.5px groove orange", borderRadius: "4px", backgroundColor: "ghostwhite" }}
                             />
-                            <IconButton onClick={() => handleOnClick(name)} arial-label="search">
+                            <IconButton onClick={() => handleOnClick(name)} arial-label="search"
+                                style={{ color: "white" }}
+                            >
                                 <SearchIcon />
                             </IconButton>
                         </Grid>
                     </Grid>
 
                 </Container>
-                <Divider variant="middle" />
                 {/* <Item data={result} mobile={true} search={text} /> */}
                 <Table data={result} mobile={true} search={text} />
             </div>

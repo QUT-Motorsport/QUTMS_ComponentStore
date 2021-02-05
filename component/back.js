@@ -21,7 +21,7 @@ export default function Cart() {
 
     return (
         <Grid item onClick={handleClick}>
-            <ArrowBackIcon fontSize="large" style={{ cursor: "pointer" }} />
+            <ArrowBackIcon fontSize="large" style={{ cursor: "pointer", margin: "20px 15px 15px 15px", color: "white" }} />
         </Grid >
 
 

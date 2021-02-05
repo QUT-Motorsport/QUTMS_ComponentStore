@@ -50,8 +50,8 @@ export default function Cart() {
         setNumber((typeof cookies.get('order_details') === 'undefined') ? 0 : cookies.get('order_details').length);
     }, 100);
     return (
-        <Grid item onClick={handleClick} style={{ float: "left", cursor: "pointer" }}>
-            <ShoppingCartIcon fontSize="large" style={{ color: "orange" }} />
+        <Grid item onClick={handleClick} style={{ float: "left", cursor: "pointer", margin: "20px 15px 15px 15px" }}>
+            <ShoppingCartIcon fontSize="large" style={{ color: "#ee7624" }} />
             <span className='badge badge-warning' id='lblCartCount'>{number}</span>
         </Grid >
 
