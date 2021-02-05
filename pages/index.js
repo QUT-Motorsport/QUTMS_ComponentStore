@@ -34,6 +34,12 @@ export default function IndexPage({ students }) {
     }
   }
 
+  // Function to handle when a user hit enter on search bar
+  function handleKeyDown(e) {
+    if (e.keyCode == 13) {
+      handleSubmit(currentID);
+    }
+  }
 
   // Check in the cookies if currentID existed or not
   useEffect(() => {
@@ -77,7 +83,7 @@ export default function IndexPage({ students }) {
           </form>
         </div>
         <img className="login-img" src="" width="300" height="100" />
-        <img className="logo-img" src="/img/logo_trans.png" alt="qutmotorsport_logo"/>
+        <img className="logo-img" src="/img/logo_trans.png" alt="qutmotorsport_logo" />
       </div>
     </main>
   );

@@ -3,7 +3,8 @@ import dynamic from 'next/dynamic';
 import { getRequest } from '../lib/script';
 import Popup from '../component/component_popup';
 import Alert from '../component/alert';
-import SignOut from '../component/sign_out'
+import SignOut from '../component/sign_out';
+import Cart from '../component/cart';
 import { Container } from '@material-ui/core';
 
 const Grid = dynamic(() => import('@material-ui/core/Grid'), { ssr: false });
@@ -34,13 +35,15 @@ export default function Scanner() {
 
     return (
         <main>
+            <div className="nav">
+                <SignOut />
+            </div>
             <Container className="container" maxWidth="sm">
                 <Grid container
                     spacing={0}
                     direction="column"
                     alignItems="center"
                     justify="center" alignContent="center">
-                    <SignOut />
 
                 </Grid>
                 <div className="scanner-container">

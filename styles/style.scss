@@ -359,12 +359,14 @@ body {
 }
 
 /*----------------------------------------------------------- sign_out.js SIGNOUT COMPONENT */
+@import url(https://fonts.googleapis.com/css?family=Oswald:400);
+
 .nav-bar {
   width: 100%;
   background-color: black;
 }
 
-img {
+.logout-img {
   width: 25px;
   border-radius: 50px;
   float: left;
@@ -381,7 +383,6 @@ img {
   opacity: 0;
   transition: opacity .45s;
   -webkit-transition: opacity .35s;
-  
 }
 
 .logout-btn {
@@ -391,7 +392,7 @@ img {
   margin: 15px;
   color: white;
   width: 25px;
-  // background-color: black;
+  background-color: black;
   transition: width .35s;
   -webkit-transition: width .35s;
   overflow: hidden
@@ -401,7 +402,7 @@ a:hover {
   width: 100px;
 }
 
-a:hover .logout{
+a:hover .logout-txt{
   opacity: .9;
 }
 

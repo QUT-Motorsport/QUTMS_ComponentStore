@@ -19,15 +19,15 @@ export function SignOut() {
     }
     return (
         <main>
-            <Grid container direction="row-reverse" >
+            {/* <Grid container direction="row-reverse" >
                 <Button variant="outlined"
                     onClick={handleSignOut}
                     color="secondary">Sign Out
                     </Button>
-            </Grid>
+            </Grid> */}
             <div className="nav-bar">
-                <a class="logout-btn" href="">
-                    <img src="" ></img>
+                <a className="logout-btn" onClick={handleSignOut} href="/">
+                    <img className="logout-img" src="/img/logout.png"/>
                     <div className="logout-txt">LOGOUT</div>
                 </a>
             </div>
