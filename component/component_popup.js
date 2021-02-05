@@ -55,7 +55,9 @@ export default function Popup(props) {
 
                             // If the order_details isn't in cookies, push newComponent into order
                             if (!cookies.get('order_details')) {
+                                // Save the current user into a cookie in case a user forgot to commit
                                 cookies.set('prevID', cookies.get('currentID'));
+                                cookies.set('prevName', cookies.get('studentName'));
                                 order.push(newComponent);
                             } else {
                                 console.log(result);

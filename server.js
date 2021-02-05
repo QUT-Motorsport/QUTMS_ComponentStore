@@ -75,7 +75,7 @@ app.prepare().then(() => {
         validated_orders.push(
           {
             component_id: item.component_id,
-            quantity: result[0].quantity - item.quantity
+            quantity: result[0].quantity + item.quantity
           }
         );
       })
@@ -111,7 +111,7 @@ app.prepare().then(() => {
             { component_id: item.component_id },
             {
               $set:
-                { quantity: item.quantity}
+                { quantity: item.quantity }
             },
             function (err, response) {
               if (err) throw err;

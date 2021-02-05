@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 import Review from '../component/review'
 import { update } from '../lib/script'
+import Swal from 'sweetalert2';
 
 
 const SignOut = dynamic(() => import('../component/sign_out'), { ssr: false });
@@ -21,26 +22,68 @@ export default function CheckOut() {
     const cookies = new Cookies();
     const router = useRouter();
     var studentID = '';
+    var studentName = '';
     var result =
     {
-        stu_id: "n10315071", stu_name: "KevinH_New", order_details: [
-            { component_id: '3', component_name: 'Capacitor A', quantity: '5' },
-            { component_id: '2', component_name: 'Resistor B', quantity: '3' }
-        ]
+        stu_id: cookies.get('prevID') ? cookies.get('prevID') : cookies.get('currentID'),
+        stu_name: cookies.get('prevName') ? cookies.get('prevName') : cookies.get('studentName'), order_details: cookies.get('order_details')
     };
 
     // Function when a user click Commit button
     function handleCommit() {
-        console.log("Hello there");
-        update(result, (response, status) => {
-            if (status === "fail") {
-                console.log("Something is wrong")
-            } else if (status === "success") {
-                console.log("transaction successfully made")
-                cookies.remove('order_details');
-                cookies.remove('prevID');
+        Swal.fire({
+            icon: 'warning',
+            title: "Are you sure you want to update the database?",
+            showDenyButton: true,
+            showCloseButton: true,
+            confirmButtonText: "Yes",
+            denyButtonText: "No",
+        }).then((res) => {
+            if (res.isConfirmed) {
+                update(result, (response, status) => {
+                    if (status === "fail") {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Something went wrong",
+                            text: "Please check your order again.",
+                            showConfirmButton: false
+                        })
+                        console.log("Something is wrong")
+                    } else if (status === "success") {
+                        // Remove the cookies after finish commiting
+                        cookies.remove('order_details');
+                        cookies.remove('prevID');
+                        cookies.remove('prevName');
+
+                        // Pop up to let the user know the action is completed
+                        Swal.fire({
+                            icon: 'success',
+                            title: "Database updated.",
+                            text: "What would you want to do next?",
+                            showCloseButton: true,
+                            showDenyButton: true,
+                            confirmButtonText: `Return to homepage`,
+                            denyButtonText: `Sign Out`,
+                        }).then((result) => {
+                            window.location = "/";
+                            /* Read more about isConfirmed, isDenied below */
+                            if (result.isConfirmed) {
+                                Swal.fire({
+                                    icon: 'info',
+                                    title: 'Redirecting to homepage...',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                            } else if (result.isDenied) {
+                                cookies.remove('currentID');
+                                Swal.fire('Signed Out', '', 'info');
+                            }
+                        })
+                    }
+                })
             }
         })
+
     }
 
     useEffect(() => {
@@ -54,37 +97,34 @@ export default function CheckOut() {
 
 
     if (cookies.get('currentID') || cookies.get('prevID')) {
-        studentID = cookies.get('prevID') ? cookies.get('prevID') : cookies.get('currentID');
+        studentName = cookies.get('prevName') ? cookies.get('prevName') : cookies.get('currentName');
         return (
             <div>
+                <SignOut />
                 <Container maxWidth="sm">
                     <Grid container
                         spacing={0}
                         direction="column"
                         alignItems="center"
                         justify="center" alignContent="center">
-                        <SignOut />
 
-                        <Typography variant="h6" gutterBottom>
-                            Order summary for {studentID}
+                        <Typography variant="h6" gutterBottom style={{ color: "white" }}>
+                            Order summary for {studentName}
                         </Typography>
                     </Grid>
 
-                    <Grid item xs={12}>
-                        <Review />
-
-                    </Grid>
-
-
-                    <Grid container direction="row-reverse" >
-                        <Button variant="outlined"
-                            onClick={handleCommit}
-                            color="primary">COMMIT
-                    </Button>
-                    </Grid>
                 </Container>
 
-                {/* <Item data={result} mobile={true} search={text} /> */}
+
+                <Review />
+
+                <Grid container direction="row-reverse" >
+                    <Button variant="contained"
+                        onClick={handleCommit}
+                    >COMMIT
+                    </Button>
+                </Grid>
+
             </div>
 
         )

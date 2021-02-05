@@ -1,11 +1,8 @@
 import { getStudentID } from "../lib/api";
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, Grid } from '@material-ui/core';
 import Cookies from 'universal-cookie';
-import { useRouter } from 'next/router';
 import PopupOptions from '../component/popup_options';
 import Swal from 'sweetalert2';
-import Image from 'next/image';
 
 
 export default function IndexPage({ students }) {
@@ -14,11 +11,13 @@ export default function IndexPage({ students }) {
   // Cookies
   const cookies = new Cookies();
 
+  // Function to handle login and validating with a Google spreadsheet
   function handleSubmit(student_ID) {
     var check = false;
     students.map((student) => {
       if (student.studentID === student_ID) {
         cookies.set('currentID', student_ID, { maxAge: 10000 });
+        cookies.set('studentName', student.studentName, { maxAge: 10000 });
         check = true;
         var titleDescription = "Signed In As " + student_ID;
         var textDescription = "What do you want to do next?";
@@ -41,7 +40,7 @@ export default function IndexPage({ students }) {
     const prevID = cookies.get('prevID');
 
     if (cookies.get('currentID')) {
-      var titleDescription = "Signed In As " + cookies.get('currentID');
+      var titleDescription = "Signed In As " + cookies.get('studentName');
       var textDescription = "What do you want to do next?";
       setCurrentID(cookies.get('currentID'));
       PopupOptions(titleDescription, textDescription);
@@ -60,6 +59,7 @@ export default function IndexPage({ students }) {
           if (result.isConfirmed) {
             cookies.remove('prevID');
             cookies.remove('order_details');
+            cookies.remove('prevName');
           } else if (result.isDenied) {
             window.location = "/checkout";
             Swal.fire({
