@@ -1,11 +1,9 @@
 const express = require('express')
 const next = require('next')
+var https = require('https');
+var http = require('http');
 const bodyParser = require('body-parser');
-const dotenv = require('dotenv').config();
-const mongoose = require('mongoose');
-const cors = require('cors');
-const { v1: uuidv1 } = require('uuid');
-// require helmet
+const { parse } = require('url');
 
 const Component = require('./models/Component');
 const Transaction = require('./models/Transaction');
@@ -15,18 +13,32 @@ const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler();
 
+const dotenv = require('dotenv').config();
+const mongoose = require('mongoose');
+const cors = require('cors');
+const { v1: uuidv1 } = require('uuid');
+var fs = require('fs');
+// require helmet
+
+const server = express();
+const HTTPS = true;
+const serverRun = HTTPS
+  ? https.createServer({
+    key: fs.readFileSync('./certificates/localhost.key'),
+    cert: fs.readFileSync('./certificates/localhost.crt'),
+  }, server)
+  : http.createServer({}, server);
+
 // Link db connection
 require('./config/db');
 
 app.prepare().then(() => {
-  const server = express();
-
   server.use(cors());
   server.use(bodyParser.json());
   server.use(bodyParser.urlencoded({ extended: true }));
 
   server.use(function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
     res.header(
       'Access-Control-Allow-Headers',
       'Origin, X-Requested-With, Content-Type, Accept'
@@ -68,10 +80,11 @@ app.prepare().then(() => {
     var validated_orders = [];
     // Update quantity in component collection
     input.forEach(async function (item, index, arr) {
-      // console.log(item.component_id);
+      console.log(item.quantity);
       // Check order if all quanity is valid
       await Component.find({ "component_id": item.component_id }, async function (err, result) {
         if (err) throw err;
+        console.log(result[0].quantity);
         validated_orders.push(
           {
             component_id: item.component_id,
@@ -111,7 +124,7 @@ app.prepare().then(() => {
             { component_id: item.component_id },
             {
               $set:
-                { quantity: item.quantity}
+                { quantity: item.quantity }
             },
             function (err, response) {
               if (err) throw err;
@@ -153,8 +166,8 @@ app.prepare().then(() => {
     return handle(req, res)
   })
 
-  server.listen(port, (err) => {
+  serverRun.listen(port, (err) => {
     if (err) throw err
-    console.log(`> Ready on http://localhost:${port}`)
+    console.log(`> Server ready on http${HTTPS ? 's' : ''}://localhost:${port}`);
   })
 })
