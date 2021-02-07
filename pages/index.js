@@ -13,15 +13,17 @@ export default function IndexPage({ students }) {
   const [currentID, setCurrentID] = useState("");
   // Cookies
   const cookies = new Cookies();
-  const router = useRouter();
 
   function handleSubmit(student_ID) {
     var check = false;
     students.map((student) => {
       if (student.studentID === student_ID) {
-        cookies.set('currentID', student_ID, { maxAge: 1000 });
+        cookies.set('currentID', student_ID, { maxAge: 10000 });
         check = true;
-        PopupOptions(student_ID);
+        var titleDescription = "Signed In As " + student_ID;
+        var textDescription = "What do you want to do next?";
+        PopupOptions(titleDescription, textDescription);
+
       }
     })
     if (!check) {
@@ -34,23 +36,43 @@ export default function IndexPage({ students }) {
     }
   }
 
-  // Function to handle when a user hit enter on search bar
-  function handleKeyDown(e) {
-    if (e.keyCode == 13) {
-      handleSubmit(currentID);
-    }
-  }
-
   // Check in the cookies if currentID existed or not
   useEffect(() => {
+    const prevID = cookies.get('prevID');
+
     if (cookies.get('currentID')) {
+      var titleDescription = "Signed In As " + cookies.get('currentID');
+      var textDescription = "What do you want to do next?";
       setCurrentID(cookies.get('currentID'));
-      PopupOptions(cookies.get('currentID'));
+      PopupOptions(titleDescription, textDescription);
     } else {
-      console.log('Failed');
+      if (prevID) {
+        Swal.fire({
+          title: "Existing Cart!",
+          text: "The previous user forgot to commit the cart. What would you like to do? ",
+          icon: "warning",
+          showCloseButton: true,
+          showConfirmButton: true,
+          confirmButtonText: "Start your new cart",
+          showDenyButton: true,
+          denyButtonText: "Check out old cart",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            cookies.remove('prevID');
+            cookies.remove('order_details');
+          } else if (result.isDenied) {
+            window.location = "/checkout";
+            Swal.fire({
+              icon: 'info',
+              title: 'Redirecting to checkout...',
+              showConfirmButton: false,
+              timer: 1500
+            })
+          }
+        })
+      }
     }
   }, [])
-
 
   return (
     <main>
