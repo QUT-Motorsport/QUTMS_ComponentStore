@@ -4,8 +4,8 @@ import { getRequest } from '../lib/script';
 import Popup from '../component/component_popup';
 import Alert from '../component/alert';
 import SignOut from '../component/sign_out';
-import Cart from '../component/cart';
 import { Container } from '@material-ui/core';
+import Cookies from 'universal-cookie';
 
 const Grid = dynamic(() => import('@material-ui/core/Grid'), { ssr: false });
 
@@ -33,29 +33,37 @@ export default function Scanner() {
         console.error(err);
     }
 
-    return (
-        <main>
-            <div className="nav">
-                <SignOut />
-            </div>
-            <Container className="container" maxWidth="sm">
-                <Grid container
-                    spacing={0}
-                    direction="column"
-                    alignItems="center"
-                    justify="center" alignContent="center">
-
-                </Grid>
-                <div className="scanner-container">
-                    <QrReader
-                        delay={1250}
-                        onError={handleError}
-                        onScan={handleScan}
-                        style={{ width: '100%' }}
-                    />
-                    <p>SCAN ME</p>
+    if (cookies.get('currentID')) {
+        return (
+            <main>
+                <div className="nav">
+                    <SignOut />
                 </div>
-            </Container>
-        </main>
-    );
+                <Container className="container" maxWidth="sm">
+                    <Grid container
+                        spacing={0}
+                        direction="column"
+                        alignItems="center"
+                        justify="center" alignContent="center">
+
+                    </Grid>
+                    <div className="scanner-container">
+                        <QrReader
+                            delay={1250}
+                            onError={handleError}
+                            onScan={handleScan}
+                            style={{ width: '100%' }}
+                        />
+                        <p>SCAN ME</p>
+                    </div>
+                </Container>
+            </main>
+        );
+    } else {
+        return (
+            <div>
+                <ByPass message="Log in Please." />
+            </div>
+        )
+    }
 }

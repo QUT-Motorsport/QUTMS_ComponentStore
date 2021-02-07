@@ -88,7 +88,7 @@ app.prepare().then(() => {
         validated_orders.push(
           {
             component_id: item.component_id,
-            quantity: result[0].quantity - item.quantity
+            quantity: result[0].quantity + item.quantity
           }
         );
       })
