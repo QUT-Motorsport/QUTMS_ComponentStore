@@ -105,7 +105,7 @@ export default function IndexPage({ students }) {
           </form>
         </div>
         <img className="login-img" src="" width="300" height="100" />
-        <img className="logo-img" src="/img/logo_trans.png" alt="qutmotorsport_logo" />
+        <img className="logo-img" src="/img/logo_white.png" alt="qutmotorsport_logo" />
       </div>
     </main>
   );

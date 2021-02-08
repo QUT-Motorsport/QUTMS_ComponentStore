@@ -71,7 +71,7 @@ export default function CheckOut() {
                     </Grid>
 
                     <Grid item xs={12}>
-                        <Review />
+                        <Review/>
 
                     </Grid>
 

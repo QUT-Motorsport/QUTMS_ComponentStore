@@ -30,9 +30,9 @@ $qutmotorsport-orange: rgb(238, 118, 36);
   background-image: url("https://cdn.discordapp.com/attachments/684115188877754377/805296386672820264/ACtC-3cZBMY1F9MYcGIJ2-8TpzXZhsNgV_SjiYZGNmc7wSHbRGHkMGjrqYGUxES-due4MpVY3XbA1s_fnKCppwc7BXzLl6DHKT2Y.png");
   filter: blur(8px);
   -webkit-filter: blur(8px);
-  background-position: center ;
-  background-repeat: no-repeat ;
-  background-size: cover ;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .login-container {
@@ -145,11 +145,11 @@ body {
     left: calc(50% - 80px);
     top: 35%;
     margin: 0;
-  
+
     width: 160px;
     height: 65px;
     z-index: 1;
-  
+
     // sets transition-origin center for .c-form width
     display: flex;
     justify-content: center;
@@ -342,7 +342,7 @@ body {
 
 /*----------------------------------------------------------- scanner.js SCANNER PAGE */
 .scanner-container {
-  margin-top: 20%;
+  margin-top: 10%;
   border: 2px solid black;
   border-radius: 10px;
   padding: 10px;
@@ -373,7 +373,7 @@ body {
 .logout-txt {
   font-size: .8em;
   font-family: 'Oswald', sans-serif;
-	position: relative;
+  position: relative;
   right: -18px;
   bottom: -4px;
   overflow: hidden;
@@ -384,8 +384,8 @@ body {
 }
 
 .logout-btn {
-	text-decoration: none;
-	float: right;
+  text-decoration: none;
+  float: right;
   padding: 12px;
   margin: 15px;
   color: white;
@@ -400,25 +400,30 @@ a:hover {
   width: 100px;
 }
 
-a:hover .logout-txt{
+a:hover .logout-txt {
   opacity: .9;
 }
 
 a {
   text-decoration: none;
 }
+
 /*----------------------------------------------------------- cart.js CART COMPONENT */
 
-.header{background:rgb(0, 178, 255);color:#fff;}
+.header {
+  background: rgb(0, 178, 255);
+  color: #fff;
+}
 
 #lblCartCount {
-    font-size: 12px;
-    background: #ff0000;
-    color: #fff;
-    padding: 0 5px;
-    vertical-align: top;
-    margin-left: -10px;
+  font-size: 12px;
+  background: #ff0000;
+  color: #fff;
+  padding: 0 5px;
+  vertical-align: top;
+  margin-left: -10px;
 }
+
 .badge {
   padding-left: 9px;
   padding-right: 9px;
@@ -444,6 +449,7 @@ h2 {
   font-size: 26px;
   margin: 20px 0;
   text-align: center;
+
   small {
     font-size: 0.5em;
   }
@@ -457,9 +463,11 @@ h2 {
     justify-content: space-between;
     margin-bottom: 25px;
   }
-    #table-quantity {
-      display: none;
-    }
+
+  #table-quantity {
+    display: none;
+  }
+
   .table-header {
     background-color: #95A5A6;
     font-size: 14px;
@@ -468,52 +476,63 @@ h2 {
     text-align: center;
     font-weight: bold;
   }
+
   .table-row {
     background-color: ghostwhite;
-    box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.1);
+    box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
     text-align: center;
   }
+
   .col-1 {
     flex-basis: 30%;
     font-weight: bold;
     font-size: large;
-    margin-right:5em !important;
+    margin-right: 5em !important;
   }
+
   .col-2 {
     flex-basis: 30%;
     margin-left: 1.5em;
   }
+
   .col-3 {
     flex-basis: 25%;
     margin-right: 6em !important;
   }
+
   .col-4 {
     flex-basis: 10%;
   }
-  
+
   @media all and (max-width: 767px) {
     .table-header {
       display: none;
     }
-    .table-row{
+
+    .table-row {
       margin-left: -2.5em;
       border-radius: 10px;
       background-color: snow;
     }
+
     li {
       display: block;
     }
+
     #table-quantity {
       display: block;
     }
+
     .col {
       flex-basis: 100%;
       font-weight: bold;
     }
+
     .col {
       display: flex;
       padding: 10px 0;
       margin-right: 4em;
+
       &:before {
         color: #6C7A89;
         padding-right: 10px;

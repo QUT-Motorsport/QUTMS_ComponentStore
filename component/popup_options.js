@@ -32,6 +32,9 @@ export default function PopupOptions(titleDescription, textDescription) {
             confirmButtonText: `Search By Name`,
             cancelButtonText: `Sign Out`,
             denyButtonText: `Scan QR Code`,
+            confirmButtonColor: 'rgb(55, 102, 153)',
+            cancelButtonColor: 'rgb(184, 35, 47)',
+            denyButtonColor: 'rgb(201, 125, 48)',
         }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {

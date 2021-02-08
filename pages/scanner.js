@@ -8,14 +8,18 @@ import { Container } from '@material-ui/core';
 import Cookies from 'universal-cookie';
 
 const Grid = dynamic(() => import('@material-ui/core/Grid'), { ssr: false });
-
+const ByPass = dynamic(() => import('../component/bypass'), { ssr: false });
 const QrReader = dynamic(() => import('react-qr-reader'), {
     ssr: false
 })
 
 export default function Scanner() {
+    // Cookies and router
+    const cookies = new Cookies();
+
     const handleScan = (data) => {
         if (data) {
+            console.log(data);
             getRequest(data, "id", (result, status) => {
                 if (status === "success" && result) {
                     // Set result to popups 
@@ -36,6 +40,7 @@ export default function Scanner() {
     if (cookies.get('currentID')) {
         return (
             <main>
+                <div className="scanner-page" >
                 <div className="nav">
                     <SignOut />
                 </div>
@@ -57,6 +62,7 @@ export default function Scanner() {
                         <p>SCAN ME</p>
                     </div>
                 </Container>
+                </div>
             </main>
         );
     } else {

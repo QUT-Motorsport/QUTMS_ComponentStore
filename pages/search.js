@@ -79,7 +79,7 @@ export default function Search() {
 
                         <div id="big_img">
                             <img alt="QUT Motorsport" height="92" id="hplogo" src="/img/logo_orange.png"
-                                style={{ paddingTop: '109px' }}
+                                style={{ paddingTop: '10%' }}
                                 width="272" />
                         </div>
 
@@ -89,7 +89,7 @@ export default function Search() {
                             <InputBase placeholder="Search component" autoComplete="off"
                                 onChange={(e) => setName(e.target.value)}
                                 onKeyDown={(e) => handleKeyDown(e, name)}
-                                style={{ border: "3.5px groove orange", borderRadius: "4px", backgroundColor: "ghostwhite" }}
+                                style={{ border: "3.5px groove orange", borderRadius: "4px", backgroundColor: "ghostwhite"}}
                             />
                             <IconButton onClick={() => handleOnClick(name)} arial-label="search"
                                 style={{ color: "white" }}
