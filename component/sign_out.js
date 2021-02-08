@@ -4,13 +4,14 @@ import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2'
 import Cart from './cart'
 import Back from './back'
+import ChangeUser from './change_user'
 
 export function SignOut() {
     const cookies = new Cookies();
 
     function handleSignOut() {
         cookies.remove('currentID');
-        cookies.remove('studentName')
+        cookies.remove('studentName');
         Swal.fire({
             icon: 'info',
             title: 'Signed Out',
@@ -31,6 +32,7 @@ export function SignOut() {
             <Grid container direction="row-reverse" justify="space-between" >
                 <Grid item>
                     <div className="nav-bar">
+                        <ChangeUser />
                         <Cart />
                         <a className="logout-btn" onClick={handleSignOut} href="/">
                             <img className="logout-img" src="/img/logout.png" />

@@ -88,7 +88,7 @@ export default function Search() {
                             <InputBase placeholder="Search component" autoComplete="off"
                                 onChange={(e) => setName(e.target.value)}
                                 onKeyDown={(e) => handleKeyDown(e, name)}
-                                style={{ border: "3.5px groove orange", borderRadius: "4px", backgroundColor: "ghostwhite", fontFamily: "'Dosis', sans-serif" }}
+                                id="search-field"
                             />
                             <IconButton onClick={() => handleOnClick(name)} arial-label="search"
                                 style={{ color: "white" }}

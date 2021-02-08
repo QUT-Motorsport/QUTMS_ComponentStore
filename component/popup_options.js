@@ -7,6 +7,7 @@ export default function PopupOptions(titleDescription, textDescription) {
     // Function to Sign out
     function handleSignOut() {
         cookies.remove('currentID');
+        cookies.remove('studentName');
         window.location = '/';
     }
 

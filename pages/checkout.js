@@ -11,8 +11,9 @@ const ByPass = dynamic(() => import('../component/bypass'), { ssr: false });
 
 const Grid = dynamic(() => import('@material-ui/core/Grid'), { ssr: false });
 const Container = dynamic(() => import('@material-ui/core/Container'), { ssr: false });
-const Typography = dynamic(() => import('@material-ui/core/Typography'), { ssr: false })
-
+const Typography = dynamic(() => import('@material-ui/core/Typography'), { ssr: false });
+const MenuItem = dynamic(() => import('@material-ui/core/MenuItem'), { ssr: false });
+const Select = dynamic(() => import('@material-ui/core/Select'), { ssr: false });
 
 export default function CheckOut() {
     const cookies = new Cookies();

@@ -45,6 +45,7 @@ function Review() {
             stu_name: cookies.get('prevName') ? cookies.get('prevName') : cookies.get('studentName'), order_details: cookies.get('order_details')
         }
 
+        console.log(order);
         // Fire an alert to confirm the commit
         Swal.fire({
             icon: 'warning',

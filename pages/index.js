@@ -10,19 +10,51 @@ export default function IndexPage({ students }) {
   const [currentID, setCurrentID] = useState("");
   // Cookies
   const cookies = new Cookies();
+  const prevID = cookies.get('prevID');
 
   // Function to handle login and validating with a Google spreadsheet
   function handleSubmit(student_ID) {
     var check = false;
     students.map((student) => {
-      if (student.studentID === student_ID) {
+      if (student.studentID.toUpperCase() === student_ID.toUpperCase()) {
         cookies.set('currentID', student_ID, { maxAge: 10000 });
         cookies.set('studentName', student.studentName, { maxAge: 10000 });
         check = true;
-        var titleDescription = "Signed In As " + student_ID;
-        var textDescription = "What do you want to do next?";
-        PopupOptions(titleDescription, textDescription);
+        console.log("prevID: " + prevID);
 
+        if (typeof prevID !== "undefined") {
+          Swal.fire({
+            title: "Existing Cart!",
+            text: "The previous user forgot to commit the cart. What would you like to do? ",
+            icon: "warning",
+            showCloseButton: true,
+            showConfirmButton: true,
+            confirmButtonText: "Start your new cart",
+            showDenyButton: true,
+            denyButtonText: "Check out old cart",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              cookies.remove('prevID');
+              cookies.remove('order_details');
+              cookies.remove('prevName');
+              var titleDescription = "Signed In As " + student.studentName;
+              var textDescription = "What do you want to do next?";
+              PopupOptions(titleDescription, textDescription);
+            } else if (result.isDenied) {
+              window.location = "/checkout";
+              Swal.fire({
+                icon: 'info',
+                title: 'Redirecting to checkout...',
+                showConfirmButton: false,
+                timer: 1500
+              })
+            }
+          })
+        } else {
+          var titleDescription = "Signed In As " + student.studentName;
+          var textDescription = "What do you want to do next?";
+          PopupOptions(titleDescription, textDescription);
+        }
       }
     })
     if (!check) {
@@ -37,40 +69,12 @@ export default function IndexPage({ students }) {
 
   // Check in the cookies if currentID existed or not
   useEffect(() => {
-    const prevID = cookies.get('prevID');
 
     if (cookies.get('currentID')) {
       var titleDescription = "Signed In As " + cookies.get('studentName');
       var textDescription = "What do you want to do next?";
       setCurrentID(cookies.get('currentID'));
       PopupOptions(titleDescription, textDescription);
-    } else {
-      if (prevID) {
-        Swal.fire({
-          title: "Existing Cart!",
-          text: "The previous user forgot to commit the cart. What would you like to do? ",
-          icon: "warning",
-          showCloseButton: true,
-          showConfirmButton: true,
-          confirmButtonText: "Start your new cart",
-          showDenyButton: true,
-          denyButtonText: "Check out old cart",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            cookies.remove('prevID');
-            cookies.remove('order_details');
-            cookies.remove('prevName');
-          } else if (result.isDenied) {
-            window.location = "/checkout";
-            Swal.fire({
-              icon: 'info',
-              title: 'Redirecting to checkout...',
-              showConfirmButton: false,
-              timer: 1500
-            })
-          }
-        })
-      }
     }
   }, [])
 
@@ -89,7 +93,7 @@ export default function IndexPage({ students }) {
                   id="username"
                   className="c-form__input"
                   placeholder=" "
-                  pattern="^n.*"
+                  pattern="^[nN].*"
                   required />
 
                 <label className="c-form__next" htmlFor="finish" role="button" onClick={() => handleSubmit(currentID)}>

@@ -20,11 +20,8 @@ export default function Popup(props) {
                 '<br>Quantity: <input id="quantity" class="swal2-input" placeholder="Enter the quantity number" value=1> ',
 
             showCloseButton: true,
-            showDenyButton: true,
             focusConfirm: false,
             confirmButtonText: 'Add to cart',
-            denyButtonColor: 'rgb(106, 180, 184)',
-            denyButtonText: 'Checkout',
             confirmButtonColor: 'rgb(89, 179, 123)',
             imageUrl: 'https://www.diyelectronics.co.za/store/10512-thickbox_default/resistor-220-ohm-14w-5.jpg',
             imageWidth: 300,
@@ -115,15 +112,6 @@ export default function Popup(props) {
                         }
                     }
 
-
-                } else if (result.isDenied) {
-                    window.location = "/checkout";
-                    Swal.fire({
-                        icon: 'info',
-                        title: 'Redirecting to checkout...',
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
                 }
             })
     );
