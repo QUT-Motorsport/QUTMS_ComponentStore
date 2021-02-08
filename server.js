@@ -64,7 +64,7 @@ app.prepare().then(() => {
   })
 
   // HELPER FUNCTION FOR POST ROUTES
-  async function checkQuantity(input, cb) {
+  async function checkQuantity(input, deposit, cb) {
     var validated_orders = [];
     // Update quantity in component collection
     input.forEach(async function (item, index, arr) {
@@ -75,7 +75,7 @@ app.prepare().then(() => {
         validated_orders.push(
           {
             component_id: item.component_id,
-            quantity: result[0].quantity + item.quantity
+            quantity: deposit ? result[0].quantity - item.quantity : result[0].quantity + item.quantity
           }
         );
       })

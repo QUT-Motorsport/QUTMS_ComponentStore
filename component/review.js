@@ -1,79 +1,178 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Grid from '@material-ui/core/Grid';
+import React, { useState, useEffect, useRef } from 'react';
 import Cookies from 'universal-cookie';
+import dynamic from 'next/dynamic'
+import Swal from 'sweetalert2';
+import { update } from '../lib/script'
 
+const Typography = dynamic(() => import('@material-ui/core/Typography'), { ssr: false })
+const Container = dynamic(() => import('@material-ui/core/Container'), { ssr: false })
+const Grid = dynamic(() => import('@material-ui/core/Grid'), { ssr: false });
+const Button = dynamic(() => import('@material-ui/core/Button'), { ssr: false })
 
-const products = [
-    { name: 'Product 1', desc: 'A nice thing', price: '$9.99' },
-    { name: 'Product 2', desc: 'Another thing', price: '$3.45' },
-    { name: 'Product 3', desc: 'Something else', price: '$6.51' },
-    { name: 'Product 4', desc: 'Best thing of all', price: '$14.11' },
-];
-
-var carts = [];
-
-const useStyles = makeStyles((theme) => ({
-    total: {
-        fontWeight: 700,
-    },
-    title: {
-        marginTop: theme.spacing(2),
-    },
-}));
-
-export default function Review() {
-    const classes = useStyles();
+function Review() {
     const cookies = new Cookies();
+    const [num, setNum] = useState(cookies.get('order_details'));
+    var carts = num;
 
-    carts = cookies.get('order_details');
+    // Function to update the order_details when a user update a component
+    function useInterval(callback, delay) {
+        const savedCallback = useRef();
+
+        // Remember the latest callback.
+        useEffect(() => {
+            savedCallback.current = callback;
+        }, [callback]);
+
+        // Set up the interval.
+        useEffect(() => {
+            let id = setInterval(() => {
+                savedCallback.current();
+            }, delay);
+            return () => clearInterval(id);
+        }, [delay]);
+    }
+
+    // Update the summary every 1 milisecond
+    useInterval(() => {
+        setNum(cookies.get('order_details'));
+    }, 100);
+
+    // Function when a user click Commit button
+    function handleCommit() {
+        // Create an order to send to database
+        const order = {
+            stu_id: cookies.get('prevID') ? cookies.get('prevID') : cookies.get('currentID'),
+            stu_name: cookies.get('prevName') ? cookies.get('prevName') : cookies.get('studentName'), order_details: cookies.get('order_details')
+        }
+
+        // Fire an alert to confirm the commit
+        Swal.fire({
+            icon: 'warning',
+            title: "Are you sure you want to update the database?",
+            showDenyButton: true,
+            showCloseButton: true,
+            confirmButtonText: "Yes",
+            denyButtonText: "No",
+        }).then((res) => {
+            // If the user clicked Confirm
+            if (res.isConfirmed) {
+                // Update to the database
+                update(order, (response, status) => {
+                    // If the query failed, pop up an alert to let user know
+                    if (status === "fail") {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Something went wrong",
+                            text: "Please check your order again.",
+                            showConfirmButton: false
+                        })
+                        console.log("Something is wrong")
+                        // else remove the cookies
+                    } else if (status === "success") {
+                        // Remove the cookies after finish commiting
+                        cookies.remove('order_details');
+                        cookies.remove('prevID');
+                        cookies.remove('prevName');
+
+                        // Pop up to let the user know the action is completed
+                        Swal.fire({
+                            icon: 'success',
+                            title: "Database updated.",
+                            text: "What would you want to do next?",
+                            showCloseButton: true,
+                            showDenyButton: true,
+                            confirmButtonText: `Return to homepage`,
+                            denyButtonText: `Sign Out`,
+                        }).then((result) => {
+                            window.location = "/";
+                            /* Read more about isConfirmed, isDenied below */
+                            if (result.isConfirmed) {
+                                Swal.fire({
+                                    icon: 'info',
+                                    title: 'Redirecting to homepage...',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                            } else if (result.isDenied) {
+                                cookies.remove('currentID');
+                                Swal.fire('Signed Out', '', 'info');
+                            }
+                        })
+                    }
+                })
+            }
+        })
+
+    }
+
+    // Function to handle when a user check/uncheck the deposit field
+    function handleCheckbox(cart) {
+        // Revert the check/uncheck state as well as the display number
+        cart.deposit = !cart.deposit;
+
+        // Update the component in the cookies
+        var i = 0;
+        for (let ele of carts) {
+            if (ele.component_id === cart.component_id) {
+                break;
+            }
+            i++;
+        }
+        carts.splice(i, 1, cart);
+        cookies.set('order_details', carts);
+    }
+
+    function handleQuantity(e, cart) {
+        cart.quantity = e.target.value;
+        cart.quantity = cart.deposit ? Math.abs(cart.quantity) : -1 * Math.abs(cart.quantity);
+
+        // Update the component in the cookies
+        var i = 0;
+        for (let ele of carts) {
+            if (ele.component_id === cart.component_id) {
+                break;
+            }
+            i++;
+        }
+        carts.splice(i, 1, cart);
+        cookies.set('order_details', carts);
+
+    }
+
     if (carts) {
         return (
-            <React.Fragment>
-
-                {/* <List disablePadding>
-                <ListItem>
-                    <ListItemText inset={true}>Photo</ListItemText>
-                    <ListItemText inset={true} >Name</ListItemText>
-                    <ListItemText inset={true}>Location</ListItemText>
-                    <ListItemText inset={true} >Quantity</ListItemText>
-                    <ListItemText inset={true}>Return</ListItemText>
-                </ListItem>
-                {carts.map((cart) => (
-                    <ListItem className={classes.listItem} key={cart.component_name}>
-                        <ListItemText>
-                            <img alt="Google" height="40" id="hplogo" src="https://static.wixstatic.com/media/f40ca5_b80059f52d6e4192a4f7fcd8d6614e92~mv2.png/v1/fill/w_255,h_86,al_c,q_85,usm_0.66_1.00_0.01/QUTMS_Logo_White.webp" />
-                        </ListItemText>
-                        <ListItemText inset={true} primary={cart.component_name} />
-                        <ListItemText inset={true}>{cart.location}</ListItemText>
-                        <ListItemText inset={true} variant="body2"><input value={cart.quantity} /></ListItemText>
-                        <ListItemText inset={true}><input type="checkbox" checked={cart.returnItem} /></ListItemText>
-
-                    </ListItem>
-                ))}
-            </List> */}
+            <Container>
                 <div className="container">
                     <ul className="responsive-table">
                         <li className="table-header">
                             <div className="col col-2">Photo</div>
                             <div className="col col-1">Name&nbsp;</div>
-                            <div className="col col-4">Location&nbsp;</div>
-                            <div className="col col-4">Quantity&nbsp;</div>
-                            <div className="col col-5">Return</div>
+                            <div className="col col-3">Quantity&nbsp;</div>
+                            <div className="col col-3">Location&nbsp;</div>
+                            <div className="col col-4">Return&nbsp;</div>
                         </li>
                         {carts.map((cart) => (
                             <li className="table-row" key={cart.component_name}>
                                 <div className="col col-2">
-                                    <img alt="Google" height="35" id="hplogo" src="https://static.wixstatic.com/media/f40ca5_b80059f52d6e4192a4f7fcd8d6614e92~mv2.png/v1/fill/w_255,h_86,al_c,q_85,usm_0.66_1.00_0.01/QUTMS_Logo_White.webp" />
+                                    <img alt="Google" height="50" id="hplogo" src="/img/logo_orange.png" />
                                 </div>
                                 <div className="col col-1">{cart.component_name}</div>
-                                <div className="col col-3">{cart.location}</div>
-                                <div className="col col-3">{cart.quantity}</div>
-                                <div className="col col-5"><input type="checkbox" checked={cart.returnItem} /></div>
+
+                                <div className="col col-3"
+                                    style={{ marginLeft: "3em" }}
+                                ><span id="table-quantity">Quantity: </span>
+                                    <input placeholder="Quantity" value={cart.quantity} autoComplete="off"
+                                        pattern="[0-9]" id="quantity-field"
+                                        onChange={(e) => handleQuantity(e, cart)}
+                                    ></input>
+                                </div>
+
+                                <div className="col col-3" style={{ marginLeft: "2.5em" }}>{cart.location}</div>
+
+                                <div className="col col-4"
+                                    style={{ marginLeft: "2.5em" }}
+                                ><span id="table-quantity">Deposit item: </span>
+                                    <input type="checkbox" onChange={() => handleCheckbox(cart)} checked={cart.deposit} /></div>
 
                             </li>
                         ))}
@@ -81,15 +180,23 @@ export default function Review() {
                     </ul>
                 </div>
 
-            </React.Fragment>
+                <Grid container direction="row-reverse" >
+                    <Button variant="contained"
+                        onClick={handleCommit}
+                    >COMMIT
+                    </Button>
+                </Grid>
+            </Container>
         );
     } else {
         return (
-            <div>
-                <Typography align="center" style={{ marginTop: "15px" }}> Your cart is empty. </Typography>
 
-            </div>
+            <Typography align="center" style={{ marginTop: "15px", color: "white" }}> Your cart is empty. </Typography>
+
+
         )
     }
 
 }
+
+export default React.memo(Review);

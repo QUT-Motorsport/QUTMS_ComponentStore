@@ -5,8 +5,8 @@ import Cookies from 'universal-cookie';
 export default function Popup(props) {
     const cookies = new Cookies();
     // Function to create a Component object
-    function createComponent(component_id, component_name, location, quantity, returnItem) {
-        return { component_id, component_name, location, quantity, returnItem };
+    function createComponent(component_id, component_name, location, quantity, deposit) {
+        return { component_id, component_name, location, quantity, deposit };
     }
 
     return (
@@ -16,7 +16,7 @@ export default function Popup(props) {
                 '<br>Available Quantity: ' + props.quantity +
                 '<br>Brand: ' + props.brand +
                 '<br>Location: ' + props.location +
-                '<br>Return item: <input type="checkbox" id="return-item">' +
+                '<br>Deposit item: <input type="checkbox" id="return-item">' +
                 '<br>Quantity: <input id="quantity" class="swal2-input" placeholder="Enter the quantity number" value=1> ',
 
             showCloseButton: true,
@@ -36,7 +36,9 @@ export default function Popup(props) {
             }
         })
             .then((result) => {
+                // If a user presses confirm
                 if (result.isConfirmed) {
+                    // If a user try to input a value smaller than 1, pop up an error and cancel the action
                     if (parseInt(result.value[0]) < 1) {
                         Swal.fire("The minimum quantity is 1", "", "error")
                     } else {
@@ -46,9 +48,6 @@ export default function Popup(props) {
                         } else {
                             // Create new component
                             var newComponent = createComponent(props.component_id, props.component_name, props.location, parseInt(result.value[0]), result.value[1]);
-
-                            // Check if a user is withdraw or return a component
-                            if (!result.value[1]) newComponent.quantity *= -1;
 
                             // Init an empty order
                             var order = []
@@ -77,9 +76,9 @@ export default function Popup(props) {
 
                                         // Check if the current state is Return or Withdraw
                                         if (e.quantity > 0) {
-                                            e.returnItem = true;
+                                            e.deposit = true;
                                         } else if (e.quantity < 0) {
-                                            e.returnItem = false;
+                                            e.deposit = false;
                                         } else {
                                             // If quantity is 0, remove from the order
                                             quantity0 = true;
@@ -106,8 +105,6 @@ export default function Popup(props) {
                             // Set new order
                             cookies.set('order_details', order);
 
-                            console.log("New order: ");
-                            console.log(cookies.get('order_details'));
                             // Pop-up to alert that new component is added
                             Swal.fire(
                                 'Added!',
