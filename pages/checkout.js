@@ -31,7 +31,6 @@ export default function CheckOut() {
 
     // Function when a user click Commit button
     function handleCommit() {
-        console.log("Hello there");
         update(result, (response, status) => {
             if (status === "fail") {
                 console.log("Something is wrong")
