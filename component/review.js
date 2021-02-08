@@ -183,6 +183,7 @@ function Review() {
                 <Grid container direction="row-reverse" >
                     <Button variant="contained"
                         onClick={handleCommit}
+                        id="commit-button"
                     >COMMIT
                     </Button>
                 </Grid>
