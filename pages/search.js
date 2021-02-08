@@ -9,7 +9,6 @@ import SearchIcon from '@material-ui/icons/Search'
 import Table from '../component/table'
 
 const SignOut = dynamic(() => import('../component/sign_out'), { ssr: false });
-const Item = dynamic(() => import('../component/item'), { ssr: false });
 const ByPass = dynamic(() => import('../component/bypass'), { ssr: false });
 
 const Grid = dynamic(() => import('@material-ui/core/Grid'), { ssr: false });
@@ -89,7 +88,7 @@ export default function Search() {
                             <InputBase placeholder="Search component" autoComplete="off"
                                 onChange={(e) => setName(e.target.value)}
                                 onKeyDown={(e) => handleKeyDown(e, name)}
-                                style={{ border: "3.5px groove orange", borderRadius: "4px", backgroundColor: "ghostwhite"}}
+                                style={{ border: "3.5px groove orange", borderRadius: "4px", backgroundColor: "ghostwhite", fontFamily: "'Dosis', sans-serif" }}
                             />
                             <IconButton onClick={() => handleOnClick(name)} arial-label="search"
                                 style={{ color: "white" }}

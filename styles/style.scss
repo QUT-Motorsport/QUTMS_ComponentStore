@@ -1,5 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@300&display=swap');
 html {
-  font-family: 'Roboto Mono', monospace;
+  font-family: "Dosis", sans-serif;
   margin: 0;
   padding: 0;
 }
@@ -92,12 +93,13 @@ $qutmotorsport-orange: rgb(238, 118, 36);
 }
 
 body {
-  font-family: "Roboto Mono", monospace;
+  font-family: "Dosis", sans-serif;
   margin: 0;
   height: 100vh;
   place-items: center;
   background-color: $qutmotorsport-blue;
   position: relative;
+  font-weight: 250 !important;
 }
 
 .c-checkbox {
@@ -443,6 +445,7 @@ a {
   margin-right: auto;
   padding-left: 10px;
   padding-right: 10px;
+  margin-bottom: 2%;
 }
 
 h2 {
@@ -497,11 +500,12 @@ h2 {
 
   .col-3 {
     flex-basis: 25%;
-    margin-right: 6em !important;
+    margin-right: 5.5em !important;
   }
 
   .col-4 {
     flex-basis: 10%;
+    margin-right: 6em !important;
   }
 
   @media all and (max-width: 767px) {
@@ -512,7 +516,7 @@ h2 {
     .table-row {
       margin-left: -2.5em;
       border-radius: 10px;
-      background-color: snow;
+      background-color: ghostwhite;
     }
 
     li {
@@ -542,4 +546,28 @@ h2 {
       }
     }
   }
+}
+.MuiInputBase-input {
+  padding-left: 5px !important;
+}
+#quantity-field {
+  border: 3.5px groove orange;
+  border-radius: 4px; 
+  background-color: ghostwhite;
+  width: 50px;
+  margin-left: 5px;
+  padding-left: 3px;
+}
+
+#search-field {
+  border: 3.5px groove orange;
+  border-radius: 4px; 
+  background-color: ghostwhite;
+}
+#commit-button {
+  background-color: green;
+  font-family: "Dosis", sans-serif;
+  color: white;
+  font-weight: bold;
+
 }

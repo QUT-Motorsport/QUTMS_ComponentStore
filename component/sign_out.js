@@ -10,6 +10,7 @@ export function SignOut() {
 
     function handleSignOut() {
         cookies.remove('currentID');
+        cookies.remove('studentName')
         Swal.fire({
             icon: 'info',
             title: 'Signed Out',

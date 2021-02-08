@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import { Button, Grid, Typography } from '@material-ui/core';
 import Cookies from 'universal-cookie';
-import { useRouter } from 'next/router'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import PopupOptions from '../component/popup_options'
 
@@ -16,7 +15,6 @@ export default function Cart() {
             var textDescription = "";
             PopupOptions(titleDescription, textDescription);
         }
-
     }
 
     return (
