@@ -123,9 +123,10 @@ function Review(props) {
         cookies.set('order_details', carts);
     }
 
+    // Function to handle when a user change quantity
     function handleQuantity(e, cart) {
         cart.quantity = e.target.value;
-        cart.quantity = cart.deposit ? Math.abs(cart.quantity) : -1 * Math.abs(cart.quantity);
+        cart.quantity = cart.deposit ? Math.abs(cart.quantity) : (-1 * Math.abs(cart.quantity));
 
         // Update the component in the cookies
         var i = 0;
@@ -137,7 +138,25 @@ function Review(props) {
         }
         carts.splice(i, 1, cart);
         cookies.set('order_details', carts);
+    }
 
+    function checkQuantity(e, cart) {
+        if (parseInt(e.target.value) < 1) {
+            cart.quantity = 1;
+            // Update the component in the cookies
+            var i = 0;
+            for (let ele of carts) {
+                if (ele.component_id === cart.component_id) {
+                    break;
+                }
+                i++;
+            }
+            carts.splice(i, 1, cart);
+            cookies.set('order_details', carts);
+
+            Swal.fire("The minimum quantity is 1", "", "error");
+
+        }
     }
 
     if (carts) {
@@ -162,8 +181,9 @@ function Review(props) {
                                 <div className="col col-3"
                                     style={{ marginLeft: "3em" }}
                                 ><span id="table-quantity">Quantity: </span>
-                                    <input placeholder="Quantity" value={cart.quantity} autoComplete="off"
-                                        pattern="[0-9]" className="quantity-field"
+                                    <input placeholder="Quantity" value={Math.abs(cart.quantity)} autoComplete="off"
+                                        type="number" className="quantity-field" min="1"
+                                        onBlur={(e) => checkQuantity(e, cart)}
                                         onChange={(e) => handleQuantity(e, cart)}
                                     ></input>
                                 </div>
