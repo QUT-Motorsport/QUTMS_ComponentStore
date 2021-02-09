@@ -7,6 +7,7 @@ import InputBase from '@material-ui/core/InputBase'
 import IconButton from '@material-ui/core/IconButton'
 import SearchIcon from '@material-ui/icons/Search'
 import Table from '../component/table'
+import ReactContentLoader from '../component/loading_skeleton'
 
 const SignOut = dynamic(() => import('../component/sign_out'), { ssr: false });
 const ByPass = dynamic(() => import('../component/bypass'), { ssr: false });
@@ -24,6 +25,7 @@ export default function Search() {
     const [result, setResult] = useState([]);
     const [name, setName] = useState('');
     const [text, setText] = useState('');
+    const [loading, setLoading] = useState(false);
 
     // useEffect to check for currentID, if there is none push them back to home page
     useEffect(() => {
@@ -39,11 +41,17 @@ export default function Search() {
     function handleKeyDown(e, value) {
         // If the key is "Enter"
         if (e.keyCode == 13) {
+            // start loading animation
+            setLoading(true);
             getRequest(value, 'name', (result, status) => {
                 if (status === "success" && result) {
+                    // end loading animation and show results
+                    setLoading(false);
                     setResult(result);
                     setText(value);
                 } else {
+                    // end loading animation and show warnings
+                    setLoading(false);
                     setResult([]);
                     setText(value);
                 }
@@ -53,11 +61,17 @@ export default function Search() {
 
     // Function to handle when a user click on Search icon
     function handleOnClick(value) {
+        // start loading animation
+        setLoading(true);
         getRequest(value, 'name', (result, status) => {
             if (status === "success" && result) {
+                // end loading animation and show results
+                setLoading(false);
                 setResult(result);
                 setText(value);
             } else {
+                // end loading animation and show warnings
+                setLoading(false);
                 setResult([]);
                 setText(value);
             }
@@ -100,7 +114,7 @@ export default function Search() {
 
                 </Container>
                 {/* <Item data={result} mobile={true} search={text} /> */}
-                <Table data={result} mobile={true} search={text} />
+                {loading ? <ReactContentLoader /> : <Table data={result} mobile={true} search={text} />}
             </div>
 
         )

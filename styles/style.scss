@@ -344,6 +344,7 @@ body {
 
 /*----------------------------------------------------------- scanner.js SCANNER PAGE */
 .scanner-container {
+  position: relative;
   margin-top: 10%;
   border: 2px solid black;
   border-radius: 10px;
@@ -573,6 +574,30 @@ h2 {
 
 }
 
+/*----------------------------------------------------------- loading.js LOADING COMPONENT */
+.loading-container {
+  position: absolute;
+  object-position: center;
+  float: inherit;
+  left: 42.5%;
+  top: 35%;
+}
+
+.loading-background {
+  position: absolute;
+  color: white;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+  background-color: rgb(44, 62, 80);
+  -webkit-filter: blur(8px);
+  -moz-filter: blur(8px);
+  -ms-filter: blur(8px);
+  -o-filter: blur(8px);
+  filter: blur(8px);
+}
 // Dropdown list to select user
 
 $dark: #555;
@@ -624,6 +649,7 @@ $color--primary: orangered;
     transition: all .4s;
     color: $color--primary;
     position: relative;
+
     &:after {
       position: absolute;
       content: '';
