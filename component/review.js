@@ -185,6 +185,7 @@ function Review(props) {
                     <Button variant="contained"
                         onClick={handleCommit}
                         id="commit-button"
+                        style={{ marginBottom: "5%" }}
                     >COMMIT
                     </Button>
                 </Grid>
@@ -192,10 +193,7 @@ function Review(props) {
         );
     } else {
         return (
-
             <Typography align="center" style={{ marginTop: "15px", color: "white" }}> Your cart is empty. </Typography>
-
-
         )
     }
 

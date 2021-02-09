@@ -649,6 +649,7 @@ $color--primary: orangered;
     transition: all .4s;
     color: $color--primary;
     position: relative;
+
     &:after {
       position: absolute;
       content: '';

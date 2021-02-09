@@ -91,8 +91,8 @@ export default function CheckOut() {
                             onChange={(e) => onChangeSelect(e)}
                         >{cookies.get('studentName')}</span>
                             <ul className="list__ul">
-                                <li><a onClick={(e) => clickList(e)}>{cookies.get('studentName')}</a></li>
-                                <li><a onClick={(e) => clickList(e)}>{cookies.get('prevName')}</a></li>
+                                <li style={{ paddingTop: "10%" }}><a onClick={(e) => clickList(e)}>{cookies.get('studentName')}</a></li>
+                                {cookies.get('prevName') !== cookies.get('studentName') && <li><a onClick={(e) => clickList(e)}>{cookies.get('prevName')}</a></li>}
                             </ul>
                         </div>
                         </div>
