@@ -5,20 +5,19 @@ import dynamic from 'next/dynamic'
 import Review from '../component/review'
 import Swal from 'sweetalert2';
 
-
 const SignOut = dynamic(() => import('../component/sign_out'), { ssr: false });
 const ByPass = dynamic(() => import('../component/bypass'), { ssr: false });
 
 const Grid = dynamic(() => import('@material-ui/core/Grid'), { ssr: false });
 const Container = dynamic(() => import('@material-ui/core/Container'), { ssr: false });
-const Typography = dynamic(() => import('@material-ui/core/Typography'), { ssr: false });
-const MenuItem = dynamic(() => import('@material-ui/core/MenuItem'), { ssr: false });
-const Select = dynamic(() => import('@material-ui/core/Select'), { ssr: false });
 
 export default function CheckOut() {
     const cookies = new Cookies();
     const router = useRouter();
     var studentName = '';
+    const [name, setName] = useState('');
+    const [ID, setID] = useState(cookies.get('currentID'));
+
 
     useEffect(() => {
         if (!cookies.get('currentID') && !cookies.get('prevID')) {
@@ -29,7 +28,53 @@ export default function CheckOut() {
         }
     }, [])
 
+    function clickPlaceholder(e) {
+        var a = document.getElementsByClassName('list__ul')[0];
+        if (!a.style.display || a.style.display === "none") {
+            a.style.display = "block";
+        } else {
+            a.style.display = "none";
+        }
+    }
 
+    function clickList(e) {
+        var a = document.getElementsByClassName('placeholder')[0];
+        a.textContent = e.target.text;
+        a.style.opacity = "1";
+
+        var list = document.getElementsByClassName('list__ul')[0];
+        var b = document.querySelectorAll('.list__ul li');
+        var currentChoice = null;
+        for (var el of b) {
+            if (el.textContent === e.target.text) {
+                currentChoice = el;
+                break;
+            }
+        }
+
+        list.insertBefore(currentChoice, b[0]);
+
+        if (!list.style.display || list.style.display === "none") {
+            list.style.display = "block";
+        } else {
+            list.style.display = "none";
+        }
+
+        setName(e.target.text);
+
+        if (e.target.text == cookies.get('studentName')) {
+            setID(cookies.get('currentID'));
+        } else {
+            setID(cookies.get('prevID'));
+        }
+    }
+
+    function onChangeSelect(e) {
+        var a = document.getElementsByClassName('placeholder')[0];
+        a.textContent = e.target.value;
+
+
+    }
     if (cookies.get('currentID') || cookies.get('prevID')) {
         studentName = cookies.get('prevName') ? cookies.get('prevName') : cookies.get('currentName');
         return (
@@ -42,13 +87,20 @@ export default function CheckOut() {
                         alignItems="center"
                         justify="center" alignContent="center">
 
-                        <Typography variant="h6" gutterBottom style={{ color: "white", fontFamily: "'Dosis', sans-serif" }}>
-                            Order summary for <span style={{ color: "orange", fontFamily: "'Dosis', sans-serif", fontWeight: "bold" }}>{studentName}</span>
-                        </Typography>
+                        <div className="wrapper typo">Order summary for<div className="list"><span className="placeholder" onClick={(e) => clickPlaceholder(e)}
+                            onChange={(e) => onChangeSelect(e)}
+                        >{cookies.get('studentName')}</span>
+                            <ul className="list__ul">
+                                <li><a onClick={(e) => clickList(e)}>{cookies.get('studentName')}</a></li>
+                                <li><a onClick={(e) => clickList(e)}>{cookies.get('prevName')}</a></li>
+                            </ul>
+                        </div>
+                        </div>
+
                     </Grid>
                 </Container>
 
-                <Review />
+                <Review finalName={name} finalID={ID} />
             </div >
 
         )
