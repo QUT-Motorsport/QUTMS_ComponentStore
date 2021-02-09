@@ -74,6 +74,11 @@ export default function IndexPage({ students }) {
     }
   }
 
+  function handleEnter(e, currID) {
+    e.preventDefault();
+    console.log(currID);
+    handleSubmit(currID);
+  }
   // Check in the cookies if currentID existed or not
   useEffect(() => {
 
@@ -127,7 +132,9 @@ export default function IndexPage({ students }) {
           <input className="c-checkbox" type="checkbox" id="finish" />
           <div className="c-formContainer">
             <form className="c-form" action="" value={currentID}
-              onChange={(e) => setCurrentID(e.target.value)}>
+              onChange={(e) => setCurrentID(e.target.value)}
+              onSubmit={(e) => handleEnter(e, currentID)}
+            >
               <div className="c-form__group">
                 <label className="c-form__label" htmlFor="username">
                   <input
@@ -135,7 +142,7 @@ export default function IndexPage({ students }) {
                     id="username"
                     className="c-form__input"
                     placeholder=" "
-                    pattern="^n.*"
+                    pattern="^[nN].*"
                     required />
 
                   <label className="c-form__next" htmlFor="finish" role="button" onClick={() => handleSubmit(currentID)}>
