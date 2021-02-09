@@ -470,6 +470,7 @@ h2 {
 
   #table-quantity {
     display: none;
+    margin-right: 2%;
   }
 
   .table-header {
@@ -551,7 +552,7 @@ h2 {
 .MuiInputBase-input {
   padding-left: 5px !important;
 }
-#quantity-field {
+.quantity-field {
   border: 3.5px groove orange;
   border-radius: 4px; 
   background-color: ghostwhite;
@@ -573,6 +574,7 @@ h2 {
 
 }
 
+<<<<<<< HEAD
 /*----------------------------------------------------------- loading.js LOADING COMPONENT */
 .loading-container {
   position: absolute;
@@ -597,3 +599,117 @@ h2 {
   -o-filter: blur(8px);
   filter: blur(8px);
 }
+=======
+// Dropdown list to select user
+
+$dark: #555;
+$color--primary: orangered;
+
+
+.typo {
+  font-size: 1.5rem;
+  text-align: center;
+  color: white;
+  text-decoration: none;
+  option {
+    font-size: 1rem;
+  }  
+}
+
+.transition {
+   transition: all .4s ease-in-out;
+}
+
+.wrapper {
+  padding-bottom: 20%;
+  font-size: 2rem;
+}
+
+.list {
+  display: inline-block;
+  position: relative;
+  //border: 1px solid red;
+  margin-left: 6px;
+  ul {
+    text-align: left;
+    position: absolute;
+    padding: 0;
+    top: 0;
+    left: 0;
+    display: none;
+    .active {
+      display: block;
+    }
+    
+  }
+  li {
+    list-style:none;
+  
+  }
+  a {
+    @extend .typo;
+    transition: all .4s;
+    color: $color--primary;
+    position: relative;
+    &:after {
+      position: absolute;
+      content: '';
+      height: 5px;
+      width: 0;
+      left: 0;
+      background: lighten($color--primary, 20%);
+      bottom: 0;
+      transition: all .4s ease-out;
+    }
+    &:hover {
+      cursor: pointer;
+      color: lighten($color--primary, 20%);
+      &:after {
+        width: 100%;
+      }
+    }    
+  }
+}
+
+select {
+  display: inline;  
+  border: 0;
+  width: auto;
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border-bottom: 2px solid $dark;
+  color: $color--primary;
+  transition: all .4s ease-in-out;
+  
+  &:hover {
+    cursor: pointer;    
+  }
+  
+  option {
+    border: 0;
+    border-bottom: 1px solid $dark;
+    padding: 10px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+}
+
+.placeholder {
+  //visibility: hidden;
+  //position: fixed;
+  border-bottom: 4px solid;
+  cursor: pointer;
+  color: orange;
+  &:hover {
+    color: lighten($dark, 20%);
+  }
+}
+
+
+
+
+
+
+
+>>>>>>> ddcaabddf9c1e4d355e601fb69f927b322b47d39

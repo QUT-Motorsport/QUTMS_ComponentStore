@@ -34,7 +34,7 @@ export default function Table(props) {
                                 <img alt="Google" height="50" id="hplogo" src="https://static.wixstatic.com/media/f40ca5_b80059f52d6e4192a4f7fcd8d6614e92~mv2.png/v1/fill/w_255,h_86,al_c,q_85,usm_0.66_1.00_0.01/QUTMS_Logo_White.webp" />
                             </div>
                             <div className="col col-1">{item.component_name}</div>
-                            <div className="col col-4"><span id="table-quantity">Quantity: </span>{item.quantity}</div>
+                            <div className="col col-4"><span id="table-quantity">Quantity:</span>{item.quantity}</div>
                             <div className="col col-3">{item.location}</div>
                         </li>
                     ))}

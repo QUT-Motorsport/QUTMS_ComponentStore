@@ -9,7 +9,7 @@ const Container = dynamic(() => import('@material-ui/core/Container'), { ssr: fa
 const Grid = dynamic(() => import('@material-ui/core/Grid'), { ssr: false });
 const Button = dynamic(() => import('@material-ui/core/Button'), { ssr: false })
 
-function Review() {
+function Review(props) {
     const cookies = new Cookies();
     const [num, setNum] = useState(cookies.get('order_details'));
     var carts = num;
@@ -41,8 +41,8 @@ function Review() {
     function handleCommit() {
         // Create an order to send to database
         const order = {
-            stu_id: cookies.get('prevID') ? cookies.get('prevID') : cookies.get('currentID'),
-            stu_name: cookies.get('prevName') ? cookies.get('prevName') : cookies.get('studentName'), order_details: cookies.get('order_details')
+            stu_id: props.finalID,
+            stu_name: props.finalName, order_details: cookies.get('order_details')
         }
 
         console.log(order);
@@ -163,7 +163,7 @@ function Review() {
                                     style={{ marginLeft: "3em" }}
                                 ><span id="table-quantity">Quantity: </span>
                                     <input placeholder="Quantity" value={cart.quantity} autoComplete="off"
-                                        pattern="[0-9]" id="quantity-field"
+                                        pattern="[0-9]" className="quantity-field"
                                         onChange={(e) => handleQuantity(e, cart)}
                                     ></input>
                                 </div>
