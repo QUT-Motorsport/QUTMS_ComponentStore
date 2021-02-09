@@ -31,7 +31,7 @@ export default function Search() {
             setTimeout(() => {
                 console.log("Bye");
                 router.push('/')
-            }, 2000)
+            }, 20000)
         }
     }, [])
 

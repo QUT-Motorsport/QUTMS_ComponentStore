@@ -20,7 +20,7 @@ export default function CheckOut() {
 
 
     useEffect(() => {
-        if (!cookies.get('currentID') && !cookies.get('prevID')) {
+        if (!cookies.get('currentID') || !cookies.get('prevID')) {
             setTimeout(() => {
                 console.log("Bye");
                 router.push('/')
@@ -75,7 +75,7 @@ export default function CheckOut() {
 
 
     }
-    if (cookies.get('currentID') || cookies.get('prevID')) {
+    if (cookies.get('currentID') && cookies.get('prevID')) {
         studentName = cookies.get('prevName') ? cookies.get('prevName') : cookies.get('currentName');
         return (
             <div>
