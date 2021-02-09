@@ -80,9 +80,9 @@ app.prepare().then(() => {
     var validated_orders = [];
     // Update quantity in component collection
     input.forEach(async function (item, index, arr) {
-      console.log(item.quantity);
       // Check order if all quanity is valid
       await Component.find({ "component_id": item.component_id }, async function (err, result) {
+
         if (err) throw err;
         console.log(result[0].quantity);
         validated_orders.push(
