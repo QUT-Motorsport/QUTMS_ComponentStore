@@ -76,19 +76,19 @@ app.prepare().then(() => {
   })
 
   // HELPER FUNCTION FOR POST ROUTES
-  async function checkQuantity(input, deposit, cb) {
+  async function checkQuantity(input, cb) {
     var validated_orders = [];
     // Update quantity in component collection
     input.forEach(async function (item, index, arr) {
-      console.log(item.quantity);
       // Check order if all quanity is valid
       await Component.find({ "component_id": item.component_id }, async function (err, result) {
+
         if (err) throw err;
         console.log(result[0].quantity);
         validated_orders.push(
           {
             component_id: item.component_id,
-            quantity: deposit ? result[0].quantity + item.quantity : result[0].quantity - item.quantity
+            quantity: item.deposit ? result[0].quantity + item.quantity : result[0].quantity - item.quantity
           }
         );
       })
@@ -105,7 +105,7 @@ app.prepare().then(() => {
     console.log("POST route reached!");
     try {
       await new Promise((resolve, reject) => {
-        checkQuantity(req.body.order_details, req.body.deposit, (value, status) => {
+        checkQuantity(req.body.order_details, (value, status) => {
           if (status === 'validated_orders') {
             validated_orders = value;
             console.log(validated_orders);

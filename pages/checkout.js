@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import Cookies from 'universal-cookie';
+import React, { useState, useEffect } from 'react'
+import Cookies from 'universal-cookie'
 import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
-import Review from '../component/review'
 import { update } from '../lib/script'
-
+import Review from '../component/review'
+import ReactContentLoader from '../component/loading_skeleton'
 
 const SignOut = dynamic(() => import('../component/sign_out'), { ssr: false });
 const Item = dynamic(() => import('../component/item'), { ssr: false });
@@ -16,10 +16,10 @@ const FormControl = dynamic(() => import('@material-ui/core/FormControl'), { ssr
 const Typography = dynamic(() => import('@material-ui/core/Typography'), { ssr: false })
 const Button = dynamic(() => import('@material-ui/core/Button'), { ssr: false })
 
-
 export default function CheckOut() {
     const cookies = new Cookies();
     const router = useRouter();
+    const [ loading, setLoading ] = useState(true);
     var studentID = '';
     var result =
     {
@@ -71,7 +71,6 @@ export default function CheckOut() {
 
                     <Grid item xs={12}>
                         <Review/>
-
                     </Grid>
 
 
@@ -82,7 +81,6 @@ export default function CheckOut() {
                     </Button>
                     </Grid>
                 </Container>
-
                 {/* <Item data={result} mobile={true} search={text} /> */}
             </div>
 
