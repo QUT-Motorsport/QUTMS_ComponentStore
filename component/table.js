@@ -46,7 +46,7 @@ export default function Table(props) {
         if (props.mobile) {
             return (
                 props.search ? (
-                    <Typography align="center" style={{ marginTop: "15px" }}> Component not founded </Typography>) : null
+                    <Typography align="center" style={{ marginTop: "15px", color: "white" }}> Component not found </Typography>) : null
 
             )
         } else {

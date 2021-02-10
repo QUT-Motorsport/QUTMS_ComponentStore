@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton'
 import SearchIcon from '@material-ui/icons/Search'
 import Table from '../component/table'
 import ReactContentLoader from '../component/loading_skeleton'
+import Swal from 'sweetalert2'
 
 const SignOut = dynamic(() => import('../component/sign_out'), { ssr: false });
 const ByPass = dynamic(() => import('../component/bypass'), { ssr: false });
@@ -41,6 +42,30 @@ export default function Search() {
     function handleKeyDown(e, value) {
         // If the key is "Enter"
         if (e.keyCode == 13) {
+            if (value.length > 0) {
+                // start loading animation
+                setLoading(true);
+                getRequest(value, 'name', (result, status) => {
+                    if (status === "success" && result) {
+                        // end loading animation and show results
+                        setLoading(false);
+                        setResult(result);
+                        setText(value);
+                    } else {
+                        // end loading animation and show warnings
+                        setLoading(false);
+                        setResult([]);
+                        setText(value);
+                    }
+                });
+            }
+
+        }
+    }
+
+    // Function to handle when a user click on Search icon
+    function handleOnClick(value) {
+        if (value.length > 0) {
             // start loading animation
             setLoading(true);
             getRequest(value, 'name', (result, status) => {
@@ -57,25 +82,6 @@ export default function Search() {
                 }
             });
         }
-    }
-
-    // Function to handle when a user click on Search icon
-    function handleOnClick(value) {
-        // start loading animation
-        setLoading(true);
-        getRequest(value, 'name', (result, status) => {
-            if (status === "success" && result) {
-                // end loading animation and show results
-                setLoading(false);
-                setResult(result);
-                setText(value);
-            } else {
-                // end loading animation and show warnings
-                setLoading(false);
-                setResult([]);
-                setText(value);
-            }
-        });
     }
 
     // Render a page with a user is logged in
