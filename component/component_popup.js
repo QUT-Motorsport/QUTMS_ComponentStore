@@ -17,7 +17,7 @@ export default function Popup(props) {
                 '<br>Brand: ' + props.brand +
                 '<br>Location: ' + props.location +
                 '<br>Deposit item: <input type="checkbox" id="return-item">' +
-                '<br>Quantity: <input id="quantity" class="swal2-input" placeholder="Enter the quantity number" value=1> ',
+                '<br>Quantity: <input pattern="\d*" id="quantity" class="swal2-input" placeholder="Enter the quantity number" value=1> ',
 
             showCloseButton: true,
             focusConfirm: false,

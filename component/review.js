@@ -182,9 +182,10 @@ function Review(props) {
                                     style={{ marginLeft: "3em" }}
                                 ><span id="table-quantity">Quantity: </span>
                                     <input placeholder="Quantity" value={Math.abs(cart.quantity)} autoComplete="off"
-                                        type="number" className="quantity-field" min="1"
+                                        className="quantity-field"
                                         onBlur={(e) => checkQuantity(e, cart)}
                                         onChange={(e) => handleQuantity(e, cart)}
+                                        type="text" pattern="\d*"
                                     ></input>
                                 </div>
 

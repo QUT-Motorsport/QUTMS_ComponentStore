@@ -76,7 +76,6 @@ export default function IndexPage({ students }) {
 
   function handleEnter(e, currID) {
     e.preventDefault();
-    console.log(currID);
     handleSubmit(currID);
   }
   // Check in the cookies if currentID existed or not

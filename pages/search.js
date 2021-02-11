@@ -9,32 +9,36 @@ import SearchIcon from '@material-ui/icons/Search'
 import Table from '../component/table'
 import ReactContentLoader from '../component/loading_skeleton'
 import Swal from 'sweetalert2'
+import MenuItem from '@material-ui/core/MenuItem'
 
 const SignOut = dynamic(() => import('../component/sign_out'), { ssr: false });
 const ByPass = dynamic(() => import('../component/bypass'), { ssr: false });
+const Filter = dynamic(() => import('../component/filter'), { ssr: false })
 
 const Grid = dynamic(() => import('@material-ui/core/Grid'), { ssr: false });
 const Container = dynamic(() => import('@material-ui/core/Container'), { ssr: false });
-const Divider = dynamic(() => import('@material-ui/core/Divider'), { ssr: false })
+const Select = dynamic(() => import('@material-ui/core/Select'), { ssr: false });
+// const MenuItem = dynamic(() => import('@material-ui/core/MenuItem'), { ssr: false });
+const FormControl = dynamic(() => import('@material-ui/core/FormControl'), { ssr: false });
 
 export default function Search() {
     // Cookies and router
     const cookies = new Cookies();
     const router = useRouter();
 
-    // Hooks for result of the query, text of search bar, the name used for query
+    // Hooks for result of the query, text of search bar, the name used for query, loading screen, search options respectively
     const [result, setResult] = useState([]);
     const [name, setName] = useState('');
     const [text, setText] = useState('');
     const [loading, setLoading] = useState(false);
-
+    const [searchOptions, setSearchOptions] = useState('name');
     // useEffect to check for currentID, if there is none push them back to home page
     useEffect(() => {
         if (!cookies.get('currentID')) {
             setTimeout(() => {
                 console.log("Bye");
                 router.push('/')
-            }, 20000)
+            }, 2000)
         }
     }, [])
 
@@ -84,6 +88,9 @@ export default function Search() {
         }
     }
 
+    function handleSelect(e) {
+        setSearchOptions(e.target.value)
+    }
     // Render a page with a user is logged in
     if (cookies.get('currentID')) {
         return (
@@ -104,6 +111,17 @@ export default function Search() {
 
                         <Grid container alignItems="center"
                             justify="center" alignContent="center" style={{ marginLeft: "2em" }} >
+                            <FormControl >
+                                <Select
+                                    style={{ color: "white", border: "3.5px groove orange", marginRight: "2px" }}
+                                    value={searchOptions}
+                                    onChange={handleSelect}
+                                >
+                                    <MenuItem value={"name"}>Name</MenuItem>
+                                    <MenuItem value={"part"}>Part #</MenuItem>
+                                    <MenuItem value={"retail"}>Retail</MenuItem>
+                                </Select>
+                            </FormControl>
 
                             <InputBase placeholder="Search component" autoComplete="off"
                                 onChange={(e) => setName(e.target.value)}
@@ -120,6 +138,8 @@ export default function Search() {
 
                 </Container>
                 {/* <Item data={result} mobile={true} search={text} /> */}
+
+                <Filter />
                 {loading ? <ReactContentLoader /> : <Table data={result} mobile={true} search={text} />}
             </div>
 
