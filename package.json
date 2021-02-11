@@ -33,6 +33,7 @@
     "react-content-loader": "^6.0.1",
     "react-cookie": "^4.0.3",
     "react-dom": "^16.14.0",
+    "react-helmet": "^6.1.0",
     "react-qr-reader": "^2.2.1",
     "react-router-dom": "^5.2.0",
     "sass": "^1.32.6",

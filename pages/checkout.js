@@ -15,7 +15,7 @@ export default function CheckOut() {
     const cookies = new Cookies();
     const router = useRouter();
     var studentName = '';
-    const [name, setName] = useState('');
+    const [name, setName] = useState(cookies.get('studentName'));
     const [ID, setID] = useState(cookies.get('currentID'));
 
 
@@ -60,11 +60,11 @@ export default function CheckOut() {
             list.style.display = "none";
         }
 
-        setName(e.target.text);
-
         if (e.target.text == cookies.get('studentName')) {
+            setName(cookies.get('studentName'));
             setID(cookies.get('currentID'));
         } else {
+            setName(cookies.get('prevName'));
             setID(cookies.get('prevID'));
         }
     }
@@ -99,7 +99,6 @@ export default function CheckOut() {
 
                     </Grid>
                 </Container>
-
                 <Review finalName={name} finalID={ID} />
             </div >
 

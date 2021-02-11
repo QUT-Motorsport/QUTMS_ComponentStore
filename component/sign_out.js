@@ -22,12 +22,6 @@ export function SignOut() {
     }
     return (
         <main>
-            {/* <Grid container direction="row-reverse" >
-                <Button variant="outlined"
-                    onClick={handleSignOut}
-                    color="secondary">Sign Out
-                    </Button>
-            </Grid> */}
             <Grid container direction="row-reverse" justify="space-between" >
                 <Grid item>
                     <div className="nav-bar">

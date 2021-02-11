@@ -47,15 +47,16 @@ app.prepare().then(() => {
   });
 
   // GET routes
-  server.get('/get', async (req, res) => {
+  server.get('/api/get', async (req, res) => {
     // Retrieve query keys
-    const componentName = req.query.q;
+    const componentName = req.query.name;
     const componentID = req.query.comp_id;
+    const componentRetailID = req.query.retail_id;
 
     // When user search for component name
     if (componentName) {
       // Compare input component name with Component Collection
-      console.log("query with component name");
+      console.log("Query with component name");
       // Query the database
       await Component.find({ component_name: { $regex: componentName.toString(), $options: "i" } }, async function (err, result) {
         if (err) throw err;
@@ -64,7 +65,7 @@ app.prepare().then(() => {
     }
     else if (componentID) {
       // Compare input componentID with Component Collection
-      console.log("query with component id");
+      console.log("Query with component id");
       // Query the database
       await Component.find({ "component_id": componentID }, async function (err, result) {
         if (err) throw err;
@@ -84,7 +85,6 @@ app.prepare().then(() => {
       await Component.find({ "component_id": item.component_id }, async function (err, result) {
 
         if (err) throw err;
-        console.log(result[0].quantity);
         validated_orders.push(
           {
             component_id: item.component_id,
@@ -100,15 +100,13 @@ app.prepare().then(() => {
   }
 
   // POST routes
-  server.post('/update', async (req, res) => {
+  server.post('/api/update', async (req, res) => {
     var validated_orders = [];
-    console.log("POST route reached!");
     try {
       await new Promise((resolve, reject) => {
         checkQuantity(req.body.order_details, (value, status) => {
           if (status === 'validated_orders') {
             validated_orders = value;
-            console.log(validated_orders);
           }
           resolve();
         });
@@ -116,7 +114,6 @@ app.prepare().then(() => {
       // Exit or execute queries to database
       if (validated_orders.map(item => item.quantity).some(e => e < 0)) {
         // Send back 400
-        console.log("cancel");
         res.status(400).json({ error: 'Insufficient quantity for order!' });
       } else {
         validated_orders.forEach(async function (item) {
@@ -138,7 +135,7 @@ app.prepare().then(() => {
         const time = new Date();
         const formattedTime =
           time.getDate() + "-" +
-          time.getMonth() + 1 + "-" +
+          (parseInt(time.getMonth()) + 1).toString()+ "-" +
           time.getFullYear() + " " +
           time.getHours() + ":" +
           time.getMinutes() + ":" +
@@ -153,7 +150,7 @@ app.prepare().then(() => {
           });
         // Save to Transaction collection
         transaction.save(function (err) {
-          console.log("Transaction has been successfully made!");
+          console.log("Timestamp: " + formattedTime + ". Transaction has been successfully made");
           return res.sendStatus(200);
         })
       }

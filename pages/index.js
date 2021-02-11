@@ -119,8 +119,9 @@ export default function IndexPage({ students }) {
               <label className="c-form__toggle" htmlFor="start">Login<span className="c-form__toggleIcon"></span></label>
             </form>
           </div>
-          <img className="login-img" src="" width="300" height="100" />
+          <img className="login-img" src=""/>
           <img className="logo-img" src="/img/logo_white.png" alt="qutmotorsport_logo" />
+          <img className="component-store-logo" src="/img/component_store_white_andrew.png" alt="qutmotorsport_logo" />
         </div>}
     </main>
   );

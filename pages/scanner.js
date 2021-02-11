@@ -58,7 +58,7 @@ export default function Scanner() {
                         </Grid>
                         <div className="scanner-container">
                             <QrReader
-                                delay={1250}
+                                delay={1200}
                                 onError={handleError}
                                 onScan={handleScan}
                                 style={{ width: '100%' }}

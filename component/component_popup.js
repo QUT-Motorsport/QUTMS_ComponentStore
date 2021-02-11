@@ -5,27 +5,46 @@ import Cookies from 'universal-cookie';
 export default function Popup(props) {
     const cookies = new Cookies();
     // Function to create a Component object
-    function createComponent(component_id, component_name, location, quantity, deposit) {
-        return { component_id, component_name, location, quantity, deposit };
+    function createComponent(
+        component_id,
+        component_name,
+        part_number,
+        retail_number,
+        location,
+        quantity,
+        deposit
+    ) {
+        return { component_id, component_name, part_number, retail_number, location, quantity, deposit };
     }
+
+    const contentStr =
+        '<br><b>ID</b>: ' + props.component_id +
+        '<br><b>Part ID</b>: ' + props.part_number +
+        (props.retail_part_number.includes('n/a') ? '' :'<br><b>Retail ID</b>: ' + props.retail_part_number) +
+        (props.size.includes('n/a') ? '' :'<br><b>Size</b>: ' + props.size) +
+        (props.type.includes('n/a') ? '' :'<br><b>Type</b>: ' + props.type) +
+        (props.volt.includes('n/a') ? '' :'<br><b>Voltage</b>: ' + props.volt) +
+        (props.current.includes('n/a') ? '' : '<br><b>Current</b>: ' + props.current) +
+        (props.inductance.includes('n/a') ? '' : '<br><b>Inductance</b>: ' + props.inductance) +
+        (props.capacitance.includes('n/a') ? '' : '<br><b>Capacitance</b>: ' + props.capacitance) +
+        (props.tolerance.includes('n/a') ? '' : '<br><b>Tolerance</b>: ' + props.tolerance) +
+        (props.misc.includes('n/a') ? '' : '<br><b>Misc</b>: ' + props.misc) +
+        '<br><b>Location</b>: ' + props.location +
+        '<br><b>Available Quantity</b>: ' + props.quantity +
+        '<br><b>Deposit item</b>: <input type="checkbox" id="return-item">' +
+        '<br><b>Quantity</b>: <input id="quantity" class="swal2-input" placeholder="Enter the quantity number" value=1>'
 
     return (
         Swal.fire({
             title: props.component_name,
-            html: 'ID: ' + props.component_id +
-                '<br>Available Quantity: ' + props.quantity +
-                '<br>Brand: ' + props.brand +
-                '<br>Location: ' + props.location +
-                '<br>Deposit item: <input type="checkbox" id="return-item">' +
-                '<br>Quantity: <input id="quantity" class="swal2-input" placeholder="Enter the quantity number" value=1> ',
-
+            html: contentStr,
             showCloseButton: true,
             focusConfirm: false,
             confirmButtonText: 'Add to cart',
             confirmButtonColor: 'rgb(89, 179, 123)',
-            imageUrl: 'https://www.diyelectronics.co.za/store/10512-thickbox_default/resistor-220-ohm-14w-5.jpg',
-            imageWidth: 300,
-            imageHeight: 400,
+            imageUrl: 'https://media.digikey.com/photos/TDK%20Photos/PS1240P02AT.jpg',
+            imageWidth: 200,
+            imageHeight: 200,
             imageAlt: 'Component Image',
             preConfirm: () => {
                 return [
@@ -45,8 +64,13 @@ export default function Popup(props) {
                             Swal.fire("Insufficient quantity.", "Please change the amount", "error")
                         } else {
                             // Create new component
-                            var newComponent = createComponent(props.component_id, props.component_name, props.location, parseInt(result.value[0]), result.value[1]);
-
+                            var newComponent = createComponent(
+                                props.component_id,
+                                props.component_name,
+                                props.part_number,
+                                props.retail_number,
+                                props.location,
+                                parseInt(result.value[0]), result.value[1]);
                             // Init an empty order
                             var order = []
 

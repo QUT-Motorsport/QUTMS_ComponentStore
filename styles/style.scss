@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@300&display=swap');
+
 html {
   font-family: "Dosis", sans-serif;
   margin: 0;
@@ -19,6 +20,14 @@ $torch-red: #ff0033;
 $white: #ffffff;
 $qutmotorsport-blue: rgb(15, 64, 106);
 $qutmotorsport-orange: rgb(238, 118, 36);
+
+.component-store-logo {
+  position: absolute;
+  width: 280px;
+  height: 150px;
+  left: calc(50% - 140px);
+  top: 10%;
+}
 
 .login-img {
   margin: 0;
@@ -95,7 +104,7 @@ $qutmotorsport-orange: rgb(238, 118, 36);
 body {
   font-family: "Dosis", sans-serif;
   margin: 0;
-  height: 100vh;
+  // height: 100vh;
   place-items: center;
   background-color: $qutmotorsport-blue;
   position: relative;
@@ -160,12 +169,20 @@ body {
   .logo-img {
     float: right;
     position: absolute;
-    height: 50px;
     width: 100px;
-    right: 0;
-    background-color: transparent;
+    height: 50px;
+    left: calc(50% - 50px);
+    top: 80%;
     border-radius: 0%;
   }
+
+  .component-store-logo {
+    position: absolute;
+    width: 350px;
+    height: 150px;
+    left: calc(50% - 175px);
+  }
+
 }
 
 .c-form {
@@ -345,7 +362,7 @@ body {
 /*----------------------------------------------------------- scanner.js SCANNER PAGE */
 .scanner-container {
   position: relative;
-  margin-top: 10%;
+  margin-top: 5%;
   border: 2px solid black;
   border-radius: 10px;
   padding: 10px;
@@ -393,7 +410,7 @@ body {
   margin: 15px;
   color: white;
   width: 25px;
-  background-color: black;
+  background-color: $qutmotorsport-orange;
   transition: width .35s;
   -webkit-transition: width .35s;
   overflow: hidden
@@ -549,12 +566,14 @@ h2 {
     }
   }
 }
+
 .MuiInputBase-input {
   padding-left: 5px !important;
 }
+
 .quantity-field {
   border: 3.5px groove orange;
-  border-radius: 4px; 
+  border-radius: 4px;
   background-color: ghostwhite;
   width: 50px;
   margin-left: 5px;
@@ -563,9 +582,10 @@ h2 {
 
 #search-field {
   border: 3.5px groove orange;
-  border-radius: 4px; 
+  border-radius: 4px;
   background-color: ghostwhite;
 }
+
 #commit-button {
   background-color: rgb(106, 180, 184);
   font-family: "Dosis", sans-serif;
@@ -598,6 +618,7 @@ h2 {
   -o-filter: blur(8px);
   filter: blur(8px);
 }
+
 // Dropdown list to select user
 
 $dark: #555;
@@ -609,13 +630,14 @@ $color--primary: orangered;
   text-align: center;
   color: white;
   text-decoration: none;
+
   option {
     font-size: 1rem;
-  }  
+  }
 }
 
 .transition {
-   transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
 }
 
 .wrapper {
@@ -628,6 +650,7 @@ $color--primary: orangered;
   position: relative;
   //border: 1px solid red;
   margin-left: 6px;
+
   ul {
     text-align: left;
     position: absolute;
@@ -635,20 +658,24 @@ $color--primary: orangered;
     top: 0;
     left: 0;
     display: none;
+
     .active {
       display: block;
     }
-    
+
   }
+
   li {
-    list-style:none;
-  
+    list-style: none;
+
   }
+
   a {
     @extend .typo;
     transition: all .4s;
     color: $color--primary;
     position: relative;
+
     &:after {
       position: absolute;
       content: '';
@@ -659,18 +686,20 @@ $color--primary: orangered;
       bottom: 0;
       transition: all .4s ease-out;
     }
+
     &:hover {
       cursor: pointer;
       color: lighten($color--primary, 20%);
+
       &:after {
         width: 100%;
       }
-    }    
+    }
   }
 }
 
 select {
-  display: inline;  
+  display: inline;
   border: 0;
   width: auto;
   outline: none;
@@ -679,11 +708,11 @@ select {
   border-bottom: 2px solid $dark;
   color: $color--primary;
   transition: all .4s ease-in-out;
-  
+
   &:hover {
-    cursor: pointer;    
+    cursor: pointer;
   }
-  
+
   option {
     border: 0;
     border-bottom: 1px solid $dark;
@@ -699,14 +728,8 @@ select {
   border-bottom: 4px solid;
   cursor: pointer;
   color: orange;
+
   &:hover {
     color: lighten($dark, 20%);
   }
 }
-
-
-
-
-
-
-

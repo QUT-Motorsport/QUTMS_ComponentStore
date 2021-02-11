@@ -41,8 +41,9 @@ function Review(props) {
     function handleCommit() {
         // Create an order to send to database
         const order = {
-            stu_id: props.finalID,
-            stu_name: props.finalName, order_details: cookies.get('order_details')
+            student_id: props.finalID,
+            student_name: props.finalName, 
+            order_details: cookies.get('order_details')
         }
 
         console.log(order);
