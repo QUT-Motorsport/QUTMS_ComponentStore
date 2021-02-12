@@ -2,9 +2,8 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 
 import Cookies from 'universal-cookie';
-
 import Popup from './component_popup'
-
+const { v1: uuidv1 } = require('uuid');
 
 export default function Table(props) {
 
@@ -21,7 +20,7 @@ export default function Table(props) {
     if (props.data.length > 0) {
         return (
             <div className="container">
-                <ul className="responsive-table">
+                <ul className="responsive-table" key={uuidv1()}>
                     <li className="table-header">
                         <div className="col col-2">Photo</div>
                         <div className="col col-1">Name&nbsp;</div>
@@ -29,7 +28,7 @@ export default function Table(props) {
                         <div className="col col-4">Location&nbsp;</div>
                     </li>
                     {search_result.map((item) => (
-                        <li className="table-row" key={item.component_name} onClick={() => { handleClickItem(item) }}>
+                        <li className="table-row" key={uuidv1()} onClick={() => { handleClickItem(item) }}>
                             <div className="col col-2">
                                 <img alt="Google" height="50" id="hplogo" src="https://static.wixstatic.com/media/f40ca5_b80059f52d6e4192a4f7fcd8d6614e92~mv2.png/v1/fill/w_255,h_86,al_c,q_85,usm_0.66_1.00_0.01/QUTMS_Logo_White.webp" />
                             </div>

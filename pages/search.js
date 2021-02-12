@@ -28,6 +28,7 @@ export default function Search() {
 
     // Hooks for result of the query, text of search bar, the name used for query, loading screen, search options respectively
     const [result, setResult] = useState([]);
+    const [displayResult, setDisplayResult] = useState([]);
     const [name, setName] = useState('');
     const [text, setText] = useState('');
     const [loading, setLoading] = useState(false);
@@ -54,11 +55,13 @@ export default function Search() {
                         // end loading animation and show results
                         setLoading(false);
                         setResult(result);
+                        setDisplayResult(result);
                         setText(value);
                     } else {
                         // end loading animation and show warnings
                         setLoading(false);
                         setResult([]);
+                        setDisplayResult([]);
                         setText(value);
                     }
                 });
@@ -77,20 +80,31 @@ export default function Search() {
                     // end loading animation and show results
                     setLoading(false);
                     setResult(result);
+                    setDisplayResult(result);
                     setText(value);
                 } else {
                     // end loading animation and show warnings
                     setLoading(false);
                     setResult([]);
+                    setDisplayResult([]);
                     setText(value);
                 }
             });
         }
     }
 
+    // Function to handle when a search's option is clicked
     function handleSelect(e) {
         setSearchOptions(e.target.value)
     }
+
+    // Function to pass to child
+    const handleFilterorSomething = (filteredResult) => {
+        console.log(filteredResult);
+        setDisplayResult(filteredResult);
+    }
+
+
     // Render a page with a user is logged in
     if (cookies.get('currentID')) {
         return (
@@ -139,8 +153,8 @@ export default function Search() {
                 </Container>
                 {/* <Item data={result} mobile={true} search={text} /> */}
 
-                <Filter />
-                {loading ? <ReactContentLoader /> : <Table data={result} mobile={true} search={text} />}
+                <Filter data={displayResult} ogData={result} onClickFilter={handleFilterorSomething} reset={[0]} />
+                {loading ? <ReactContentLoader /> : <Table data={displayResult} mobile={true} search={text} />}
             </div>
 
         )
