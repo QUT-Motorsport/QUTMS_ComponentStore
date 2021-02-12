@@ -51,12 +51,13 @@ app.prepare().then(() => {
     // Retrieve query keys
     const componentName = req.query.name;
     const componentID = req.query.comp_id;
+    const componentPartID = req.query.part_id;
     const componentRetailID = req.query.retail_id;
 
     // When user search for component name
     if (componentName) {
       // Compare input component name with Component Collection
-      console.log("Query with component name");
+      console.log("Query with component name" + componentName);
       // Query the database
       await Component.find({ component_name: { $regex: componentName.toString(), $options: "i" } }, async function (err, result) {
         if (err) throw err;
@@ -65,9 +66,25 @@ app.prepare().then(() => {
     }
     else if (componentID) {
       // Compare input componentID with Component Collection
-      console.log("Query with component id");
+      console.log("Query with component id" + componentID);
       // Query the database
       await Component.find({ "component_id": componentID }, async function (err, result) {
+        if (err) throw err;
+        res.json(result);
+      })
+    } else if (componentPartID) {
+      // Compare input component part number with Component Collection
+      console.log("Query with component part number" + componentPartID);
+      // Query the database
+      await Component.find({ "part_number": componentPartID }, async function (err, result) {
+        if (err) throw err;
+        res.json(result);
+      })
+    } else if (componentRetailID) {
+      // Compare input component retail number with Component Collection
+      console.log("Query with component retail part number" + componentRetailID);
+      // Query the database
+      await Component.find({ "retail_part_number": componentRetailID }, async function (err, result) {
         if (err) throw err;
         res.json(result);
       })
@@ -135,7 +152,7 @@ app.prepare().then(() => {
         const time = new Date();
         const formattedTime =
           time.getDate() + "-" +
-          (parseInt(time.getMonth()) + 1).toString()+ "-" +
+          (parseInt(time.getMonth()) + 1).toString() + "-" +
           time.getFullYear() + " " +
           time.getHours() + ":" +
           time.getMinutes() + ":" +

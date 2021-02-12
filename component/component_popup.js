@@ -87,7 +87,6 @@ export default function Popup(props) {
                                     'success'
                                 )
                             } else {
-                                console.log(result);
 
                                 // Get the current order from cookies
                                 order = cookies.get('order_details');
@@ -138,6 +137,11 @@ export default function Popup(props) {
                                     // If this is a new component, push into the order
                                     if (!check_Duplicate) {
                                         order.push(newComponent);
+                                        Swal.fire(
+                                            'Added!',
+                                            'The component has been added to your cart.',
+                                            'success'
+                                        )
                                     }
                                 }
                             }
