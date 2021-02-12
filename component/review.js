@@ -42,7 +42,7 @@ function Review(props) {
         // Create an order to send to database
         const order = {
             student_id: props.finalID,
-            student_name: props.finalName, 
+            student_name: props.finalName,
             order_details: cookies.get('order_details')
         }
 
@@ -122,6 +122,7 @@ function Review(props) {
         }
         carts.splice(i, 1, cart);
         cookies.set('order_details', carts);
+
     }
 
     // Function to handle when a user change quantity
@@ -154,13 +155,20 @@ function Review(props) {
             }
             carts.splice(i, 1, cart);
             cookies.set('order_details', carts);
-
             Swal.fire("The minimum quantity is 1", "", "error");
 
         }
     }
 
-    if (carts) {
+    function handleRemove(cart) {
+        console.log("cart is " + cart.component_id);
+        // Remove the component user want to delete
+        const newCart = carts.filter(item => item.component_id !== cart.component_id);
+        cookies.set('order_details', newCart);
+    }
+
+
+    if (carts && carts.length > 0) {
         return (
             <Container>
                 <div className="container">
@@ -171,6 +179,7 @@ function Review(props) {
                             <div className="col col-3">Quantity&nbsp;</div>
                             <div className="col col-3">Location&nbsp;</div>
                             <div className="col col-4">Return&nbsp;</div>
+                            <div className="col col-4">Delete&nbsp;</div>
                         </li>
                         {carts.map((cart) => (
                             <li className="table-row" key={cart.component_name}>
@@ -197,6 +206,10 @@ function Review(props) {
                                 ><span id="table-quantity">Deposit item: </span>
                                     <input type="checkbox" onChange={() => handleCheckbox(cart)} checked={cart.deposit} /></div>
 
+                                <div className="col col-4"
+                                    style={{ marginLeft: "2.5em" }}>
+                                    <img className="x-icon" src="img/x-icon.png" width="16px" height="16px" onClick={() => handleRemove(cart)}></img>
+                                </div>
                             </li>
                         ))}
 

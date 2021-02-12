@@ -20,10 +20,10 @@ export default function Popup(props) {
     const contentStr =
         '<br><b>ID</b>: ' + props.component_id +
         '<br><b>Part ID</b>: ' + props.part_number +
-        (props.retail_part_number.includes('n/a') ? '' :'<br><b>Retail ID</b>: ' + props.retail_part_number) +
-        (props.size.includes('n/a') ? '' :'<br><b>Size</b>: ' + props.size) +
-        (props.type.includes('n/a') ? '' :'<br><b>Type</b>: ' + props.type) +
-        (props.volt.includes('n/a') ? '' :'<br><b>Voltage</b>: ' + props.volt) +
+        (props.retail_part_number.includes('n/a') ? '' : '<br><b>Retail ID</b>: ' + props.retail_part_number) +
+        (props.size.includes('n/a') ? '' : '<br><b>Size</b>: ' + props.size) +
+        (props.type.includes('n/a') ? '' : '<br><b>Type</b>: ' + props.type) +
+        (props.volt.includes('n/a') ? '' : '<br><b>Voltage</b>: ' + props.volt) +
         (props.current.includes('n/a') ? '' : '<br><b>Current</b>: ' + props.current) +
         (props.inductance.includes('n/a') ? '' : '<br><b>Inductance</b>: ' + props.inductance) +
         (props.capacitance.includes('n/a') ? '' : '<br><b>Capacitance</b>: ' + props.capacitance) +
@@ -32,7 +32,7 @@ export default function Popup(props) {
         '<br><b>Location</b>: ' + props.location +
         '<br><b>Available Quantity</b>: ' + props.quantity +
         '<br><b>Deposit item</b>: <input type="checkbox" id="return-item">' +
-        '<br><b>Quantity</b>: <input id="quantity" class="swal2-input" placeholder="Enter the quantity number" value=1>'
+        '<br><b>Quantity</b>: <input type="number" pattern="\d" id="quantity" class="swal2-input" placeholder="Enter the quantity number" value=1>'
 
     return (
         Swal.fire({
@@ -80,8 +80,13 @@ export default function Popup(props) {
                                 cookies.set('prevID', cookies.get('currentID'));
                                 cookies.set('prevName', cookies.get('studentName'));
                                 order.push(newComponent);
+                                // Pop-up to alert that new component is added
+                                Swal.fire(
+                                    'Added!',
+                                    'The component has been added to your cart.',
+                                    'success'
+                                )
                             } else {
-                                console.log(result);
 
                                 // Get the current order from cookies
                                 order = cookies.get('order_details');
@@ -92,9 +97,22 @@ export default function Popup(props) {
                                 var i = 0;
                                 for (let e of order) {
                                     quantity0 = false;
+                                    const totalQuantity = parseInt(e.quantity) + parseInt(newComponent.quantity);
                                     if (e.component_id === newComponent.component_id) {
-                                        // Increase the quantity only
-                                        e.quantity += parseInt(newComponent.quantity);
+                                        console.log(totalQuantity);
+                                        console.log('server quantity: ' + props.quantity);
+                                        if (totalQuantity > props.quantity) {
+                                            Swal.fire("Insufficient quantity.", "Please change the amount", "error");
+                                        } else {
+                                            // Increase the quantity only
+                                            e.quantity += parseInt(newComponent.quantity);
+                                            // Pop-up to alert that new component is added
+                                            Swal.fire(
+                                                'Added!',
+                                                'The component has been added to your cart.',
+                                                'success'
+                                            )
+                                        }
 
                                         // Check if the current state is Return or Withdraw
                                         if (e.quantity > 0) {
@@ -119,20 +137,16 @@ export default function Popup(props) {
                                     // If this is a new component, push into the order
                                     if (!check_Duplicate) {
                                         order.push(newComponent);
+                                        Swal.fire(
+                                            'Added!',
+                                            'The component has been added to your cart.',
+                                            'success'
+                                        )
                                     }
                                 }
-
-
                             }
                             // Set new order
                             cookies.set('order_details', order);
-
-                            // Pop-up to alert that new component is added
-                            Swal.fire(
-                                'Added!',
-                                'The component has been added to your cart.',
-                                'success'
-                            )
                         }
                     }
 

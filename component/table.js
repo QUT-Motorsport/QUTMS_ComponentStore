@@ -34,7 +34,7 @@ export default function Table(props) {
                             </div>
                             <div className="col col-1">{item.component_name}</div>
                             <div className="col col-4"><span id="table-quantity">Quantity:</span>{item.quantity}</div>
-                            <div className="col col-3">{item.part_number}</div>
+                            <div className="col col-4">{item.part_number}</div>
                         </li>
                     ))}
 
