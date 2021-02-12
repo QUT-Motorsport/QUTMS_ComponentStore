@@ -3,6 +3,7 @@ import Cookies from 'universal-cookie';
 import dynamic from 'next/dynamic'
 import Swal from 'sweetalert2';
 import { update } from '../lib/script'
+const { v1: uuidv1 } = require('uuid');
 
 const Typography = dynamic(() => import('@material-ui/core/Typography'), { ssr: false })
 const Container = dynamic(() => import('@material-ui/core/Container'), { ssr: false })
@@ -42,7 +43,7 @@ function Review(props) {
         // Create an order to send to database
         const order = {
             student_id: props.finalID,
-            student_name: props.finalName, 
+            student_name: props.finalName,
             order_details: cookies.get('order_details')
         }
 
@@ -173,7 +174,7 @@ function Review(props) {
                             <div className="col col-4">Return&nbsp;</div>
                         </li>
                         {carts.map((cart) => (
-                            <li className="table-row" key={cart.component_name}>
+                            <li className="table-row" key={uuidv1()}>
                                 <div className="col col-2">
                                     <img alt="Google" height="50" id="hplogo" src="/img/logo_orange.png" />
                                 </div>
