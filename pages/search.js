@@ -51,7 +51,7 @@ export default function Search() {
                 setReset(true)
                 // start loading animation
                 setLoading(true);
-                getRequest(value, 'name', (result, status) => {
+                getRequest(value, searchOptions, (result, status) => {
                     if (status === "success" && result) {
                         // end loading animation and show results
                         setLoading(false);
@@ -77,7 +77,7 @@ export default function Search() {
             setReset(true);
             // start loading animation
             setLoading(true);
-            getRequest(value, 'name', (result, status) => {
+            getRequest(value, searchOptions, (result, status) => {
                 if (status === "success" && result) {
                     // end loading animation and show results
                     setLoading(false);
@@ -118,7 +118,7 @@ export default function Search() {
         return (
             <div>
                 <SignOut />
-                <Container maxWidth="sm">
+                <Container maxWidth="sm" style={{ marginBottom: "10px" }}>
                     <Grid container
                         spacing={0}
                         direction="column"
@@ -127,7 +127,7 @@ export default function Search() {
 
                         <div id="big_img">
                             <img alt="QUT Motorsport" height="92" id="hplogo" src="/img/logo_orange.png"
-                                style={{ paddingTop: '10%' }}
+                                style={{ paddingTop: '10%', paddingBottom: "10px" }}
                                 width="272" />
                         </div>
 
@@ -135,13 +135,13 @@ export default function Search() {
                             justify="center" alignContent="center" style={{ marginLeft: "2em" }} >
                             <FormControl >
                                 <Select
-                                    style={{ color: "white", border: "3.5px groove orange", marginRight: "2px" }}
+                                    style={{ color: "white", marginRight: "2px" }}
                                     value={searchOptions}
                                     onChange={handleSelect}
                                 >
                                     <MenuItem value={"name"}>Name</MenuItem>
-                                    <MenuItem value={"part"}>Part #</MenuItem>
-                                    <MenuItem value={"retail"}>Retail</MenuItem>
+                                    <MenuItem value={"part_id"}>Part #</MenuItem>
+                                    <MenuItem value={"retail_id"}>Retail</MenuItem>
                                 </Select>
                             </FormControl>
 

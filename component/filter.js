@@ -182,7 +182,7 @@ export default function Filter(props) {
                 justify="space-between"
             >
                 <Grid item>
-                    <Typography variant="overline" style={{ color: "white" }}>Result: {data.length}</Typography>
+                    <Typography variant="overline" style={{ color: "white", marginLeft: "10px"}}>Result: {data.length}</Typography>
                 </Grid>
 
                 <Grid item style={{
@@ -190,7 +190,7 @@ export default function Filter(props) {
 
                 }}>
 
-                    <Button size="small" style={{ color: "#ee7624", border: "1px solid #dfe1e5", borderRadius: "24px" }}
+                    <Button size="small" style={{ color: "white", border: "2px solid #ee7624", borderRadius: "22px", marginRight: "10px" }}
                         startIcon={<FilterListIcon />}
                         onClick={() => handleFilter(true)}
                     >

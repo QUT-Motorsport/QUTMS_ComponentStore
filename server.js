@@ -57,7 +57,7 @@ app.prepare().then(() => {
     // When user search for component name
     if (componentName) {
       // Compare input component name with Component Collection
-      console.log("Query with component name" + componentName);
+      console.log("Query with component name: " + componentName);
       // Query the database
       await Component.find({ component_name: { $regex: componentName.toString(), $options: "i" } }, async function (err, result) {
         if (err) throw err;
@@ -66,7 +66,7 @@ app.prepare().then(() => {
     }
     else if (componentID) {
       // Compare input componentID with Component Collection
-      console.log("Query with component id" + componentID);
+      console.log("Query with component id: " + componentID);
       // Query the database
       await Component.find({ "component_id": componentID }, async function (err, result) {
         if (err) throw err;
@@ -74,17 +74,17 @@ app.prepare().then(() => {
       })
     } else if (componentPartID) {
       // Compare input component part number with Component Collection
-      console.log("Query with component part number" + componentPartID);
+      console.log("Query with component part number: " + componentPartID);
       // Query the database
-      await Component.find({ "part_number": componentPartID }, async function (err, result) {
+      await Component.find({ "part_number": { $regex: componentPartID.toString(), $options: "i" } }, async function (err, result) {
         if (err) throw err;
         res.json(result);
       })
     } else if (componentRetailID) {
       // Compare input component retail number with Component Collection
-      console.log("Query with component retail part number" + componentRetailID);
+      console.log("Query with component retail part number: " + componentRetailID);
       // Query the database
-      await Component.find({ "retail_part_number": componentRetailID }, async function (err, result) {
+      await Component.find({ "retail_part_number": { $regex: componentRetailID.toString(), $options: "i" } }, async function (err, result) {
         if (err) throw err;
         res.json(result);
       })
