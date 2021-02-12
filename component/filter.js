@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid'
 import FilterListIcon from '@material-ui/icons/FilterList';
-import SortIcon from '@material-ui/icons/Sort'
 import Button from '@material-ui/core/Button'
 import Drawer from '@material-ui/core/Drawer';
 import { List, ListItem, ListItemText, Collapse } from '@material-ui/core'
@@ -54,9 +53,6 @@ export default function Filter(props) {
     })
     // Hooks for check buttons
     const [checked, setChecked] = useState([0]);
-
-
-    const [sort, setSort] = useState(false);
 
     // Function to handle when a user click Filter button
     function handleFilter(open) {
@@ -193,12 +189,6 @@ export default function Filter(props) {
                     display: 'flex',
 
                 }}>
-                    <Button size="small" style={{ color: "#ee7624", border: "1px solid #dfe1e5", borderRadius: "24px" }}
-                        startIcon={<SortIcon />}
-
-                    >
-                        Sort
-                </Button>
 
                     <Button size="small" style={{ color: "#ee7624", border: "1px solid #dfe1e5", borderRadius: "24px" }}
                         startIcon={<FilterListIcon />}
@@ -208,10 +198,6 @@ export default function Filter(props) {
                 </Button>
 
                 </Grid>
-
-                <Drawer anchor="right" open={sort}
-                >
-                </Drawer>
 
                 <Drawer anchor="right" open={filter}
                     onClose={() => handleFilter(false)}
