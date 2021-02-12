@@ -42,7 +42,7 @@ function Review(props) {
         // Create an order to send to database
         const order = {
             student_id: props.finalID,
-            student_name: props.finalName, 
+            student_name: props.finalName,
             order_details: cookies.get('order_details')
         }
 
@@ -160,6 +160,12 @@ function Review(props) {
         }
     }
 
+    function handleRemove(cart) {
+        console.log("cart is " + cart.component_id);
+        
+    }
+
+
     if (carts) {
         return (
             <Container>
@@ -171,6 +177,7 @@ function Review(props) {
                             <div className="col col-3">Quantity&nbsp;</div>
                             <div className="col col-3">Location&nbsp;</div>
                             <div className="col col-4">Return&nbsp;</div>
+                            <div className="col col-4">Delete&nbsp;</div>
                         </li>
                         {carts.map((cart) => (
                             <li className="table-row" key={cart.component_name}>
@@ -196,6 +203,9 @@ function Review(props) {
                                 ><span id="table-quantity">Deposit item: </span>
                                     <input type="checkbox" onChange={() => handleCheckbox(cart)} checked={cart.deposit} /></div>
 
+                                <div className="col col-4">
+                                    <label className="x-icon" onClick={() => handleRemove(cart)}>remove</label>
+                                </div>
                             </li>
                         ))}
 
