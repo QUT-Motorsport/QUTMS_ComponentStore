@@ -26,16 +26,16 @@ export default function Table(props) {
                         <div className="col col-2">Photo</div>
                         <div className="col col-1">Name&nbsp;</div>
                         <div className="col col-3">Quantity&nbsp;</div>
-                        <div className="col col-4">Location&nbsp;</div>
+                        <div className="col col-4">Part #&nbsp;</div>
                     </li>
                     {search_result.map((item) => (
                         <li className="table-row" key={item.component_name} onClick={() => { handleClickItem(item) }}>
                             <div className="col col-2">
-                                <img alt="Google" height="50" id="hplogo" src="https://static.wixstatic.com/media/f40ca5_b80059f52d6e4192a4f7fcd8d6614e92~mv2.png/v1/fill/w_255,h_86,al_c,q_85,usm_0.66_1.00_0.01/QUTMS_Logo_White.webp" />
+                                <img alt="Google" height="50" width="100" id="hplogo" src="https://via.placeholder.com/100x50" />
                             </div>
                             <div className="col col-1">{item.component_name}</div>
                             <div className="col col-4"><span id="table-quantity">Quantity:</span>{item.quantity}</div>
-                            <div className="col col-3">{item.location}</div>
+                            <div className="col col-3">{item.part_number}</div>
                         </li>
                     ))}
 

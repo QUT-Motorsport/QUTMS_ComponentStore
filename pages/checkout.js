@@ -20,7 +20,7 @@ export default function CheckOut() {
 
 
     useEffect(() => {
-        if (!cookies.get('currentID') && !cookies.get('prevID')) {
+        if (!cookies.get('currentID') || !cookies.get('prevID')) {
             setTimeout(() => {
                 console.log("Bye");
                 router.push('/')
@@ -75,7 +75,7 @@ export default function CheckOut() {
 
 
     }
-    if (cookies.get('currentID') || cookies.get('prevID')) {
+    if (cookies.get('currentID') && cookies.get('prevID')) {
         studentName = cookies.get('prevName') ? cookies.get('prevName') : cookies.get('currentName');
         return (
             <div>
@@ -91,8 +91,8 @@ export default function CheckOut() {
                             onChange={(e) => onChangeSelect(e)}
                         >{cookies.get('studentName')}</span>
                             <ul className="list__ul">
-                                <li><a onClick={(e) => clickList(e)}>{cookies.get('studentName')}</a></li>
-                                <li><a onClick={(e) => clickList(e)}>{cookies.get('prevName')}</a></li>
+                                <li style={{ paddingTop: "5%" }}><a onClick={(e) => clickList(e)}>{cookies.get('studentName')}</a></li>
+                                {cookies.get('prevName') !== cookies.get('studentName') && <li style={{ paddingTop: "5%" }}><a onClick={(e) => clickList(e)}>{cookies.get('prevName')}</a></li>}
                             </ul>
                         </div>
                         </div>

@@ -78,10 +78,41 @@ export default function IndexPage({ students }) {
   useEffect(() => {
 
     if (cookies.get('currentID')) {
-      var titleDescription = "Signed In As " + cookies.get('studentName');
-      var textDescription = "What do you want to do next?";
-      setCurrentID(cookies.get('currentID'));
-      PopupOptions(titleDescription, textDescription);
+
+      if (typeof prevID !== "undefined") {
+        Swal.fire({
+          title: "Existing Cart!",
+          text: "The previous user forgot to commit the cart. What would you like to do? ",
+          icon: "warning",
+          showCloseButton: true,
+          showConfirmButton: true,
+          confirmButtonText: "Start your new cart",
+          showDenyButton: true,
+          denyButtonText: "Check out old cart",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            cookies.remove('prevID');
+            cookies.remove('order_details');
+            cookies.remove('prevName');
+            var titleDescription = "Signed In As " + student.studentName;
+            var textDescription = "What do you want to do next?";
+            PopupOptions(titleDescription, textDescription);
+          } else if (result.isDenied) {
+            window.location = "/checkout";
+            Swal.fire({
+              icon: 'info',
+              title: 'Redirecting to checkout...',
+              showConfirmButton: false,
+              timer: 1500
+            })
+          }
+        })
+      } else {
+        var titleDescription = "Signed In As " + cookies.get('studentName');
+        var textDescription = "What do you want to do next?";
+        setCurrentID(cookies.get('currentID'));
+        PopupOptions(titleDescription, textDescription);
+      }
     }
   }, [])
 

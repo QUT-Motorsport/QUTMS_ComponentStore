@@ -33,7 +33,7 @@ export default function Search() {
             setTimeout(() => {
                 console.log("Bye");
                 router.push('/')
-            }, 2000)
+            }, 20000)
         }
     }, [])
 
@@ -103,7 +103,6 @@ export default function Search() {
                                 onChange={(e) => setName(e.target.value)}
                                 onKeyDown={(e) => handleKeyDown(e, name)}
                                 id="search-field"
-                                style={{ border: "3.5px groove orange", borderRadius: "4px", backgroundColor: "ghostwhite" }}
                             />
                             <IconButton onClick={() => handleOnClick(name)} arial-label="search"
                                 style={{ color: "white" }}
