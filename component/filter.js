@@ -17,9 +17,10 @@ export default function Filter(props) {
     const filter_options = ["Capacitance", "Current", "Inductance", "Size", "Tolerance", "Type", "Volt"];
     const data = props.data;
     const ogData = props.ogData;
-    var reset = props.reset;
+
+    // Hooks to check if we show the drawer or not
     const [filter, setFilter] = useState(false);
-    // List to show the list of filter or notr
+    // Hook to save the values of each filter
     const [selected, setSelected] = useState({
         Capacitance: false,
         Current: false,
@@ -58,9 +59,10 @@ export default function Filter(props) {
     const [sort, setSort] = useState(false);
 
     // Function to handle when a user click Filter button
-    function handleFilter(event, open) {
-        if (!reset) {
-            reset = true;
+    function handleFilter(open) {
+        console.log("This is reset");
+        if (props.reset) {
+            props.handleReset(false);
             setChecked([0]);
             setFilterCondition({
                 Capacitance: [],
@@ -133,15 +135,13 @@ export default function Filter(props) {
                         return check == item[text]
                     })
                     intersection = intersection.concat(storeData);
-                    console.log("Intersection:")
-                    console.log(intersection);
 
                 });
                 tempData = intersection;
             }
         })
-        console.log("Final data");
-        console.log(tempData);
+        setFilter(false);
+
         props.onClickFilter(tempData);
 
     }
@@ -202,7 +202,7 @@ export default function Filter(props) {
 
                     <Button size="small" style={{ color: "#ee7624", border: "1px solid #dfe1e5", borderRadius: "24px" }}
                         startIcon={<FilterListIcon />}
-                        onClick={(e) => handleFilter(e, true)}
+                        onClick={() => handleFilter(true)}
                     >
                         Filter
                 </Button>
@@ -214,7 +214,7 @@ export default function Filter(props) {
                 </Drawer>
 
                 <Drawer anchor="right" open={filter}
-                    onClose={(e) => handleFilter(e, false)}
+                    onClose={() => handleFilter(false)}
                 >
                     {list()}
                     <Button variant="contained" color="primary" onClick={handleActualFilter}>Update</Button>
