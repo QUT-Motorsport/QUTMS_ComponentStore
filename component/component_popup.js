@@ -107,8 +107,8 @@ export default function Popup(props) {
                                 if (i !== -1) {
                                     check_Duplicate = true;
                                     if ((!newComponent.deposit) && (i !== -1)) {
-                                        const totalQuantity = parseInt(props.quantity) + parseInt(newComponent.quantity);
-
+                                        const totalQuantity = parseInt(order[i].quantity) + parseInt(newComponent.quantity);
+                                        console.log(totalQuantity);
                                         if (totalQuantity > props.quantity) {
                                             Swal.fire("Exceed current quantity.", "Please check the cart", "error");
                                             check_Error = true;
