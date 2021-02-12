@@ -73,6 +73,7 @@ export default function Search() {
     // Function to handle when a user click on Search icon
     function handleOnClick(value) {
         if (value.length > 0) {
+
             // start loading animation
             setLoading(true);
             getRequest(value, 'name', (result, status) => {
@@ -153,7 +154,7 @@ export default function Search() {
                 </Container>
                 {/* <Item data={result} mobile={true} search={text} /> */}
 
-                <Filter data={displayResult} ogData={result} onClickFilter={handleFilterorSomething} reset={[0]} />
+                <Filter data={displayResult} ogData={result} onClickFilter={handleFilterorSomething} reset={false} />
                 {loading ? <ReactContentLoader /> : <Table data={displayResult} mobile={true} search={text} />}
             </div>
 

@@ -17,6 +17,7 @@ export default function Filter(props) {
     const filter_options = ["Capacitance", "Current", "Inductance", "Size", "Tolerance", "Type", "Volt"];
     const data = props.data;
     const ogData = props.ogData;
+    var reset = props.reset;
     const [filter, setFilter] = useState(false);
     // List to show the list of filter or notr
     const [selected, setSelected] = useState({
@@ -58,6 +59,19 @@ export default function Filter(props) {
 
     // Function to handle when a user click Filter button
     function handleFilter(event, open) {
+        if (!reset) {
+            reset = true;
+            setChecked([0]);
+            setFilterCondition({
+                Capacitance: [],
+                Current: [],
+                Inductance: [],
+                Size: [],
+                Tolerance: [],
+                Type: [],
+                Volt: [],
+            });
+        }
         setFilter(open);
     }
 
