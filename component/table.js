@@ -2,9 +2,8 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 
 import Cookies from 'universal-cookie';
-
 import Popup from './component_popup'
-
+const { v1: uuidv1 } = require('uuid');
 
 export default function Table(props) {
 
@@ -21,7 +20,7 @@ export default function Table(props) {
     if (props.data.length > 0) {
         return (
             <div className="container">
-                <ul className="responsive-table">
+                <ul className="responsive-table" key={uuidv1()}>
                     <li className="table-header">
                         <div className="col col-2">Photo</div>
                         <div className="col col-1">Name&nbsp;</div>
@@ -29,7 +28,7 @@ export default function Table(props) {
                         <div className="col col-4">Part #&nbsp;</div>
                     </li>
                     {search_result.map((item) => (
-                        <li className="table-row" key={item.component_name} onClick={() => { handleClickItem(item) }}>
+                        <li className="table-row" key={uuidv1()} onClick={() => { handleClickItem(item) }}>
                             <div className="col col-2">
                                 <img alt="Google" height="50" width="100" id="hplogo" src="https://via.placeholder.com/100x50" />
                             </div>
@@ -46,7 +45,7 @@ export default function Table(props) {
         if (props.mobile) {
             return (
                 props.search ? (
-                    <Typography align="center" style={{ marginTop: "15px" }}> Component not founded </Typography>) : null
+                    <Typography align="center" style={{ marginTop: "15px", color: "white" }}> Component not found </Typography>) : null
 
             )
         } else {

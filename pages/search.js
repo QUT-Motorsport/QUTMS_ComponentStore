@@ -8,32 +8,38 @@ import IconButton from '@material-ui/core/IconButton'
 import SearchIcon from '@material-ui/icons/Search'
 import Table from '../component/table'
 import ReactContentLoader from '../component/loading_skeleton'
+import Swal from 'sweetalert2'
+import MenuItem from '@material-ui/core/MenuItem'
 
 const SignOut = dynamic(() => import('../component/sign_out'), { ssr: false });
 const ByPass = dynamic(() => import('../component/bypass'), { ssr: false });
+const Filter = dynamic(() => import('../component/filter'), { ssr: false })
 
 const Grid = dynamic(() => import('@material-ui/core/Grid'), { ssr: false });
 const Container = dynamic(() => import('@material-ui/core/Container'), { ssr: false });
-const Divider = dynamic(() => import('@material-ui/core/Divider'), { ssr: false })
+const Select = dynamic(() => import('@material-ui/core/Select'), { ssr: false });
+// const MenuItem = dynamic(() => import('@material-ui/core/MenuItem'), { ssr: false });
+const FormControl = dynamic(() => import('@material-ui/core/FormControl'), { ssr: false });
 
 export default function Search() {
     // Cookies and router
     const cookies = new Cookies();
     const router = useRouter();
 
-    // Hooks for result of the query, text of search bar, the name used for query
+    // Hooks for result of the query, text of search bar, the name used for query, loading screen, search options respectively
     const [result, setResult] = useState([]);
+    const [displayResult, setDisplayResult] = useState([]);
     const [name, setName] = useState('');
     const [text, setText] = useState('');
     const [loading, setLoading] = useState(false);
-
+    const [searchOptions, setSearchOptions] = useState('name');
     // useEffect to check for currentID, if there is none push them back to home page
     useEffect(() => {
         if (!cookies.get('currentID')) {
             setTimeout(() => {
                 console.log("Bye");
                 router.push('/')
-            }, 20000)
+            }, 2000)
         }
     }, [])
 
@@ -41,6 +47,33 @@ export default function Search() {
     function handleKeyDown(e, value) {
         // If the key is "Enter"
         if (e.keyCode == 13) {
+            if (value.length > 0) {
+                // start loading animation
+                setLoading(true);
+                getRequest(value, 'name', (result, status) => {
+                    if (status === "success" && result) {
+                        // end loading animation and show results
+                        setLoading(false);
+                        setResult(result);
+                        setDisplayResult(result);
+                        setText(value);
+                    } else {
+                        // end loading animation and show warnings
+                        setLoading(false);
+                        setResult([]);
+                        setDisplayResult([]);
+                        setText(value);
+                    }
+                });
+            }
+
+        }
+    }
+
+    // Function to handle when a user click on Search icon
+    function handleOnClick(value) {
+        if (value.length > 0) {
+
             // start loading animation
             setLoading(true);
             getRequest(value, 'name', (result, status) => {
@@ -48,35 +81,30 @@ export default function Search() {
                     // end loading animation and show results
                     setLoading(false);
                     setResult(result);
+                    setDisplayResult(result);
                     setText(value);
                 } else {
                     // end loading animation and show warnings
                     setLoading(false);
                     setResult([]);
+                    setDisplayResult([]);
                     setText(value);
                 }
             });
         }
     }
 
-    // Function to handle when a user click on Search icon
-    function handleOnClick(value) {
-        // start loading animation
-        setLoading(true);
-        getRequest(value, 'name', (result, status) => {
-            if (status === "success" && result) {
-                // end loading animation and show results
-                setLoading(false);
-                setResult(result);
-                setText(value);
-            } else {
-                // end loading animation and show warnings
-                setLoading(false);
-                setResult([]);
-                setText(value);
-            }
-        });
+    // Function to handle when a search's option is clicked
+    function handleSelect(e) {
+        setSearchOptions(e.target.value)
     }
+
+    // Function to pass to child
+    const handleFilterorSomething = (filteredResult) => {
+        console.log(filteredResult);
+        setDisplayResult(filteredResult);
+    }
+
 
     // Render a page with a user is logged in
     if (cookies.get('currentID')) {
@@ -98,6 +126,17 @@ export default function Search() {
 
                         <Grid container alignItems="center"
                             justify="center" alignContent="center" style={{ marginLeft: "2em" }} >
+                            <FormControl >
+                                <Select
+                                    style={{ color: "white", border: "3.5px groove orange", marginRight: "2px" }}
+                                    value={searchOptions}
+                                    onChange={handleSelect}
+                                >
+                                    <MenuItem value={"name"}>Name</MenuItem>
+                                    <MenuItem value={"part"}>Part #</MenuItem>
+                                    <MenuItem value={"retail"}>Retail</MenuItem>
+                                </Select>
+                            </FormControl>
 
                             <InputBase placeholder="Search component" autoComplete="off"
                                 onChange={(e) => setName(e.target.value)}
@@ -114,7 +153,9 @@ export default function Search() {
 
                 </Container>
                 {/* <Item data={result} mobile={true} search={text} /> */}
-                {loading ? <ReactContentLoader /> : <Table data={result} mobile={true} search={text} />}
+
+                <Filter data={displayResult} ogData={result} onClickFilter={handleFilterorSomething} reset={false} />
+                {loading ? <ReactContentLoader /> : <Table data={displayResult} mobile={true} search={text} />}
             </div>
 
         )
