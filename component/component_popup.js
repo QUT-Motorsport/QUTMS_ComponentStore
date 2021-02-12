@@ -1,6 +1,7 @@
 import React from 'react';
 import Swal from 'sweetalert2';
 import Cookies from 'universal-cookie';
+import _ from 'lodash';
 
 export default function Popup(props) {
     const cookies = new Cookies();
@@ -59,6 +60,7 @@ export default function Popup(props) {
                     if (parseInt(result.value[0]) < 1) {
                         Swal.fire("The minimum quantity is 1", "", "error")
                     } else {
+                        console.log("Result value: ", result.value[0]);
                         // Check if the input value is larger than the current quantity. If so, pop-up an error
                         if ((parseInt(result.value[0]) > props.quantity) && (!result.value[1])) {
                             Swal.fire("Insufficient quantity.", "Please change the amount", "error")
@@ -70,10 +72,11 @@ export default function Popup(props) {
                                 props.part_number,
                                 props.retail_number,
                                 props.location,
-                                parseInt(result.value[0]), result.value[1]);
+                                parseInt(result.value[0]),
+                                result.value[1]);
                             // Init an empty order
-                            var order = []
-
+                            var order = [];
+                            console.log(newComponent);
                             // If the order_details isn't in cookies, push newComponent into order
                             if (!cookies.get('order_details')) {
                                 // Save the current user into a cookie in case a user forgot to commit
@@ -93,55 +96,65 @@ export default function Popup(props) {
                                 // Variable to check if the component is already in the order
                                 var check_Duplicate = false;
                                 var quantity0 = false;
+                                var check_Error = false;
 
-                                var i = 0;
-                                for (let e of order) {
-                                    quantity0 = false;
-                                    const totalQuantity = parseInt(e.quantity) + parseInt(newComponent.quantity);
-                                    if (e.component_id === newComponent.component_id) {
-                                        console.log(totalQuantity);
-                                        console.log('server quantity: ' + props.quantity);
+                                // Find the component in current order
+                                var i = _.findIndex(order, function (item) {
+                                    return item.component_id === newComponent.component_id;
+                                });
+
+                                // If index is -1, it means this is the new item
+                                if (i !== -1) {
+                                    check_Duplicate = true;
+                                    if ((!newComponent.deposit) && (i !== -1)) {
+                                        const totalQuantity = parseInt(props.quantity) + parseInt(newComponent.quantity);
+
                                         if (totalQuantity > props.quantity) {
-                                            Swal.fire("Insufficient quantity.", "Please change the amount", "error");
+                                            Swal.fire("Exceed current quantity.", "Please check the cart", "error");
+                                            check_Error = true;
                                         } else {
                                             // Increase the quantity only
-                                            e.quantity += parseInt(newComponent.quantity);
-                                            // Pop-up to alert that new component is added
-                                            Swal.fire(
-                                                'Added!',
-                                                'The component has been added to your cart.',
-                                                'success'
-                                            )
+                                            newComponent.quantity += parseInt(order[i].quantity);
+                                            console.log("E quantity: " + newComponent.quantity)
                                         }
-
-                                        // Check if the current state is Return or Withdraw
-                                        if (e.quantity > 0) {
-                                            e.deposit = true;
-                                        } else if (e.quantity < 0) {
-                                            e.deposit = false;
-                                        } else {
-                                            // If quantity is 0, remove from the order
-                                            quantity0 = true;
-                                        }
-                                        check_Duplicate = true;
-
-                                        break;
+                                    } else {
+                                        newComponent.quantity -= parseInt(order[i].quantity)
                                     }
-                                    i++;
+                                }
+
+
+                                if (newComponent.quantity === 0) {
+                                    quantity0 = true;
                                 }
 
                                 // If the current quantity is 0, remove from order
                                 if (quantity0) {
-                                    order.splice(i, 1);
+                                    // Pop-up to alert that new component is added
+                                    Swal.fire(
+                                        'Transaction Quantity 0',
+                                        'Removing from the cart.',
+                                        'success'
+                                    )
                                 } else {
                                     // If this is a new component, push into the order
                                     if (!check_Duplicate) {
                                         order.push(newComponent);
+                                        // Pop-up to alert that new component is added
                                         Swal.fire(
                                             'Added!',
                                             'The component has been added to your cart.',
                                             'success'
                                         )
+                                    } else {
+                                        if (!check_Error) {
+                                            Swal.fire(
+                                                'Updated!',
+                                                'Order has been updated.',
+                                                'success'
+                                            )
+                                            order.splice(i, 1, newComponent);
+                                        }
+
                                     }
                                 }
                             }

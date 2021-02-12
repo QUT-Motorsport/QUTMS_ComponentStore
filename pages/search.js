@@ -48,6 +48,7 @@ export default function Search() {
         // If the key is "Enter"
         if (e.keyCode == 13) {
             if (value.length > 0) {
+                setReset(true)
                 // start loading animation
                 setLoading(true);
                 getRequest(value, 'name', (result, status) => {
@@ -73,7 +74,7 @@ export default function Search() {
     // Function to handle when a user click on Search icon
     function handleOnClick(value) {
         if (value.length > 0) {
-
+            setReset(true);
             // start loading animation
             setLoading(true);
             getRequest(value, 'name', (result, status) => {
@@ -101,10 +102,16 @@ export default function Search() {
 
     // Function to pass to child
     const handleFilterorSomething = (filteredResult) => {
-        console.log(filteredResult);
         setDisplayResult(filteredResult);
     }
 
+    // Reset state to reset filter 
+    const [reset, setReset] = useState(false);
+
+    // Function to handle reset state
+    const handleReset = (resetResult) => {
+        setReset(resetResult);
+    }
 
     // Render a page with a user is logged in
     if (cookies.get('currentID')) {
@@ -154,7 +161,7 @@ export default function Search() {
                 </Container>
                 {/* <Item data={result} mobile={true} search={text} /> */}
 
-                <Filter data={displayResult} ogData={result} onClickFilter={handleFilterorSomething} reset={false} />
+                <Filter data={displayResult} ogData={result} onClickFilter={handleFilterorSomething} reset={reset} handleReset={handleReset} />
                 {loading ? <ReactContentLoader /> : <Table data={displayResult} mobile={true} search={text} />}
             </div>
 
