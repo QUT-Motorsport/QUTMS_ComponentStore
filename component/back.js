@@ -1,7 +1,9 @@
+/** The Back component display the Back-arrow and allow user to change between Search by Text/ Scanning */
 import React from 'react';
-import { Button, Grid, Typography } from '@material-ui/core';
 import Cookies from 'universal-cookie';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Grid from '@material-ui/core/Grid';
+
 import PopupOptions from '../component/popup_options'
 
 export default function Cart() {

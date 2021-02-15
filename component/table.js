@@ -1,3 +1,4 @@
+/** The Table component is used to display the components (result of the search as well as in the check out) */
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 
@@ -6,7 +7,6 @@ import Popup from './component_popup'
 const { v1: uuidv1 } = require('uuid');
 
 export default function Table(props) {
-
 
     // Array to store the response's array
     const search_result = props.data;
@@ -17,6 +17,7 @@ export default function Table(props) {
         Popup(item);
     }
 
+    // Render a table if there is something in the data
     if (props.data.length > 0) {
         return (
             <div className="container">
@@ -42,17 +43,10 @@ export default function Table(props) {
             </div>
         )
     } else {
-        if (props.mobile) {
-            return (
-                props.search ? (
-                    <Typography align="center" style={{ marginTop: "15px", color: "white" }}> Component not found </Typography>) : null
+        return (
+            props.search ? (
+                <Typography align="center" style={{ marginTop: "15px", color: "white" }}> Component not found </Typography>) : null
 
-            )
-        } else {
-            return (<div></div>)
-
-        }
+        )
     }
-
-
 }

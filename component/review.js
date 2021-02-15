@@ -46,7 +46,6 @@ function Review(props) {
             order_details: cookies.get('order_details')
         }
 
-        console.log(order);
         // Fire an alert to confirm the commit
         Swal.fire({
             icon: 'warning',
@@ -68,7 +67,6 @@ function Review(props) {
                             text: "Please check your order again.",
                             showConfirmButton: false
                         })
-                        console.log("Something is wrong")
                         // else remove the cookies
                     } else if (status === "success") {
                         // Remove the cookies after finish commiting
@@ -161,7 +159,6 @@ function Review(props) {
     }
 
     function handleRemove(cart) {
-        console.log("cart is " + cart.component_id);
         // Remove the component user want to delete
         const newCart = carts.filter(item => item.component_id !== cart.component_id);
         cookies.set('order_details', newCart);

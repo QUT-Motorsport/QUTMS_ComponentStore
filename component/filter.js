@@ -56,7 +56,6 @@ export default function Filter(props) {
 
     // Function to handle when a user click Filter button
     function handleFilter(open) {
-        console.log("This is reset");
         if (props.reset) {
             props.handleReset(false);
             setChecked([0]);
@@ -125,7 +124,6 @@ export default function Filter(props) {
                 var text = x.toLowerCase();
                 var intersection = [];
 
-                console.log(filterCondition[x]);
                 filterCondition[x].map(check => {
                     var storeData = tempData.filter(item => {
                         return check == item[text]
@@ -182,7 +180,7 @@ export default function Filter(props) {
                 justify="space-between"
             >
                 <Grid item>
-                    <Typography variant="overline" style={{ color: "white", marginLeft: "10px"}}>Result: {data.length}</Typography>
+                    <Typography variant="overline" style={{ color: "white", marginLeft: "10px" }}>Result: {data.length}</Typography>
                 </Grid>
 
                 <Grid item style={{

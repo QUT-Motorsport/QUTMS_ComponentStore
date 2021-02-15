@@ -8,9 +8,9 @@ import IconButton from '@material-ui/core/IconButton'
 import SearchIcon from '@material-ui/icons/Search'
 import Table from '../component/table'
 import ReactContentLoader from '../component/loading_skeleton'
-import Swal from 'sweetalert2'
 import MenuItem from '@material-ui/core/MenuItem'
 
+// Import other components in the project
 const SignOut = dynamic(() => import('../component/sign_out'), { ssr: false });
 const ByPass = dynamic(() => import('../component/bypass'), { ssr: false });
 const Filter = dynamic(() => import('../component/filter'), { ssr: false })
@@ -18,7 +18,6 @@ const Filter = dynamic(() => import('../component/filter'), { ssr: false })
 const Grid = dynamic(() => import('@material-ui/core/Grid'), { ssr: false });
 const Container = dynamic(() => import('@material-ui/core/Container'), { ssr: false });
 const Select = dynamic(() => import('@material-ui/core/Select'), { ssr: false });
-// const MenuItem = dynamic(() => import('@material-ui/core/MenuItem'), { ssr: false });
 const FormControl = dynamic(() => import('@material-ui/core/FormControl'), { ssr: false });
 
 export default function Search() {
@@ -26,37 +25,50 @@ export default function Search() {
     const cookies = new Cookies();
     const router = useRouter();
 
-    // Hooks for result of the query, text of search bar, the name used for query, loading screen, search options respectively
+    //  Original result of the getRequest before any filter
     const [result, setResult] = useState([]);
+    // Result displayed after filter ( this there is any)
     const [displayResult, setDisplayResult] = useState([]);
+    // Text of search bar
     const [name, setName] = useState('');
+    // The name searched by the user
     const [text, setText] = useState('');
+    // Loading screen
     const [loading, setLoading] = useState(false);
+    // The option used for the search
     const [searchOptions, setSearchOptions] = useState('name');
     // useEffect to check for currentID, if there is none push them back to home page
     useEffect(() => {
         if (!cookies.get('currentID')) {
             setTimeout(() => {
-                console.log("Bye");
                 router.push('/')
             }, 2000)
         }
     }, [])
 
-    // Function to handle when a user hit enter on search bar
+    /** Handle Enter key pressed on search bar
+     * 
+     * @param {event} e - The key-press event 
+     * @param {string} value - The component's name user entered
+     */
     function handleKeyDown(e, value) {
         // If the key is "Enter"
         if (e.keyCode == 13) {
             if (value.length > 0) {
+                // Reset the values in Filter
                 setReset(true)
-                // start loading animation
+                // Start loading animation
                 setLoading(true);
+                // Find the component in the database
                 getRequest(value, searchOptions, (result, status) => {
                     if (status === "success" && result) {
                         // end loading animation and show results
                         setLoading(false);
+                        // Set the result state with the request's respond
                         setResult(result);
+                        // Set the display result
                         setDisplayResult(result);
+                        // Set the 
                         setText(value);
                     } else {
                         // end loading animation and show warnings
@@ -71,12 +83,18 @@ export default function Search() {
         }
     }
 
-    // Function to handle when a user click on Search icon
+    /** Handle onClick event for the magnifier icon
+     * 
+     * @param {string} value - The component's name user entered
+     */
     function handleOnClick(value) {
+        // If it's not an empty string
         if (value.length > 0) {
+            // Reset the values in the filter
             setReset(true);
             // start loading animation
             setLoading(true);
+            // Find the component in the database
             getRequest(value, searchOptions, (result, status) => {
                 if (status === "success" && result) {
                     // end loading animation and show results
@@ -159,7 +177,6 @@ export default function Search() {
                     </Grid>
 
                 </Container>
-                {/* <Item data={result} mobile={true} search={text} /> */}
 
                 <Filter data={displayResult} ogData={result} onClickFilter={handleFilterorSomething} reset={reset} handleReset={handleReset} />
                 {loading ? <ReactContentLoader /> : <Table data={displayResult} mobile={true} search={text} />}

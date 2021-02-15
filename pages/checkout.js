@@ -22,7 +22,6 @@ export default function CheckOut() {
     useEffect(() => {
         if (!cookies.get('currentID') && !cookies.get('prevID')) {
             setTimeout(() => {
-                console.log("Bye");
                 router.push('/')
             }, 2000)
         }

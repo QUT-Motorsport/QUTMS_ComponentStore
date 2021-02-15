@@ -1,3 +1,4 @@
+/** The "Pop-up options" is used for   */
 import Swal from 'sweetalert2';
 import Cookies from 'universal-cookie';
 
@@ -23,6 +24,7 @@ export default function PopupOptions(titleDescription, textDescription) {
 
     }
     return (
+        // Alert the user
         Swal.fire({
             icon: 'success',
             title: titleDescription,
@@ -37,7 +39,7 @@ export default function PopupOptions(titleDescription, textDescription) {
             cancelButtonColor: 'rgb(184, 35, 47)',
             denyButtonColor: 'rgb(201, 125, 48)',
         }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
+            // If the user click "Search By Name"
             if (result.isConfirmed) {
                 handleSearchText();
                 Swal.fire({
@@ -46,6 +48,8 @@ export default function PopupOptions(titleDescription, textDescription) {
                     showConfirmButton: false,
                     timer: 1500
                 })
+                // If the user click "Scan QR Code"
+
             } else if (result.isDenied) {
                 handleScanner();
                 Swal.fire({
@@ -54,6 +58,7 @@ export default function PopupOptions(titleDescription, textDescription) {
                     showConfirmButton: false,
                     timer: 1500
                 })
+                // If the user click "Sign Out"
             } else if (result.isDismissed) {
                 if (result.dismiss === "cancel") {
                     handleSignOut();

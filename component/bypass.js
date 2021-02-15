@@ -1,3 +1,4 @@
+/** A simple message when a user didn't login and go to other pages */
 import React from 'react';
 import { Grid } from '@material-ui/core';
 
