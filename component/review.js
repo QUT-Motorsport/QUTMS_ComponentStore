@@ -110,14 +110,12 @@ function Review(props) {
         // Revert the check/uncheck state as well as the display number
         cart.deposit = !cart.deposit;
 
+        // Find the component in current order
+        var i = _.findIndex(carts, function (item) {
+            return item.component_id === cart.component_id;
+        });
+
         // Update the component in the cookies
-        var i = 0;
-        for (let ele of carts) {
-            if (ele.component_id === cart.component_id) {
-                break;
-            }
-            i++;
-        }
         carts.splice(i, 1, cart);
         cookies.set('order_details', carts);
 
@@ -128,36 +126,36 @@ function Review(props) {
         cart.quantity = e.target.value;
         cart.quantity = cart.deposit ? Math.abs(cart.quantity) : (-1 * Math.abs(cart.quantity));
 
+        // Find the component in current order
+        var i = _.findIndex(carts, function (item) {
+            return item.component_id === cart.component_id;
+        });
+
         // Update the component in the cookies
-        var i = 0;
-        for (let ele of carts) {
-            if (ele.component_id === cart.component_id) {
-                break;
-            }
-            i++;
-        }
         carts.splice(i, 1, cart);
         cookies.set('order_details', carts);
     }
 
+    // Function to check if the input quantity is more than 0
     function checkQuantity(e, cart) {
         if (parseInt(e.target.value) < 1) {
+            // Set the quantity to 1 and display error
             cart.quantity = 1;
+
+            // Find the component in current order
+            var i = _.findIndex(carts, function (item) {
+                return item.component_id === cart.component_id;
+            });
             // Update the component in the cookies
-            var i = 0;
-            for (let ele of carts) {
-                if (ele.component_id === cart.component_id) {
-                    break;
-                }
-                i++;
-            }
             carts.splice(i, 1, cart);
+
             cookies.set('order_details', carts);
             Swal.fire("The minimum quantity is 1", "", "error");
 
         }
     }
 
+    // Function to handle when a user remove a component form the cart
     function handleRemove(cart) {
         // Remove the component user want to delete
         const newCart = carts.filter(item => item.component_id !== cart.component_id);
