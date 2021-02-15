@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import Cookies from 'universal-cookie';
 import _ from 'lodash';
 
+// This component is a popup showing details of a store component with the option to add component to cart and many layers of checks for the quanity
 export default function Popup(props) {
     const cookies = new Cookies();
     // Function to create a Component object
@@ -18,6 +19,7 @@ export default function Popup(props) {
         return { component_id, component_name, part_number, retail_number, location, quantity, deposit };
     }
 
+    // Construct a HTTML string content for popup description and filter out 'n/a' fields
     const contentStr =
         '<br><b>ID</b>: ' + props.component_id +
         '<br><b>Part ID</b>: ' + props.part_number +
@@ -107,6 +109,7 @@ export default function Popup(props) {
                                 if (i !== -1) {
                                     check_Duplicate = true;
                                     if ((!newComponent.deposit) && (i !== -1)) {
+                                        // Sum of existing quanity of the component in cart and the new add-in quanity of the same component
                                         const totalQuantity = parseInt(order[i].quantity) + parseInt(newComponent.quantity);
                                         console.log(totalQuantity);
                                         if (totalQuantity > props.quantity) {
@@ -122,11 +125,10 @@ export default function Popup(props) {
                                     }
                                 }
 
-
                                 if (newComponent.quantity === 0) {
                                     quantity0 = true;
                                 }
-
+                                
                                 // If the current quantity is 0, remove from order
                                 if (quantity0) {
                                     // Pop-up to alert that new component is added

@@ -23,16 +23,16 @@ export default function Scanner() {
         if (data) {
             // Handle loading when a qr is scanned
             setLoading(true);
-            console.log(data);
+            // Send GET request to /api/get? route
             getRequest(data, "id", (result, status) => {
                 setLoading(false);
+                // Wait for callbacks and handle results
                 if (status === "success" && result) {
                     // Set result to popups 
                     Popup(result);
                 } else if (status === "fail") {
                     // Send fail alert
                     Alert();
-                    console.log("Component not found!");
                 }
             })
         }
@@ -41,6 +41,8 @@ export default function Scanner() {
     const handleError = (err) => {
         console.error(err);
     }
+
+    // Check ID cookies if user still in session
     if (cookies.get('currentID')) {
         return (
             <main>
@@ -76,6 +78,7 @@ export default function Scanner() {
             </main>
         );
     } else {
+        // Shows empty page when session expires
         return (
             <div>
                 <ByPass message="Log in Please." />
