@@ -46,6 +46,7 @@ function Review(props) {
             order_details: cookies.get('order_details')
         }
 
+        console.log(order);
         // Fire an alert to confirm the commit
         Swal.fire({
             icon: 'warning',
@@ -117,7 +118,7 @@ function Review(props) {
 
         // Update the component in the cookies
         carts.splice(i, 1, cart);
-        cookies.set('order_details', carts);
+        cookies.set('order_details', carts, { maxAge: 86400 });
 
     }
 
@@ -133,7 +134,7 @@ function Review(props) {
 
         // Update the component in the cookies
         carts.splice(i, 1, cart);
-        cookies.set('order_details', carts);
+        cookies.set('order_details', carts, { maxAge: 86400 });
     }
 
     // Function to check if the input quantity is more than 0
@@ -149,7 +150,7 @@ function Review(props) {
             // Update the component in the cookies
             carts.splice(i, 1, cart);
 
-            cookies.set('order_details', carts);
+            cookies.set('order_details', carts, { maxAge: 86400 });
             Swal.fire("The minimum quantity is 1", "", "error");
 
         }
@@ -159,7 +160,7 @@ function Review(props) {
     function handleRemove(cart) {
         // Remove the component user want to delete
         const newCart = carts.filter(item => item.component_id !== cart.component_id);
-        cookies.set('order_details', newCart);
+        cookies.set('order_details', newCart, { maxAge: 86400 });
     }
 
 

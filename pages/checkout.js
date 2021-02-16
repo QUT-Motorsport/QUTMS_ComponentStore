@@ -42,10 +42,15 @@ export default function CheckOut() {
 
     // Function to handle when a user select the name from the list
     function clickList(e) {
+        // Change the placeholder name
+        var placeholder = document.getElementsByClassName('placeholder')[0];
+        placeholder.textContent = e.target.text;
+        placeholder.style.opacity = "1";
 
         // Get the list element
         var list = document.getElementsByClassName('list__ul')[0];
         var b = document.querySelectorAll('.list__ul li');
+
         // Find the current choice of the user
         var currentChoice = null;
         for (var el of b) {
@@ -65,7 +70,6 @@ export default function CheckOut() {
             list.style.display = "none";
         }
 
-
         // Set the name's state accordingly 
         if (e.target.text == cookies.get('studentName')) {
             setName(cookies.get('studentName'));
@@ -76,13 +80,6 @@ export default function CheckOut() {
         }
     }
 
-    // Function to handle when a user is changed
-    function onChangeSelect(e) {
-        var placeholder = document.getElementsByClassName('placeholder')[0];
-        placeholder.textContent = e.target.value;
-
-
-    }
     if (cookies.get('currentID') || cookies.get('prevID')) {
         studentName = cookies.get('prevName') ? cookies.get('prevName') : cookies.get('currentName');
         return (
@@ -95,9 +92,10 @@ export default function CheckOut() {
                         alignItems="center"
                         justify="center" alignContent="center">
 
-                        <div className="wrapper typo">Order summary for<div className="list"><span className="placeholder" onClick={() => clickPlaceholder()}
-                            onChange={(e) => onChangeSelect(e)}
-                        >{cookies.get('studentName')}</span>
+                        <div className="wrapper typo">Order summary for <div className="list">
+                            <span className="placeholder" onClick={() => clickPlaceholder()}
+                                onChange={(e) => onChangeSelect(e)}
+                            >{cookies.get('studentName')}</span>
                             <ul className="list__ul">
                                 <li style={{ paddingTop: "5%" }}><a onClick={(e) => clickList(e)}>{cookies.get('studentName')}</a></li>
                                 {cookies.get('prevName') !== cookies.get('studentName') && <li style={{ paddingTop: "5%" }}><a onClick={(e) => clickList(e)}>{cookies.get('prevName')}</a></li>}

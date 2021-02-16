@@ -80,8 +80,8 @@ export default function Popup(props) {
                             // If the order_details isn't in cookies, push newComponent into order
                             if (!cookies.get('order_details')) {
                                 // Save the current user into a cookie in case a user forgot to commit
-                                cookies.set('prevID', cookies.get('currentID'));
-                                cookies.set('prevName', cookies.get('studentName'));
+                                cookies.set('prevID', cookies.get('currentID'), { maxAge: 86400 });
+                                cookies.set('prevName', cookies.get('studentName', { maxAge: 86400 }));
                                 order.push(newComponent);
                                 // Pop-up to alert that new component is added
                                 Swal.fire(
@@ -103,32 +103,40 @@ export default function Popup(props) {
                                     return item.component_id === newComponent.component_id;
                                 });
 
+
                                 // If index is -1, it means this is the new item
                                 if (i !== -1) {
                                     check_Duplicate = true;
-                                    if ((!newComponent.deposit) && (i !== -1)) {
+                                    if (!newComponent.deposit) {
                                         const totalQuantity = parseInt(order[i].quantity) + parseInt(newComponent.quantity);
-                                        console.log(totalQuantity);
                                         if (totalQuantity > props.quantity) {
                                             Swal.fire("Exceed current quantity.", "Please check the cart", "error");
                                             check_Error = true;
                                         } else {
                                             // Increase the quantity only
                                             newComponent.quantity += parseInt(order[i].quantity);
-                                            console.log("E quantity: " + newComponent.quantity)
                                         }
                                     } else {
-                                        newComponent.quantity -= parseInt(order[i].quantity)
+                                        newComponent.quantity = parseInt(order[i].quantity) - newComponent.quantity;
                                     }
+
+
                                 }
 
-
+                                // Check if the user's change made the quantity equal to 0
                                 if (newComponent.quantity === 0) {
                                     quantity0 = true;
+                                    // Check if the later quantity chagne the deposit/withdraw type
+                                } else if (newComponent.quantity > 0) {
+                                    newComponent.deposit = false;
+                                } else {
+                                    newComponent.deposit = true;
                                 }
 
+                                newComponent.quantity = Math.abs(newComponent.quantity);
                                 // If the current quantity is 0, remove from order
                                 if (quantity0) {
+                                    order.splice(i, 1)
                                     // Pop-up to alert that new component is added
                                     Swal.fire(
                                         'Transaction Quantity 0',
@@ -159,7 +167,10 @@ export default function Popup(props) {
                                 }
                             }
                             // Set new order
-                            cookies.set('order_details', order);
+                            cookies.set('order_details', order, { maxAge: 86400 });
+
+                            console.log('oRDER');
+                            console.log(cookies.get('order_details'));
                         }
                     }
 

@@ -24,9 +24,9 @@ export default function IndexPage({ students }) {
       if (student.studentID.toUpperCase() === student_ID.toUpperCase()) {
         // Set the cookies' expire time to 1 hour
         cookies.set('currentID', student_ID, {
-          maxAge: 3600000
+          maxAge: 3600
         });
-        cookies.set('studentName', student.studentName, { maxAge: 3600000 });
+        cookies.set('studentName', student.studentName, { maxAge: 3600 });
         // Set variable check to TRUE
         check = true;
 
@@ -51,7 +51,7 @@ export default function IndexPage({ students }) {
               cookies.remove('order_details');
               cookies.remove('prevName');
               // Alert the user that they are login and ready for next action
-              var titleDescription = "Signed In As " + student.studentName;
+              var titleDescription = "Signed In As \n" + student.studentName;
               var textDescription = "What do you want to do next?";
               PopupOptions(titleDescription, textDescription);
               // Else if the user clicked "Check out old cart"
@@ -69,7 +69,7 @@ export default function IndexPage({ students }) {
           })
           // Else, alert logged in message
         } else {
-          var titleDescription = "Signed In As " + student.studentName;
+          var titleDescription = "Signed In As \n" + student.studentName;
           var textDescription = "What do you want to do next?";
           setLoading(false);
           PopupOptions(titleDescription, textDescription);
@@ -116,7 +116,7 @@ export default function IndexPage({ students }) {
             cookies.remove('prevID');
             cookies.remove('order_details');
             cookies.remove('prevName');
-            var titleDescription = "Signed In As " + student.studentName;
+            var titleDescription = "Signed In As \n" + student.studentName;
             var textDescription = "What do you want to do next?";
             PopupOptions(titleDescription, textDescription);
           } else if (result.isDenied) {
@@ -130,7 +130,7 @@ export default function IndexPage({ students }) {
           }
         })
       } else {
-        var titleDescription = "Signed In As " + cookies.get('studentName');
+        var titleDescription = "Signed In As \n" + cookies.get('studentName');
         var textDescription = "What do you want to do next?";
         setCurrentID(cookies.get('currentID'));
         PopupOptions(titleDescription, textDescription);
@@ -159,7 +159,6 @@ export default function IndexPage({ students }) {
                     id="username"
                     className="c-form__input"
                     placeholder=" "
-                    pattern="^[nN].*"
                     required />
 
                   <label className="c-form__next" htmlFor="finish" role="button" onClick={() => handleSubmit(currentID)}>
