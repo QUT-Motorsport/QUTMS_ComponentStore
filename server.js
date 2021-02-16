@@ -3,8 +3,8 @@ const next = require('next')
 var https = require('https');
 var http = require('http');
 const bodyParser = require('body-parser');
-const { parse } = require('url');
 
+// MongoDB schema models
 const Component = require('./models/Component');
 const Transaction = require('./models/Transaction');
 
@@ -13,12 +13,9 @@ const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler();
 
-const dotenv = require('dotenv').config();
-const mongoose = require('mongoose');
+// import CORS and fs for file reading
 const cors = require('cors');
-const { v1: uuidv1 } = require('uuid');
 var fs = require('fs');
-// require helmet
 
 const server = express();
 const HTTPS = true;
@@ -120,11 +117,13 @@ app.prepare().then(() => {
   server.post('/api/update', async (req, res) => {
     var validated_orders = [];
     try {
+      // Create a promise and user checkQuanity function so that it would execute sequentially before create a new transaction in db
       await new Promise((resolve, reject) => {
         checkQuantity(req.body.order_details, (value, status) => {
           if (status === 'validated_orders') {
             validated_orders = value;
           }
+          // Resolve when its done to execute the next line of codd
           resolve();
         });
       });
@@ -133,6 +132,7 @@ app.prepare().then(() => {
         // Send back 400
         res.status(400).json({ error: 'Insufficient quantity for order!' });
       } else {
+        // If order is valid, loop through each component to update the new quantity in db
         validated_orders.forEach(async function (item) {
           await Component.updateOne(
             { component_id: item.component_id },
@@ -146,8 +146,6 @@ app.prepare().then(() => {
             }
           );
         })
-        // Generate uuid with timestamp
-        const unique_id = uuidv1();
         // Retrieve current time for transaction
         const time = new Date();
         const formattedTime =
@@ -157,15 +155,15 @@ app.prepare().then(() => {
           time.getHours() + ":" +
           time.getMinutes() + ":" +
           time.getSeconds();
+        // Format the transaction details
         const transaction = new Transaction
           ({
-            receipt_id: unique_id,
             student_id: req.body.stu_id,
             student_name: req.body.stu_name,
             time: formattedTime,
             order_details: req.body.order_details
           });
-        // Save to Transaction collection
+        // Save to Transaction collection in db
         transaction.save(function (err) {
           console.log("Timestamp: " + formattedTime + ". Transaction has been successfully made");
           return res.sendStatus(200);
@@ -176,6 +174,7 @@ app.prepare().then(() => {
     }
   })
 
+  // Hanlde client routes
   server.all('*', (req, res) => {
     return handle(req, res)
   })

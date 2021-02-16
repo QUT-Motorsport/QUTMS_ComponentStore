@@ -1,19 +1,21 @@
 /** The Sign Out component to display the Back button, Cart icon and Sign Out button */
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
+import { Grid } from '@material-ui/core';
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2'
 import Cart from './cart'
 import Back from './back'
 
+// This is a 'navbar' component contains Back, Cart and the logout components
 export function SignOut() {
     const cookies = new Cookies();
 
     // Function to handle when a user click Sign Out button
     function handleSignOut() {
-        // Remove the cookies
+        // Remove session related cookies
         cookies.remove('currentID');
         cookies.remove('studentName');
+        // Trigger alert popup
         Swal.fire({
             icon: 'info',
             title: 'Signed Out',
@@ -40,10 +42,8 @@ export function SignOut() {
                     <Back />
                 </Grid>
             </Grid>
-
         </main>
     )
-
 }
 
 export default SignOut;

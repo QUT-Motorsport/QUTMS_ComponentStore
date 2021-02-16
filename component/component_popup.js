@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import Cookies from 'universal-cookie';
 import _ from 'lodash';
 
+// This component is a popup showing details of a store component with the option to add component to cart and many layers of checks for the quanity
 export default function Popup(props) {
     const cookies = new Cookies();
     // Function to create a Component object
@@ -18,6 +19,7 @@ export default function Popup(props) {
         return { component_id, component_name, part_number, retail_number, location, quantity, deposit };
     }
 
+    // Construct a HTTML string content for popup description and filter out 'n/a' fields
     const contentStr =
         '<br><b>ID</b>: ' + props.component_id +
         '<br><b>Part ID</b>: ' + props.part_number +
@@ -60,7 +62,6 @@ export default function Popup(props) {
                     if (parseInt(result.value[0]) < 1) {
                         Swal.fire("The minimum quantity is 1", "", "error")
                     } else {
-                        console.log("Result value: ", result.value[0]);
                         // Check if the input value is larger than the current quantity. If so, pop-up an error
                         if ((parseInt(result.value[0]) > props.quantity) && (!result.value[1])) {
                             Swal.fire("Insufficient quantity.", "Please change the amount", "error")
@@ -76,7 +77,6 @@ export default function Popup(props) {
                                 result.value[1]);
                             // Init an empty order
                             var order = [];
-                            console.log(newComponent);
                             // If the order_details isn't in cookies, push newComponent into order
                             if (!cookies.get('order_details')) {
                                 // Save the current user into a cookie in case a user forgot to commit
@@ -108,6 +108,7 @@ export default function Popup(props) {
                                 if (i !== -1) {
                                     check_Duplicate = true;
                                     if (!newComponent.deposit) {
+                                        // Sum of existing quanity of the component in cart and the new add-in quanity of the same component
                                         const totalQuantity = parseInt(order[i].quantity) + parseInt(newComponent.quantity);
                                         if (totalQuantity > props.quantity) {
                                             Swal.fire("Exceed current quantity.", "Please check the cart", "error");
@@ -168,9 +169,6 @@ export default function Popup(props) {
                             }
                             // Set new order
                             cookies.set('order_details', order, { maxAge: 86400 });
-
-                            console.log('oRDER');
-                            console.log(cookies.get('order_details'));
                         }
                     }
 

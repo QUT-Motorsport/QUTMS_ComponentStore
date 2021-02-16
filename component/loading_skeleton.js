@@ -1,6 +1,7 @@
 import React from 'react'
 import ContentLoader from 'react-content-loader'
 
+// This is a loading component with layout skeleton animation 
 export default function ReactContentLoader() {
     return (
         <div>
@@ -20,17 +21,17 @@ export default function ReactContentLoader() {
                         </div>
                         <div className="col col-1">
                             <ContentLoader>
-                                <rect x="20" y="0" rx="5" ry="5" width="200" height="70" />
+                                <rect x="0" y="0" rx="5" ry="5" width="400" height="35" />
                             </ContentLoader>
                         </div>
                         <div className="col col-3">
                             <ContentLoader>
-                                <rect x="50" y="0" rx="5" ry="5" width="70" height="70" />
+                                <rect x="0" y="0" rx="5" ry="5" width="200" height="35" />
                             </ContentLoader>
                         </div>
                         <div className="col col-4">
                             <ContentLoader>
-                                <rect x="0" y="0" rx="5" ry="5" width="70" height="70" />
+                                <rect x="0" y="0" rx="5" ry="5" width="150" height="35" />
                             </ContentLoader>
                         </div>
                     </li>
@@ -42,17 +43,17 @@ export default function ReactContentLoader() {
                         </div>
                         <div className="col col-1">
                             <ContentLoader>
-                                <rect x="20" y="0" rx="5" ry="5" width="200" height="70" />
+                                <rect x="0" y="0" rx="5" ry="5" width="400" height="35" />
                             </ContentLoader>
                         </div>
                         <div className="col col-3">
                             <ContentLoader>
-                                <rect x="50" y="0" rx="5" ry="5" width="70" height="70" />
+                                <rect x="0" y="0" rx="5" ry="5" width="200" height="35" />
                             </ContentLoader>
                         </div>
                         <div className="col col-4">
                             <ContentLoader>
-                                <rect x="0" y="0" rx="5" ry="5" width="70" height="70" />
+                                <rect x="0" y="0" rx="5" ry="5" width="150" height="35" />
                             </ContentLoader>
                         </div>
                     </li>
