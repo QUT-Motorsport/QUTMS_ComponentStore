@@ -78,7 +78,7 @@ export default function Popup(props) {
                                 result.value[1]);
                             // Init an empty order
                             var order = [];
-                            console.log(newComponent);
+                            // console.log(newComponent);
                             // If the order_details isn't in cookies, push newComponent into order
                             if (!cookies.get('order_details')) {
                                 // Save the current user into a cookie in case a user forgot to commit
@@ -108,7 +108,7 @@ export default function Popup(props) {
                                 // If index is -1, it means this is the new item
                                 if (i !== -1) {
                                     check_Duplicate = true;
-                                    if ((!newComponent.deposit) && (i !== -1)) {
+                                    if (!newComponent.deposit) {
                                         // Sum of existing quanity of the component in cart and the new add-in quanity of the same component
                                         const totalQuantity = parseInt(order[i].quantity) + parseInt(newComponent.quantity);
                                         console.log(totalQuantity);
@@ -118,19 +118,23 @@ export default function Popup(props) {
                                         } else {
                                             // Increase the quantity only
                                             newComponent.quantity += parseInt(order[i].quantity);
+
                                             console.log("E quantity: " + newComponent.quantity)
                                         }
                                     } else {
-                                        newComponent.quantity -= parseInt(order[i].quantity)
+                                        newComponent.quantity = parseInt(order[i].quantity) - newComponent.quantity;
                                     }
                                 }
 
                                 if (newComponent.quantity === 0) {
                                     quantity0 = true;
                                 }
-                                
+
                                 // If the current quantity is 0, remove from order
                                 if (quantity0) {
+                                    order = order.filter(item => item.component_id !== newComponent.component_id);
+                                    console.log("zero case: " + order);
+                                    // cookies.set('order_details', order);
                                     // Pop-up to alert that new component is added
                                     Swal.fire(
                                         'Transaction Quantity 0',
