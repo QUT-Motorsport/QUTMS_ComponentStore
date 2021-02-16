@@ -102,7 +102,6 @@ export default function CheckOut() {
                             </ul>
                         </div>
                         </div>
-
                     </Grid>
                 </Container>
                 <Review finalName={name} finalID={ID} />
