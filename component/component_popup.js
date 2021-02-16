@@ -118,8 +118,6 @@ export default function Popup(props) {
                                         } else {
                                             // Increase the quantity only
                                             newComponent.quantity += parseInt(order[i].quantity);
-
-                                            console.log("E quantity: " + newComponent.quantity)
                                         }
                                     } else {
                                         newComponent.quantity = parseInt(order[i].quantity) - newComponent.quantity;
