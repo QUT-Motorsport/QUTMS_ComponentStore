@@ -4,9 +4,18 @@ const Schema = mongoose.Schema;
 const ComponentSchema = new Schema({
     component_id: Number,
     component_name: String,
+    part_number: String,
+    retail_part_number: String,
     quantity: Number,
     location: String,
-    photo: Object
+    size: String,
+    type: String,
+    volt: String,
+    current: String,
+    inductance: String,
+    capacitance: String,
+    tolerance: String,
+    misc: String,
 });
 
 // Create collection and add schema

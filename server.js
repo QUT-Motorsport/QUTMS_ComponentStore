@@ -113,7 +113,7 @@ app.prepare().then(() => {
     });
   }
 
-  // POST routes
+  // POST routes for new transaction
   server.post('/api/update', async (req, res) => {
     var validated_orders = [];
     try {
@@ -171,6 +171,40 @@ app.prepare().then(() => {
       }
     } catch (err) {
       if (err) res.status(404).send({ error: 'Unsucessful POST request!' });
+    }
+  })
+
+  // POST routes for new component
+  server.post('/api/insert', async (req, res) => {
+    try {
+      // Check if component already exist 
+      await Component.find({ "part_number": req.body.part_number }, async function (err, result) {
+        if (err) throw err;
+        console.log(result);
+        if (result.length !== 0) {
+          // Send back 400
+          res.status(401).json({ error: 'Component already exist!' });
+        } else {
+          var content = req.body;
+          // Filter component object
+          for (var key in content) {
+            if (content[key].toString() === "" && key.toString() !== "quantity") {
+              content[key] = "n/a";
+            } else if (key.toString() === "quantity") {
+              content[key] = 0;
+            }
+          }
+          // Insert new component
+          await Component.create(content);
+          console.log("New component has been created in the database!");
+          return res.sendStatus(200);
+        }
+      })
+    } catch (err) {
+      if (err) {
+        console.log(err);
+        res.status(404).send({ error: 'Insert new component unsucessful!' })
+      }
     }
   })
 
