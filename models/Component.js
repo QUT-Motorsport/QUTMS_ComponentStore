@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const ComponentSchema = new Schema({
     component_id: Number,
+    url: String,
     component_name: String,
     part_number: String,
     retail_part_number: String,

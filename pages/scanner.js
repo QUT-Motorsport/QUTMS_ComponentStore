@@ -24,7 +24,7 @@ export default function Scanner() {
             // Handle loading when a qr is scanned
             setLoading(true);
             // Send GET request to /api/get? route
-            getRequest(data, "id", (result, status) => {
+            getRequest(data, "location", (result, status) => {
                 setLoading(false);
                 // Wait for callbacks and handle results
                 if (status === "success" && result) {

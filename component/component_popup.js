@@ -21,7 +21,6 @@ export default function Popup(props) {
 
     // Construct a HTTML string content for popup description and filter out 'n/a' fields
     const contentStr =
-        '<br><b>ID</b>: ' + props.component_id +
         '<br><b>Part ID</b>: ' + props.part_number +
         (props.retail_part_number.includes('n/a') ? '' : '<br><b>Retail ID</b>: ' + props.retail_part_number) +
         (props.size.includes('n/a') ? '' : '<br><b>Size</b>: ' + props.size) +
@@ -45,10 +44,10 @@ export default function Popup(props) {
             focusConfirm: false,
             confirmButtonText: 'Add to cart',
             confirmButtonColor: 'rgb(89, 179, 123)',
-            imageUrl: 'https://media.digikey.com/photos/TDK%20Photos/PS1240P02AT.jpg',
+            imageUrl: props.url,
             imageWidth: 200,
             imageHeight: 200,
-            imageAlt: 'Component Image',
+            imageAlt: 'Component Image Missing',
             preConfirm: () => {
                 return [
                     document.getElementById('quantity').value,

@@ -28,6 +28,7 @@ export default function Form() {
     const [quantity, setQuantity] = useState(10);
     const [location, setLocation] = useState("");
     const [misc, setMisc] = useState("");
+    const [url, setURL] = useState("");
 
     const handleCategory = (e) => {
         setCategory(e.target.value);
@@ -71,72 +72,87 @@ export default function Form() {
     const handleMisc = (e) => {
         setMisc(e.target.value);
     }
+    const handleURL = (e) => {
+        setURL(e.target.value);
+    }
 
     const handleClick = (e) => {
-        setLoading(true);
-        const component = {
-            name: category + " " + current + " " + volt + " " + inductance + " " + capacitance + " " + tolerance + " ",
-            category: category,
-            partID: partID,
-            retailID: retailID,
-            size: size,
-            type: type,
-            volt: volt,
-            current: current,
-            inductance: inductance,
-            capacitance: capacitance,
-            tolerance: tolerance,
-            misc: misc,
-            quantity: quantity,
-            location: location,
-            manufacturer: manufacturer,
-        }
-        insert(component, (result, state) => {
-            if (state === "success") {
-                setLoading(false);
-                // Clear all state
-                setCategory("");
-                setPartID("");
-                setRetailID("");
-                setSize("");
-                setType("");
-                setVolt("");
-                setCurrent("");
-                setInductance("");
-                setCapacitance("");
-                setTolerance("");
-                setMisc("");
-                setQuantity(0);
-                setCategory("");
-                setManufacturer("");
-
-                // Popup succesful request
-                Swal.fire(
-                    'Inserted!',
-                    'The component has been added to the database.',
-                    'success'
-                )
-            } else if (state === "failed") {
-                // Alert
-                Swal.fire("Already exist.", "The component is already exist. Please try again", "error");
+        if (partID === "" || quantity === "" || location === "") {
+            // Alert
+            Swal.fire("Empty form", "Please fill in the required field.", "error");
+        } else {
+            setLoading(true);
+            const component = {
+                name: category + " " + current + " " + volt + " " + inductance + " " + capacitance + " " + tolerance + " ",
+                url: url,
+                category: category,
+                partID: partID,
+                retailID: retailID,
+                size: size,
+                type: type,
+                volt: volt,
+                current: current,
+                inductance: inductance,
+                capacitance: capacitance,
+                tolerance: tolerance,
+                misc: misc,
+                quantity: quantity,
+                location: location,
+                manufacturer: manufacturer,
             }
-        })
+            insert(component, (result, state) => {
+                if (state === "success") {
+                    setLoading(false);
+                    // Clear all state
+                    setCategory("");
+                    setPartID("");
+                    setRetailID("");
+                    setSize("");
+                    setType("");
+                    setVolt("");
+                    setCurrent("");
+                    setInductance("");
+                    setCapacitance("");
+                    setTolerance("");
+                    setMisc("");
+                    setQuantity(0);
+                    setCategory("");
+                    setManufacturer("");
+
+                    // Popup succesful request
+                    Swal.fire(
+                        'Inserted!',
+                        'The component has been added to the database.',
+                        'success'
+                    )
+                } else if (state === "failed") {
+                    // Alert
+                    Swal.fire("Already exist.", "The component is already exist. Please try again", "error");
+                }
+            })
+        }
     }
 
     return (
         <>
-            <Loading load={loading}/>
+            <Loading load={loading} />
             <Container className="input-form-container" maxWidth="sm">
                 <Grid container
                     spacing={2}
                     justify="center"
                     alignItems="center"
                     direction="row" >
+
                     <Grid item xs={10}>
                         <TextField disabled id="standard-disabled" label={category + " " + current + " " + volt + " " + inductance + " " + capacitance + " " + tolerance + " "} variant="outlined" />
                     </Grid>
+
+                    <Grid item xs={5}>
+                        <TextField id="standard-basic" onChange={(e) => handleURL(e)} label="Component URL" />
+                    </Grid>
+
                     <Grid item xs={3}>
-                        <TextField id="standard-basic" onChange={(e) => handlePartID(e)} label="Part ID" />
+                        <TextField required id="standard-basic" onChange={(e) => handlePartID(e)} label="Part ID" />
                     </Grid>
 
                     <Grid item xs={3}>
@@ -180,11 +196,11 @@ export default function Form() {
                     </Grid>
 
                     <Grid item xs={1}>
-                        <TextField value={1} type="number" id="standard-basic" label="Quantity" onChange={(e) => handleQuantity(e)} />
+                        <TextField required value={1} type="number" id="standard-basic" label="Quantity" onChange={(e) => handleQuantity(e)} />
                     </Grid>
 
                     <Grid item xs={3}>
-                        <TextField id="standard-basic" label="Location" onChange={(e) => handleLocation(e)} />
+                        <TextField required id="standard-basic" label="Location" onChange={(e) => handleLocation(e)} />
                     </Grid>
 
                     <Grid item xs={5}>

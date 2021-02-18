@@ -16,6 +16,8 @@ const handle = app.getRequestHandler();
 // import CORS and fs for file reading
 const cors = require('cors');
 var fs = require('fs');
+const cheerio = require('cheerio');
+const fetch = require('node-fetch');
 
 const server = express();
 const HTTPS = true;
@@ -47,7 +49,7 @@ app.prepare().then(() => {
   server.get('/api/get', async (req, res) => {
     // Retrieve query keys
     const componentName = req.query.name;
-    const componentID = req.query.comp_id;
+    const componentLocation = req.query.location;
     const componentPartID = req.query.part_id;
     const componentRetailID = req.query.retail_id;
 
@@ -61,11 +63,11 @@ app.prepare().then(() => {
         res.json(result);
       })
     }
-    else if (componentID) {
+    else if (componentLocation) {
       // Compare input componentID with Component Collection
       console.log("Query with component id: " + componentID);
       // Query the database
-      await Component.find({ "component_id": componentID }, async function (err, result) {
+      await Component.find({ "location": componentLocation }, async function (err, result) {
         if (err) throw err;
         res.json(result);
       })
@@ -97,7 +99,6 @@ app.prepare().then(() => {
     input.forEach(async function (item, index, arr) {
       // Check order if all quanity is valid
       await Component.find({ "component_id": item.component_id }, async function (err, result) {
-
         if (err) throw err;
         validated_orders.push(
           {
@@ -180,12 +181,21 @@ app.prepare().then(() => {
       // Check if component already exist 
       await Component.find({ "part_number": req.body.part_number }, async function (err, result) {
         if (err) throw err;
-        console.log(result);
         if (result.length !== 0) {
           // Send back 400
           res.status(401).json({ error: 'Component already exist!' });
         } else {
           var content = req.body;
+          // Scrap component image from product website
+          await fetch(req.body.url)
+            .then(res => res.text())
+            .then(text => {
+              const $ = cheerio.load(text);
+              $(".product-photo-large").each((index, image) => {
+                var img = $(image).attr('href');
+                content.url = img;
+              })
+            })
           // Filter component object
           for (var key in content) {
             if (content[key].toString() === "" && key.toString() !== "quantity") {
