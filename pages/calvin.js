@@ -91,41 +91,89 @@ export default function Form() {
             location: location,
             manufacturer: manufacturer,
         }
-        insert(component, (result, state) => {
-            if (state === "success") {
-                setLoading(false);
-                // Clear all state
-                setCategory("");
-                setPartID("");
-                setRetailID("");
-                setSize("");
-                setType("");
-                setVolt("");
-                setCurrent("");
-                setInductance("");
-                setCapacitance("");
-                setTolerance("");
-                setMisc("");
-                setQuantity(0);
-                setCategory("");
-                setManufacturer("");
+        Swal.fire({
+            icon: 'warning',
+            title: "Are you sure you want to add the component into the database?",
+            showDenyButton: true,
+            showCloseButton: true,
+            confirmButtonText: "Yes",
+            denyButtonText: "No",
+        }).then((res) => {
+            if (res.isConfirmed) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: "Are you really sure?",
+                    showDenyButton: true,
+                    showCloseButton: true,
+                    confirmButtonText: "Yes",
+                    denyButtonText: "No",
+                }).then((res) => {
+                    if (res.isConfirmed) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: "There is no turning back. ARE YOU SURE?",
+                            showDenyButton: true,
+                            showCloseButton: true,
+                            confirmButtonText: "Yes",
+                            denyButtonText: "No",
+                        }).then((res) => {
+                            if (res.isConfirmed) {
+                                Swal.fire({
+                                    icon: 'warning',
+                                    title: "THIS IS THE FINAL WARNING. YOU REALLY WANT TO DO THIS CALVIN?",
+                                    showDenyButton: true,
+                                    showCloseButton: true,
+                                    confirmButtonText: "Yes",
+                                    denyButtonText: "No",
+                                }).then((res) => {
+                                    if (res.isConfirmed) {
+                                        insert(component, (result, state) => {
+                                            if (state === "success") {
+                                                setLoading(false);
+                                                // Clear all state
+                                                setCategory("");
+                                                setPartID("");
+                                                setRetailID("");
+                                                setSize("");
+                                                setType("");
+                                                setVolt("");
+                                                setCurrent("");
+                                                setInductance("");
+                                                setCapacitance("");
+                                                setTolerance("");
+                                                setMisc("");
+                                                setQuantity(0);
+                                                setCategory("");
+                                                setManufacturer("");
 
-                // Popup succesful request
-                Swal.fire(
-                    'Inserted!',
-                    'The component has been added to the database.',
-                    'success'
-                )
-            } else if (state === "failed") {
-                // Alert
-                Swal.fire("Already exist.", "The component is already exist. Please try again", "error");
+                                                // Popup succesful request
+                                                Swal.fire(
+                                                    'Inserted!',
+                                                    'Please use MongoDB next time.',
+                                                    'success'
+                                                )
+                                            } else if (state === "failed") {
+                                                // Alert
+                                                Swal.fire("Already exist.", "The component is already exist. Please try again", "error");
+                                            }
+                                        })
+                                    }
+                                })
+                            }
+                        })
+                    }
+                })
             }
         })
+
+
+
+
     }
 
     return (
         <>
-            <Loading load={loading}/>
+            <Loading load={loading} />
             <Container className="input-form-container" maxWidth="sm">
                 <Grid container
                     spacing={2}
@@ -133,7 +181,7 @@ export default function Form() {
                     alignItems="center"
                     direction="row" >
                     <Grid item xs={10}>
-                        <TextField disabled id="standard-disabled" label={category + " " + current + " " + volt + " " + inductance + " " + capacitance + " " + tolerance + " "} variant="outlined" />
+                        <TextField multiline disabled id="standard-disabled" label={category + " " + current + " " + volt + " " + inductance + " " + capacitance + " " + tolerance + " "} variant="outlined" />
                     </Grid>
                     <Grid item xs={3}>
                         <TextField id="standard-basic" onChange={(e) => handlePartID(e)} label="Part ID" />
