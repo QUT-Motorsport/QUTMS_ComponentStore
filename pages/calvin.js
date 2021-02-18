@@ -144,7 +144,7 @@ export default function Form() {
                     direction="row" >
 
                     <Grid item xs={10}>
-                        <TextField disabled id="standard-disabled" label={category + " " + current + " " + volt + " " + inductance + " " + capacitance + " " + tolerance + " "} variant="outlined" />
+                        <TextField multiline disabled id="standard-disabled" label={category + " " + current + " " + volt + " " + inductance + " " + capacitance + " " + tolerance + " "} variant="outlined" />
                     </Grid>
 
                     <Grid item xs={5}>
