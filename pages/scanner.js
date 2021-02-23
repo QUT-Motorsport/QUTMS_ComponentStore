@@ -24,6 +24,7 @@ export default function Scanner() {
             // Handle loading when a qr is scanned
             setLoading(true);
             // Send GET request to /api/get? route
+            // NOTE: its currently scan by the location of the item. Please edit getRequest function in script.js to change
             getRequest(data, "location", (result, status) => {
                 setLoading(false);
                 // Wait for callbacks and handle results
