@@ -2,14 +2,21 @@ version: "3.3"
 
 services:
   nextjs:
+    container_name: component-store-container
+    image: component-store-image:latest
     ports:
       - 3000:3000
     build:
-      context: packages/landingpage
+      context: .
       dockerfile: Dockerfile
     volumes:
 #       - ./packages/landingpage:/usr/src/app
-      - /usr/src/app/node_modules
+#       - /usr/src/app/node_modules
       - /usr/src/app/.next
     env_file:
       - .env
+  mongo:
+    container_name: mongodb
+    image: mongo
+    ports:
+    -'27017:27017'
